@@ -208,7 +208,6 @@ function blogArticleService($http) {
      * @param {Object} response the input object to be checked
      * @returns {Boolean} true if the input object is a response object
      *                    false otherwise
-     *
      */
     function validateResponse(response) {
 
