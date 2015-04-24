@@ -143,23 +143,74 @@ function blogArticleService($http) {
      * private functions
      */
 
-    function getRequestCompleted(response, dataType, status) {
+    /*
+     * @desc Validate the response from a http request
+     * @param {Object} response the response of the request
+     * @param {String} method the HTTP method of the request
+     * @returns {Object}  the article object in the json body if validated,
+     *                    null otherwise
+     */
+    function requestCompleted(response, method) {
 
     }
 
-    function postRequestCompleted(response, article, status) {
+    /*
+     * @desc Validate the response from a GET request
+     * @param {Object} response the response of the request
+     * @returns {Object}  the json body if validated, null otherwise
+     */
+    function getRequestCompleted(response) {
 
     }
 
-    function putRequestCompleted(response, article, status) {
+    /*
+     * @desc Validate the response from a POST request
+     * @param {Object} response the response of the request
+     * @returns {Object}  the article object in the json body if validated,
+     *                    null otherwise
+     */
+    function postRequestCompleted(response) {
 
     }
 
-    function patchRequestCompleted(response, article, status) {
+    /*
+     * @desc Validate the response from a PUT request
+     * @param {Object} response the response of the request
+     * @returns {Object}  the article object in the json body if validated,
+     *                    null otherwise
+     */
+    function putRequestCompleted(response) {
 
     }
 
-    function deleteRequestCompleted(response, dataType, status) {
+    /*
+     * @desc Validate the response from a PATCH request
+     * @param {Object} response the response of the request
+     * @returns {Object}  the article object in the json body if validated,
+     *                    null otherwise
+     */
+    function patchRequestCompleted(response) {
+
+    }
+
+    /*
+     * @desc Validate the response from a DELETE request
+     * @param {Object} response the response of the request
+     * @returns {Object}  the article object in the json body if validated,
+     *                    null otherwise
+     */
+    function deleteRequestCompleted(response) {
+
+    }
+
+    /*
+     * @desc Validate if the input object is a response object
+     * @param {Object} response the input object to be checked
+     * @returns {Boolean} true if the input object is a response object
+     *                    false otherwise
+     *
+     */
+    function validateResponse(response) {
 
     }
 }
