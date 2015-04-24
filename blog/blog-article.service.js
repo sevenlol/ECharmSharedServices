@@ -7,9 +7,9 @@ angular
     .module('blog')
     .factory('blogArticleService', blogArticleService);
 
-blogArticleService.$inject = ['$http'];
+blogArticleService.$inject = ['$http', 'blogValidatorService', 'blogExceptionCatcherService'];
 
-function blogArticleService($http) {
+function blogArticleService($http, blogValidatorService, blogExceptionCatcherService) {
     var service = {
         /* Create */
         createArticle           :  createArticle,
