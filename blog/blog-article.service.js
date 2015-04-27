@@ -10,13 +10,8 @@ angular
 blogArticleService.$inject = ['$http', 'blogValidatorService', 'blogExceptionCatcherService'];
 
 function blogArticleService($http, blogValidatorService, blogExceptionCatcherService) {
-    var METHOD = {
-        GET    : 'GET',
-        POST   : 'POST',
-        PUT    : 'PUT',
-        PATCH  : 'PATCH',
-        DELETE : 'DELETE'
-    };
+    // TODO put SERVER_URL in another module
+    var SERVER_URL = 'http://localhost:8080';
     var service = {
         /* Create */
         createArticle           :  createArticle,
@@ -51,7 +46,23 @@ function blogArticleService($http, blogValidatorService, blogExceptionCatcherSer
      * @throws {Object}  the error object when failing to create
      */
     function createArticle(category, article) {
+        // TODO validate category
 
+        // validate article object
+        if (blogValidatorService.requestValidator
+                                .articleValidator
+                                .validateFilled(article) === null) {
+            throw new Error('Some Unknown Error Occurred');
+        }
+
+        var url = assembleURL(SERVER_URL, category, '');
+
+        if (!url)
+            throw new Error('Some Unknown Error Occurred');
+
+        return $http.post(url, article)
+                    .then(postRequestCompleted)
+                    .catch(requestFailed);
     }
 
 
@@ -63,7 +74,14 @@ function blogArticleService($http, blogValidatorService, blogExceptionCatcherSer
      * @throws {Object}  the error object when failing to read
      */
     function readAllArticle() {
+        var url = assembleURL(SERVER_URL, '', '');
 
+        if (!url)
+            throw new Error('Some Unknown Error Occurred');
+
+        return $http.get(url)
+                    .then(getRequestCompleted)
+                    .catch(requestFailed);
     }
 
     /*
@@ -73,7 +91,16 @@ function blogArticleService($http, blogValidatorService, blogExceptionCatcherSer
      * @throws {Object}  the error object when failing to read
      */
     function readArticleInCategory(category) {
+        // TODO validate category
 
+        var url = assembleURL(SERVER_URL, category, '');
+
+        if (!url)
+            throw new Error('Some Unknown Error Occurred');
+
+        return $http.get(url)
+                    .then(getRequestCompleted)
+                    .catch(requestFailed);
     }
 
     /*
@@ -84,7 +111,16 @@ function blogArticleService($http, blogValidatorService, blogExceptionCatcherSer
      * @throws {Object}  the error object when failing to read
      */
     function readArticle(category, id) {
+        // TODO validate category
 
+        var url = assembleURL(SERVER_URL, category, id);
+
+        if (!url)
+            throw new Error('Some Unknown Error Occurred');
+
+        return $http.get(url)
+                    .then(getRequestCompleted)
+                    .catch(requestFailed);
     }
 
 
@@ -98,7 +134,23 @@ function blogArticleService($http, blogValidatorService, blogExceptionCatcherSer
      * @throws {Object}  the error object when failing to update
      */
     function updateArticle(category, id, article) {
+        // TODO validate category
 
+        // validate article object
+        if (blogValidatorService.requestValidator
+                                .articleValidator
+                                .validateFilled(article) === null) {
+            throw new Error('Some Unknown Error Occurred');
+        }
+
+        var url = assembleURL(SERVER_URL, category, id);
+
+        if (!url)
+            throw new Error('Some Unknown Error Occurred');
+
+        return $http.put(url, article)
+                    .then(putRequestCompleted)
+                    .catch(requestFailed);
     }
 
     /*
@@ -109,7 +161,23 @@ function blogArticleService($http, blogValidatorService, blogExceptionCatcherSer
      * @throws {Object}  the error object when failing to update
      */
     function partiallyUpdateArticle(category, id, article) {
+        // TODO validate category
 
+        // validate article object
+        if (blogValidatorService.requestValidator
+                                .articleValidator
+                                .validateNotEmpty(article) === null) {
+            throw new Error('Some Unknown Error Occurred');
+        }
+
+        var url = assembleURL(SERVER_URL, category, id);
+
+        if (!url)
+            throw new Error('Some Unknown Error Occurred');
+
+        return $http.patch(url, article)
+                    .then(patchRequestCompleted)
+                    .catch(requestFailed);
     }
 
 
@@ -121,7 +189,14 @@ function blogArticleService($http, blogValidatorService, blogExceptionCatcherSer
      * @throws {Object}  the error object when failing to delete
      */
     function deleteAllArticle() {
+        var url = assembleURL(SERVER_URL, '', '');
 
+        if (!url)
+            throw new Error('Some Unknown Error Occurred');
+
+        return $http.delete(url)
+                    .then(deleteRequestCompleted)
+                    .catch(requestFailed);
     }
 
     /*
@@ -131,7 +206,16 @@ function blogArticleService($http, blogValidatorService, blogExceptionCatcherSer
      * @throws {Object}  the error object when failing to delete
      */
     function deleteArticleInCategory(category) {
+        // TODO validate category
 
+        var url = assembleURL(SERVER_URL, category, '');
+
+        if (!url)
+            throw new Error('Some Unknown Error Occurred');
+
+        return $http.delete(url)
+                    .then(deleteRequestCompleted)
+                    .catch(requestFailed);
     }
 
     /*
@@ -142,7 +226,16 @@ function blogArticleService($http, blogValidatorService, blogExceptionCatcherSer
      * @throws {Object}  the error object when failing to delete
      */
     function deleteArticle(category, id) {
+        // TODO validate category
 
+        var url = assembleURL(SERVER_URL, category, id);
+
+        if (!url)
+            throw new Error('Some Unknown Error Occurred');
+
+        return $http.delete(url)
+                    .then(deleteRequestCompleted)
+                    .catch(requestFailed);
     }
 
 
@@ -151,28 +244,38 @@ function blogArticleService($http, blogValidatorService, blogExceptionCatcherSer
      */
 
     /*
-     * @desc Validate the response from a http request
-     * @param {Object} response the response of the request
-     * @param {String} method the HTTP method of the request
-     * @returns {Object}  the article object in the json body if validated,
-     *                    null otherwise
+     * @desc Assemble url based on server's url, category and article id
+     * @param {String} SERVER_URL server's url
+     * @param {String} category the category. if not needed, set to ''
+     * @param {String} articleId the article id. if not needed, set to ''
+     * @param {String}  the assembled url
      */
-    function requestCompleted(response, method) {
-        if (!angular.isString(method))
-            return null;
+    function assembleURL(SERVER_URL, category, articleId) {
+        if (!angular.isString(SERVER_URL) ||
+            !angular.isString(category)   ||
+            !angular.isString(articleId)) {
+            return '';
+        }
 
-        if (method === METHOD.GET)
-            return getRequestCompleted(response);
-        else if (method === METHOD.POST)
-            return postRequestCompleted(response);
-        else if (method === METHOD.PUT)
-            return putRequestCompleted(response);
-        else if (method === METHOD.PATCH)
-            return patchRequestCompleted(response);
-        else if (method === METHOD.DELETE)
-            return deleteRequestCompleted(response);
-        else
-            return null;
+        // SERVER_URL == ''
+        if (!SERVER_URL)
+            return '';
+
+        var assembledUrl = SERVER_URL;
+
+        // category == ''
+        if (!category) {
+            return assembledUrl;
+        }
+        assembledUrl += '/' + category;
+
+        // articleId == ''
+        if (!articleId) {
+            return assembledUrl;
+        }
+        assembledUrl += '/' + articleId;
+
+        return assembledUrl;
     }
 
     /*
