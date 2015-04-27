@@ -78,7 +78,7 @@ function blogValidatorService() {
         if (!angular.isObject(article) || article === null)
             return null;
 
-        // check if all fields are invalid
+        // check if any fields are invalid
         if (!angular.isNumber(article.rating)        &&
             !angular.isNumber(article.rating_count)  &&
             (!angular.isString(article.content_text) || article.content_text === "") &&
