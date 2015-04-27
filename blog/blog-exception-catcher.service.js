@@ -20,13 +20,12 @@ function blogExceptionCatcherService() {
 
     /*
      * @desc Create a custom error object based on the input
-     *       error and HTTP method
+     *       error object
      * @param {Object} error input error object from a HTTP req
-     * @param {String} method the HTTP method of the request
      * @returns {Object} the custom error object with predefined
      *                   error message
      */
-    function catcher(error, method) {
+    function catcher(error) {
         if (!validateError(error) || error.status === 0)
             return new BlogError('Some Unknown Error Occurred!', error);
 
@@ -38,6 +37,8 @@ function blogExceptionCatcherService() {
             errorMessage = 'Please sign in first!';
         } else if (error.status === 403) {
             errorMessage = 'You are not authorized for this action!';
+        } else if (error.status === 404) {
+            errorMessage = 'Object not found!';
         } else if (error.status === 409) {
             // TODO add more conditions for creating conflict Rating
             errorMessage = 'You already rated this article!';
@@ -60,7 +61,12 @@ function blogExceptionCatcherService() {
         this.message = message;
         this.name = "BlogError";
 
-        if (angular.isObject(error.data) && error.data !== null)
+        if (!validateError(error))
+            return;
+
+        this.status = error.status;
+
+        if (angular.isObject(error.data) && error.data !== null && !angular.isArray(error.data))
             this.errorBody = error.data;
     }
     BlogError.prototype = Object.create(Error.prototype);
@@ -77,7 +83,7 @@ function blogExceptionCatcherService() {
      *                    return false otherwise
      */
     function validateError(error) {
-        if (!angular.isObject(error))
+        if (!angular.isObject(error) || error === null || angular.isArray(error))
             return false;
 
         if (!angular.isNumber(error.status))
