@@ -39,7 +39,7 @@ function blogValidatorService() {
      */
     function validateRequestArticleFilled(article) {
         // check if the article object
-        if (!angular.isObject(article) || article === null)
+        if (!angular.isObject(article) || article === null || angular.isArray(article))
             return null;
 
         // check number fields
@@ -75,7 +75,7 @@ function blogValidatorService() {
      */
     function validateRequestArticleNotEmpty(article) {
         // check if the article object
-        if (!angular.isObject(article) || article === null)
+        if (!angular.isObject(article) || article === null || angular.isArray(article))
             return null;
 
         // check if any fields are invalid
@@ -111,8 +111,7 @@ function blogValidatorService() {
             var article = validateResponseArticleObject(articleArray[i]);
             if (article === null) {
                 // remove invalid array
-                articleArray.splice(i, 1);
-                i = i - 1;
+                articleArray.splice(i--, 1);
             }
         }
 
@@ -131,7 +130,7 @@ function blogValidatorService() {
      */
     function validateResponseArticleObject(article) {
         // check if the article object
-        if (!angular.isObject(article) || article === null)
+        if (!angular.isObject(article) || article === null  || angular.isArray(article))
             return null;
 
         // check number fields

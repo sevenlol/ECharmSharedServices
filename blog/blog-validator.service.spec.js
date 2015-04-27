@@ -1,14 +1,20 @@
 var INVALID_TYPE = {
     NULL : 'NULL',
     UNDEFINED : 'UNDEFINED',
+    ARRAY : 'ARRAY',
     WRONG_TYPE : 'WRONG_TYPE',
     EMPTY_STR : ''
 };
 
 var INVALID_TYPE_ARR = [INVALID_TYPE.NULL,
                         INVALID_TYPE.UNDEFINED,
+                        INVALID_TYPE.ARRAY,
                         INVALID_TYPE.WRONG_TYPE,
                         INVALID_TYPE.EMPTY_STR];
+
+/*
+ * Article Object
+ */
 
 /*
  * Request Validator
@@ -325,6 +331,8 @@ function getInvalidArticle(type) {
         return undefined;
     else if (type === INVALID_TYPE.EMPTY_STR)
         return '';
+    else if (type === INVALID_TYPE.ARRAY)
+        return [];
     else if (type === INVALID_TYPE.WRONG_TYPE)
         return 0;
 
@@ -352,6 +360,9 @@ function getOneInvalidFieldArticleForReq(index, type) {
         invalidValue = undefined;
     else if (type === INVALID_TYPE.EMPTY_STR)
         invalidValue = '';
+    else if (type === INVALID_TYPE.ARRAY)
+        // use null in this function
+        invalidValue = null;
     else if (type === INVALID_TYPE.WRONG_TYPE) {
         switch(index) {
             case 0:
@@ -468,6 +479,9 @@ function getOneInvalidFieldArticleForRes(index, type) {
         invalidValue = undefined;
     else if (type === INVALID_TYPE.EMPTY_STR)
         invalidValue = '';
+    else if (type === INVALID_TYPE.ARRAY)
+        // use null in this function
+        invalidValue = null;
     else if (type === INVALID_TYPE.WRONG_TYPE) {
         switch(index) {
             case 0:
@@ -638,3 +652,28 @@ function getOneValidArticleArrayForRes(index) {
 
     return invalidArticleArr;
 }
+
+
+/*
+ * Comment Object
+ */
+
+/*
+ * Request Validator
+ */
+
+/*
+ * Response Validator
+ */
+
+/*
+ * Rating Object
+ */
+
+/*
+ * Request Validator
+ */
+
+/*
+ * Response Validator
+ */
