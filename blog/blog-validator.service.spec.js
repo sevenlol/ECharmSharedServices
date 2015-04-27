@@ -240,9 +240,11 @@ describe('Response - Article: One Invalid Field Article', function() {
                 return function() {
                     var invalidArticleArr;
                     invalidArticleArr = getOneInvalidArticleArrayForRes(i, INVALID_TYPE_ARR[j]);
-                    expect(service.requestValidator
+                    var savedArr = getOneInvalidArticleArrayForRes(i, INVALID_TYPE_ARR[j]);
+                    savedArr.splice(i, 1);
+                    expect(service.responseValidator
                                   .articleValidator
-                                  .validateArray(invalidArticleArr)).toBe(invalidArticleArr.splice(i, 1));
+                                  .validateArray(invalidArticleArr)).toEqual(savedArr);
                 }
             }(i, j)));
         }
@@ -255,7 +257,7 @@ describe('Response - Article: One Invalid Field Article', function() {
                 return function() {
                     var invalidArticle;
                     invalidArticle = getOneInvalidFieldArticleForRes(i, INVALID_TYPE_ARR[j]);
-                    expect(service.requestValidator
+                    expect(service.responseValidator
                                   .articleValidator
                                   .validateObject(invalidArticle)).toEqual(null);
                 }
@@ -291,9 +293,9 @@ describe('Response - Article: One Valid Field Article', function() {
                     tag_arr : []
                 };
                 var inValidArticleArr = getOneValidArticleArrayForRes(i);
-                expect(service.requestValidator
+                expect(service.responseValidator
                               .articleValidator
-                              .validateArray(inValidArticleArr)).toBe([article]);
+                              .validateArray(inValidArticleArr)).toEqual([article]);
             };
         }(i)));
     }
@@ -303,7 +305,7 @@ describe('Response - Article: One Valid Field Article', function() {
         it('validateObject: index = ' + i, (function(i) {
             return function() {
                 var inValidArticle = getOneValidFieldArticleForRes(i);
-                expect(service.requestValidator
+                expect(service.responseValidator
                               .articleValidator
                               .validateObject(inValidArticle)).toBe(null);
             };
@@ -625,7 +627,7 @@ function getOneValidArticleArrayForRes(index) {
     if (index < 0 || index >= 11)
         return null;
 
-    invalidArticle = getOneInvalidFieldArticleForRes(index, type);
+    var invalidArticle = getOneInvalidFieldArticleForRes(index);
 
     for (var i = 0; i < 11; i++) {
         if (i === index)

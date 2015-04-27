@@ -112,6 +112,7 @@ function blogValidatorService() {
             if (article === null) {
                 // remove invalid array
                 articleArray.splice(i, 1);
+                i = i - 1;
             }
         }
 
@@ -140,7 +141,8 @@ function blogValidatorService() {
         }
 
         // check string fields
-        if (!angular.isString(article.category)     || article.category     === "" ||
+        if (!angular.isString(article.article_id)   || article.article_id   === "" ||
+            !angular.isString(article.category)     || article.category     === "" ||
             !angular.isString(article.content_text) || article.content_text === "" ||
             !angular.isString(article.author_id)    || article.author_id    === "" ||
             !angular.isString(article.title)        || article.title        === "" ||
