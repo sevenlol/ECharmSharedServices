@@ -14,7 +14,7 @@ var INVALID_TYPE_ARR = [INVALID_TYPE.NULL,
  * Request Validator
  */
 
-describe('Request: Valid Article', function() {
+describe('Request - Article: Valid Article', function() {
     var service;
     var article = {
         author_id : 'id',
@@ -48,7 +48,7 @@ describe('Request: Valid Article', function() {
     });
 });
 
-describe('Request: Invalid Article', function() {
+describe('Request - Article: Invalid Article', function() {
     var service;
     beforeEach(module('blog'));
     beforeEach(inject(function(blogValidatorService) {
@@ -78,7 +78,7 @@ describe('Request: Invalid Article', function() {
     }
 });
 
-describe('Request: One Invalid Field Article', function() {
+describe('Request - Article: One Invalid Field Article', function() {
 
     var service;
 
@@ -118,7 +118,7 @@ describe('Request: One Invalid Field Article', function() {
     }
 });
 
-describe('Request: One Valid Field Article', function() {
+describe('Request - Article: One Valid Field Article', function() {
 
     var service;
 
@@ -151,6 +151,54 @@ describe('Request: One Valid Field Article', function() {
         }(i)));
     }
 });
+
+/*
+ * Response Validator
+ */
+
+describe('Response - Article: Valid Article', function() {
+    var service;
+    var article = {
+        article_id : 'id',
+        category : 'category',
+        author_id : 'id',
+        content_text : 'text',
+        title : 'title',
+        created_at : 'created_at',
+        updated_at : 'updated_at',
+        rating : 0,
+        rating_count : 0,
+        image_arr : [],
+        tag_arr : []
+    };
+
+    var articleArr = [article, article, article];
+
+    beforeEach(module('blog'));
+    beforeEach(inject(function(blogValidatorService) {
+        service = blogValidatorService;
+    }));
+
+    it ('validateFilled', function() {
+        // validate array function
+        expect(service.responseValidator
+                      .articleValidator
+                      .validateArray(articleArr)).toEqual(articleArr);
+    });
+
+    it ('validateFilled', function() {
+        // validate object function
+        expect(service.responseValidator
+                      .articleValidator
+                      .validateObject(article)).toEqual(article);
+    });
+});
+
+
+
+/*
+ * Private functions
+ */
 
 function getInvalidArticle(type) {
     if (type === INVALID_TYPE.NULL)
