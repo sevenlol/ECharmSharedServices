@@ -53,7 +53,7 @@ function blogValidatorService() {
             !angular.isString(article.author_id)    || article.author_id    === "" ||
             !angular.isString(article.title)        || article.title        === "" ||
             !angular.isString(article.created_at)   || article.created_at   === "" ||
-            !angular.isString(article.updated_at)   || article.updated_at   === "" ||) {
+            !angular.isString(article.updated_at)   || article.updated_at   === "") {
             return null;
         }
 
@@ -145,7 +145,7 @@ function blogValidatorService() {
             !angular.isString(article.author_id)    || article.author_id    === "" ||
             !angular.isString(article.title)        || article.title        === "" ||
             !angular.isString(article.created_at)   || article.created_at   === "" ||
-            !angular.isString(article.updated_at)   || article.updated_at   === "" ||) {
+            !angular.isString(article.updated_at)   || article.updated_at   === "") {
             return null;
         }
 
