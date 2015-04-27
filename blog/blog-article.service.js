@@ -10,6 +10,13 @@ angular
 blogArticleService.$inject = ['$http', 'blogValidatorService', 'blogExceptionCatcherService'];
 
 function blogArticleService($http, blogValidatorService, blogExceptionCatcherService) {
+    var METHOD = {
+        GET    : 'GET',
+        POST   : 'POST',
+        PUT    : 'PUT',
+        PATCH  : 'PATCH',
+        DELETE : 'DELETE'
+    };
     var service = {
         /* Create */
         createArticle           :  createArticle,
@@ -151,7 +158,21 @@ function blogArticleService($http, blogValidatorService, blogExceptionCatcherSer
      *                    null otherwise
      */
     function requestCompleted(response, method) {
+        if (!angular.isString(method))
+            return null;
 
+        if (method === METHOD.GET)
+            return getRequestCompleted(response);
+        else if (method === METHOD.POST)
+            return postRequestCompleted(response);
+        else if (method === METHOD.PUT)
+            return putRequestCompleted(response);
+        else if (method === METHOD.PATCH)
+            return patchRequestCompleted(response);
+        else if (method === METHOD.DELETE)
+            return deleteRequestCompleted(response);
+        else
+            return null;
     }
 
     /*
@@ -160,7 +181,30 @@ function blogArticleService($http, blogValidatorService, blogExceptionCatcherSer
      * @returns {Object}  the json body if validated, null otherwise
      */
     function getRequestCompleted(response) {
+        if (!validateResponse(response))
+            return null;
 
+        // no content
+        if (response.status === 204)
+            return null;
+
+        if (response.status === 200) {
+            if (angular.isArray(response.data)) {
+                // array
+                return blogValidatorService.responseValidator
+                                           .articleValidator
+                                           .validateArray(response.data);
+            } else if (angular.isObject(response.data)) {
+                // article object
+                return blogValidatorService.responseValidator
+                                           .articleValidator
+                                           .validateObject(response.data);
+            } else {
+                return null;
+            }
+        }
+
+        return null;
     }
 
     /*
@@ -170,7 +214,15 @@ function blogArticleService($http, blogValidatorService, blogExceptionCatcherSer
      *                    null otherwise
      */
     function postRequestCompleted(response) {
+        if (!validateResponse(response))
+            return null;
 
+        if (response.status === 201)
+            return blogValidatorService.responseValidator
+                                       .articleValidator
+                                       .validateObject(response.data);
+
+        return null;
     }
 
     /*
@@ -180,7 +232,15 @@ function blogArticleService($http, blogValidatorService, blogExceptionCatcherSer
      *                    null otherwise
      */
     function putRequestCompleted(response) {
+        if (!validateResponse(response))
+            return null;
 
+        if (response.status === 200)
+            return blogValidatorService.responseValidator
+                                       .articleValidator
+                                       .validateObject(response.data);
+
+        return null;
     }
 
     /*
@@ -190,7 +250,15 @@ function blogArticleService($http, blogValidatorService, blogExceptionCatcherSer
      *                    null otherwise
      */
     function patchRequestCompleted(response) {
+        if (!validateResponse(response))
+            return null;
 
+        if (response.status === 200)
+            return blogValidatorService.responseValidator
+                                       .articleValidator
+                                       .validateObject(response.data);
+
+        return null;
     }
 
     /*
@@ -200,7 +268,30 @@ function blogArticleService($http, blogValidatorService, blogExceptionCatcherSer
      *                    null otherwise
      */
     function deleteRequestCompleted(response) {
+        if (!validateResponse(response))
+            return null;
 
+        // no content
+        if (response.status === 204)
+            return null;
+
+        if (response.status === 200) {
+            if (angular.isArray(response.data)) {
+                // array
+                return blogValidatorService.responseValidator
+                                           .articleValidator
+                                           .validateArray(response.data);
+            } else if (angular.isObject(response.data)) {
+                // article object
+                return blogValidatorService.responseValidator
+                                           .articleValidator
+                                           .validateObject(response.data);
+            } else {
+                return null;
+            }
+        }
+
+        return null;
     }
 
     /*
@@ -210,6 +301,26 @@ function blogArticleService($http, blogValidatorService, blogExceptionCatcherSer
      *                    false otherwise
      */
     function validateResponse(response) {
+        if (!angular.isObject(response) || response === null)
+            return false;
 
+        if (!angular.isNumber(response.status))
+            return false;
+
+        return true;
+    }
+
+    /*
+     * @desc Process the error object from a HTTP request
+     * @param {Object} error the error object
+     * @returns {Object} the processed error with a custom error message
+     */
+    function requestFailed(error) {
+        var parsedError = blogExceptionCatcherService.catcher(error);
+
+        if (!(parsedError && parsedError instanceof blogExceptionCatcherService.error))
+            throw new Error('Some Unknown Error Occurred!');
+        else
+            throw parsedError;
     }
 }
