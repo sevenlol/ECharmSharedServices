@@ -224,6 +224,93 @@ describe('Response - Article: Invalid Article', function() {
     }
 });
 
+describe('Response - Article: One Invalid Field Article', function() {
+
+    var service;
+
+    beforeEach(module('blog'));
+    beforeEach(inject(function(blogValidatorService) {
+        service = blogValidatorService;
+    }));
+
+    // validate filled function
+    for (var i = 0; i < 11; i++) {
+        for (var j = 0; j < INVALID_TYPE_ARR.length; j++) {
+            it ('validateArray: index = ' + i + ', type = ' + INVALID_TYPE_ARR[j], (function(i, j) {
+                return function() {
+                    var invalidArticleArr;
+                    invalidArticleArr = getOneInvalidArticleArrayForRes(i, INVALID_TYPE_ARR[j]);
+                    expect(service.requestValidator
+                                  .articleValidator
+                                  .validateArray(invalidArticleArr)).toBe(invalidArticleArr.splice(i, 1));
+                }
+            }(i, j)));
+        }
+    }
+
+    // validate not empty function
+    for (var i = 0; i < 11; i++) {
+        for (var j = 0; j < INVALID_TYPE_ARR.length; j++) {
+            it ('validateObject: index = ' + i + ', type = ' + INVALID_TYPE_ARR[j], (function(i, j) {
+                return function() {
+                    var invalidArticle;
+                    invalidArticle = getOneInvalidFieldArticleForRes(i, INVALID_TYPE_ARR[j]);
+                    expect(service.requestValidator
+                                  .articleValidator
+                                  .validateObject(invalidArticle)).toEqual(null);
+                }
+            }(i, j)));
+        }
+    }
+});
+
+describe('Response - Article: One Valid Field Article', function() {
+
+    var service;
+
+    beforeEach(module('blog'));
+    beforeEach(inject(function(blogValidatorService) {
+        service = blogValidatorService;
+    }));
+
+    // validate filled function
+    for (var i = 0; i < 9; i++) {
+        it('validateArray: index = ' + i, (function(i) {
+            return function() {
+                var article = {
+                    article_id : 'id',
+                    category : 'category',
+                    author_id : 'id',
+                    content_text : 'text',
+                    title : 'title',
+                    created_at : 'created_at',
+                    updated_at : 'updated_at',
+                    rating : 0,
+                    rating_count : 0,
+                    image_arr : [],
+                    tag_arr : []
+                };
+                var inValidArticleArr = getOneValidArticleArrayForRes(i);
+                expect(service.requestValidator
+                              .articleValidator
+                              .validateArray(inValidArticleArr)).toBe([article]);
+            };
+        }(i)));
+    }
+
+    // validate not empty function
+    for (var i = 0; i < 9; i++) {
+        it('validateObject: index = ' + i, (function(i) {
+            return function() {
+                var inValidArticle = getOneValidFieldArticleForRes(i);
+                expect(service.requestValidator
+                              .articleValidator
+                              .validateObject(inValidArticle)).toBe(null);
+            };
+        }(i)));
+    }
+});
+
 
 /*
  * Private functions
