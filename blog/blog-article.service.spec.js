@@ -149,7 +149,10 @@ describe('Read All Article', function() {
     }));
 
     describe('Operation Succeeded', function() {
-
+        it('Valid Article Arr - 200', function() {
+            // http.when('GET', 'http://localhost:8080/category/id')
+            // .respond(200, resBody);
+        })
     });
 
     describe('Operation Failed', function() {
