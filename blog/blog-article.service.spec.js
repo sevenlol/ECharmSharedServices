@@ -140,6 +140,8 @@ function GET_INVALID_ARTICLE() {
     };
 }
 
+/* Read Article */
+
 describe('Read All Article', function() {
 
     beforeEach(module('blog'));
@@ -358,6 +360,231 @@ describe('Read Article', function() {
                 http.flush();
             } catch (error) {
                 expect(error.message).toEqual('You are not authorized for this action!');
+            }
+        });
+    });
+});
+
+/* Delete Article */
+
+describe('Delete All Article', function() {
+
+    beforeEach(module('blog'));
+    beforeEach(inject(function(blogArticleService, $httpBackend) {
+        service = blogArticleService;
+        http    = $httpBackend;
+    }));
+
+    describe('Operation Succeeded', function() {
+        it('Valid Article Arr - 200', function() {
+            http.when('DELETE', 'http://localhost:8080')
+                .respond(200, GET_VALID_ARTICLE_ARRAY());
+
+            var article = service.deleteAllArticle();
+            article.then(function(data) {
+                expect(data).toEqual(GET_VALID_ARTICLE_ARRAY());
+            })
+            http.flush();
+        });
+
+        it('Valid Article Arr - 204', function() {
+            http.when('DELETE', 'http://localhost:8080')
+                .respond(204, GET_VALID_ARTICLE_ARRAY());
+
+            var article = service.deleteAllArticle();
+            article.then(function(data) {
+                expect(data).toEqual(null);
+            })
+            http.flush();
+        });
+
+        it('Invalid Article Arr - 200', function() {
+            http.when('DELETE', 'http://localhost:8080')
+                .respond(200, GET_INVALID_ARTICLE_ARRAY());
+
+            var article = service.deleteAllArticle();
+            article.then(function(data) {
+                var invalidArr = GET_INVALID_ARTICLE_ARRAY();
+                invalidArr.splice(1, 1);
+                expect(data).toEqual(invalidArr);
+            })
+            http.flush();
+        });
+
+        it('Valid Article Arr - 204', function() {
+            http.when('DELETE', 'http://localhost:8080')
+                .respond(204, GET_INVALID_ARTICLE_ARRAY());
+
+            var article = service.deleteAllArticle();
+            article.then(function(data) {
+                expect(data).toEqual(null);
+            })
+            http.flush();
+        });
+    });
+
+    describe('Operation Failed', function() {
+        it('Valid Article Arr - 404', function() {
+            http.when('DELETE', 'http://localhost:8080')
+                .respond(404, GET_VALID_ARTICLE_ARRAY());
+
+            try {
+                var article = service.deleteAllArticle();
+                article.then(function(data) {
+                    // cannot get here
+                    expect(true).toBe(false);
+                })
+                http.flush();
+            } catch (error) {
+                expect(error.message).toEqual('Object not found!');
+            }
+        });
+    });
+});
+
+describe('Delete Article In Category', function() {
+
+    beforeEach(module('blog'));
+    beforeEach(inject(function(blogArticleService, $httpBackend) {
+        service = blogArticleService;
+        http    = $httpBackend;
+    }));
+
+    describe('Operation Succeeded', function() {
+        it('Valid Article Arr - 200', function() {
+            http.when('DELETE', 'http://localhost:8080/category')
+                .respond(200, GET_VALID_ARTICLE_ARRAY());
+
+            var article = service.deleteArticleInCategory('category');
+            article.then(function(data) {
+                expect(data).toEqual(GET_VALID_ARTICLE_ARRAY());
+            })
+            http.flush();
+        });
+
+        it('Valid Article Arr - 204', function() {
+            http.when('DELETE', 'http://localhost:8080/category')
+                .respond(204, GET_VALID_ARTICLE_ARRAY());
+
+            var article = service.deleteArticleInCategory('category');
+            article.then(function(data) {
+                expect(data).toEqual(null);
+            })
+            http.flush();
+        });
+
+        it('Invalid Article Arr - 200', function() {
+            http.when('DELETE', 'http://localhost:8080/category')
+                .respond(200, GET_INVALID_ARTICLE_ARRAY());
+
+            var article = service.deleteArticleInCategory('category');
+            article.then(function(data) {
+                var invalidArr = GET_INVALID_ARTICLE_ARRAY();
+                invalidArr.splice(1, 1);
+                expect(data).toEqual(invalidArr);
+            })
+            http.flush();
+        });
+
+        it('Valid Article Arr - 204', function() {
+            http.when('DELETE', 'http://localhost:8080/category')
+                .respond(204, GET_INVALID_ARTICLE_ARRAY());
+
+            var article = service.deleteArticleInCategory('category');
+            article.then(function(data) {
+                expect(data).toEqual(null);
+            })
+            http.flush();
+        });
+    });
+
+    describe('Operation Failed', function() {
+        it('Valid Article Arr - 409', function() {
+            http.when('DELETE', 'http://localhost:8080/category')
+                .respond(409, GET_VALID_ARTICLE_ARRAY());
+
+            try {
+                var article = service.deleteArticleInCategory('category');
+                article.then(function(data) {
+                    // cannot get here
+                    expect(true).toBe(false);
+                });
+                http.flush();
+            } catch (error) {
+                expect(error.message).toEqual('You already rated this article!');
+            }
+        });
+    });
+});
+
+describe('Delete Article', function() {
+
+    beforeEach(module('blog'));
+    beforeEach(inject(function(blogArticleService, $httpBackend) {
+        service = blogArticleService;
+        http    = $httpBackend;
+    }));
+
+    describe('Operation Succeeded', function() {
+        it('Valid Article - 200', function() {
+            http.when('DELETE', 'http://localhost:8080/category/id')
+                .respond(200, GET_VALID_ARTICLE());
+
+            var article = service.deleteArticle('category', 'id');
+            article.then(function(data) {
+                expect(data).toEqual(GET_VALID_ARTICLE());
+            })
+            http.flush();
+        });
+
+        it('Valid Article - 204', function() {
+            http.when('DELETE', 'http://localhost:8080/category/id')
+                .respond(204, GET_VALID_ARTICLE());
+
+            var article = service.deleteArticle('category', 'id');
+            article.then(function(data) {
+                expect(data).toEqual(null);
+            })
+            http.flush();
+        });
+
+        it('Invalid Article - 200', function() {
+            http.when('DELETE', 'http://localhost:8080/category/id')
+                .respond(200, GET_INVALID_ARTICLE());
+
+            var article = service.deleteArticle('category', 'id');
+            article.then(function(data) {
+                expect(data).toEqual(null);
+            })
+            http.flush();
+        });
+
+        it('Valid Article - 204', function() {
+            http.when('DELETE', 'http://localhost:8080/category/id')
+                .respond(204, GET_INVALID_ARTICLE());
+
+            var article = service.deleteArticle('category', 'id');
+            article.then(function(data) {
+                expect(data).toEqual(null);
+            })
+            http.flush();
+        });
+    });
+
+    describe('Operation Failed', function() {
+        it('Valid Article - 500', function() {
+            http.when('DELETE', 'http://localhost:8080/category/id')
+                .respond(500, GET_VALID_ARTICLE());
+
+            try {
+                var article = service.deleteArticle('category', 'id');
+                article.then(function(data) {
+                    // cannot get here
+                    expect(true).toBe(false);
+                })
+                http.flush();
+            } catch (error) {
+                expect(error.message).toEqual('Something is wrong with the server!');
             }
         });
     });
