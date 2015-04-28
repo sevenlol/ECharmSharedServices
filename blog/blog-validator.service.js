@@ -13,12 +13,20 @@ function blogValidatorService() {
             articleValidator : {
                 validateFilled : validateRequestArticleFilled,
                 validateNotEmpty : validateRequestArticleNotEmpty
+            },
+            commentValidator : {
+                validateFilled : validateRequestCommentFilled,
+                validateNotEmpty : validateRequestCommentNotEmpty
             }
         },
         responseValidator : {
             articleValidator : {
                 validateArray : validateResponseArticleArray,
                 validateObject : validateResponseArticleObject
+            },
+            commentValidator : {
+                validateArray : validateResponseCommentArray,
+                validateObject : validateResponseCommentObject
             }
         }
     };
@@ -159,4 +167,111 @@ function blogValidatorService() {
         return article;
     }
 
+
+    /* Comment validation functions */
+
+    /*
+     * @desc Validate if the input comment has all fields required
+     *       in a HTTP request
+     * @param {Object} comment the comment object to be checked
+     * @returns {Object}  the input comment object if validated,
+     *                    null otherwise
+     */
+    function validateRequestCommentFilled(comment) {
+        // check if the comment object is valid
+        if (!angular.isObject(comment) || comment === null || angular.isArray(comment))
+            return null;
+
+        // check string fields
+        if (!angular.isString(comment.commenter_id)           || comment.commenter_id === "" ||
+            !angular.isString(comment.comment_text)           || comment.comment_text === "" ||
+            !angular.isString(comment.responded_at)           || comment.responded_at === "" ||
+            !angular.isString(comment.created_at)             || comment.created_at   === "" ||
+            !angular.isString(comment.updated_at)             || comment.updated_at   === "" ||
+            !angular.isString(comment.author_response_text)   || comment.author_response_text   === "") {
+            return null;
+        }
+
+        return comment;
+    }
+
+    /*
+     * @desc Validate if the input comment has at least one field
+     *       required in a HTTP request
+     * @param {Object} comment the comment object to be checked
+     * @returns {Object}  the input comment object if validated,
+     *                    null otherwise
+     */
+    function validateRequestCommentNotEmpty(comment) {
+        // check if the comment object is valid
+        if (!angular.isObject(comment) || comment === null || angular.isArray(comment))
+            return null;
+
+        // check if any fields are invalid
+        if ((!angular.isString(comment.commenter_id)         || comment.commenter_id === "") &&
+            (!angular.isString(comment.comment_text)         || comment.comment_text === "") &&
+            (!angular.isString(comment.responded_at)         || comment.responded_at === "") &&
+            (!angular.isString(comment.created_at)           || comment.created_at   === "") &&
+            (!angular.isString(comment.updated_at)           || comment.updated_at   === "") &&
+            (!angular.isString(comment.author_response_text) || comment.author_response_text === "")) {
+            return null;
+        }
+
+        return comment;
+    }
+
+    /*
+     * @desc Validate if the input comment array has all fields
+     *       required in a HTTP response
+     * @param {Object} commentArray an array of comment objects
+     *                              to be checked
+     * @returns {Array} an array that only contains the ligit
+     *                  comments (others are filtered)
+     */
+    function validateResponseCommentArray(commentArray) {
+        // check the comment array
+        if (!angular.isArray(commentArray) || commentArray.length <= 0)
+            return null;
+
+        for (var i = 0; i < commentArray.length; i++) {
+            var comment = validateResponseCommentObject(commentArray[i]);
+            if (comment === null) {
+                // remove invalid array
+                commentArray.splice(i--, 1);
+            }
+        }
+
+        if (commentArray.length === 0)
+            return null;
+
+        return commentArray;
+    }
+
+    /*
+     * @desc Validate if the input comment has all fields required
+     *       in a HTTP response
+     * @param {Object} comment the comment object to be checked
+     * @returns {Object}  the input comment object if validated,
+     *                    null otherwise
+     */
+    function validateResponseCommentObject(comment) {
+        // check if the comment object is valid
+        if (!angular.isObject(comment) || comment === null || angular.isArray(comment))
+            return null;
+
+        // check string fields
+        if (!angular.isString(comment.article_id)             || comment.article_id   === "" ||
+            !angular.isString(comment.comment_id)             || comment.comment_id   === "" ||
+            !angular.isString(comment.category)               || comment.category     === "" ||
+            !angular.isString(comment.commenter_id)           || comment.commenter_id === "" ||
+            !angular.isString(comment.comment_text)           || comment.comment_text === "" ||
+            !angular.isString(comment.responded_at)           || comment.responded_at === "" ||
+            !angular.isString(comment.created_at)             || comment.created_at   === "" ||
+            !angular.isString(comment.updated_at)             || comment.updated_at   === "" ||
+            !angular.isString(comment.author_response_text)   || comment.author_response_text   === "") {
+            return null;
+        }
+
+        return comment;
+    }
 }
