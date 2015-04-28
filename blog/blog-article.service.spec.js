@@ -464,7 +464,7 @@ describe('Update Article', function() {
             http.when('PUT', 'http://localhost:8080/category/id')
                 .respond(200, GET_VALID_ARTICLE());
 
-            var article = service.updateArticle('category', GET_VALID_ARTICLE());
+            var article = service.updateArticle('category', 'id', GET_VALID_ARTICLE());
             article.then(function(data) {
                 expect(data).toEqual(GET_VALID_ARTICLE());
             })
@@ -475,7 +475,7 @@ describe('Update Article', function() {
             http.when('PUT', 'http://localhost:8080/category/id')
                 .respond(204, GET_VALID_ARTICLE());
 
-            var article = service.updateArticle('category', 'id',GET_VALID_ARTICLE());
+            var article = service.updateArticle('category', 'id', GET_VALID_ARTICLE());
             article.then(function(data) {
                 expect(data).toEqual(null);
             })
@@ -547,7 +547,7 @@ describe('Partially Update Article', function() {
             http.when('PATCH', 'http://localhost:8080/category/id')
                 .respond(200, GET_VALID_ARTICLE());
 
-            var article = service.partiallyUpdateArticle('category', GET_VALID_ARTICLE());
+            var article = service.partiallyUpdateArticle('category', 'id', GET_VALID_ARTICLE());
             article.then(function(data) {
                 expect(data).toEqual(GET_VALID_ARTICLE());
             })
