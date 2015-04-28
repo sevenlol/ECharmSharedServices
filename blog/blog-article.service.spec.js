@@ -140,6 +140,80 @@ function GET_INVALID_ARTICLE() {
     };
 }
 
+/* Create Article */
+describe('Create Article', function() {
+
+    beforeEach(module('blog'));
+    beforeEach(inject(function(blogArticleService, $httpBackend) {
+        service = blogArticleService;
+        http    = $httpBackend;
+    }));
+
+    describe('Operation Succeeded', function() {
+        it('Valid Article - 201', function() {
+            http.when('POST', 'http://localhost:8080/category')
+                .respond(201, GET_VALID_ARTICLE());
+
+            var article = service.createArticle('category', GET_VALID_ARTICLE());
+            article.then(function(data) {
+                expect(data).toEqual(GET_VALID_ARTICLE());
+            })
+            http.flush();
+        });
+
+        it('Valid Article - 204', function() {
+            http.when('POST', 'http://localhost:8080/category')
+                .respond(204, GET_VALID_ARTICLE());
+
+            var article = service.createArticle('category', GET_VALID_ARTICLE());
+            article.then(function(data) {
+                expect(data).toEqual(null);
+            })
+            http.flush();
+        });
+
+        it('Invalid Article - 201', function() {
+            http.when('POST', 'http://localhost:8080/category')
+                .respond(201, GET_INVALID_ARTICLE());
+
+            var article = service.createArticle('category', GET_INVALID_ARTICLE());
+            article.then(function(data) {
+                expect(data).toEqual(null);
+            })
+            http.flush();
+        });
+
+        it('Valid Article - 204', function() {
+            http.when('POST', 'http://localhost:8080/category')
+                .respond(204, GET_INVALID_ARTICLE());
+
+            var article = service.createArticle('category', GET_INVALID_ARTICLE());
+            article.then(function(data) {
+                expect(data).toEqual(null);
+            })
+            http.flush();
+        });
+    });
+
+    describe('Operation Failed', function() {
+        it('Valid Article - 403', function() {
+            http.when('POST', 'http://localhost:8080/category')
+                .respond(403, GET_VALID_ARTICLE());
+
+            try {
+                var article = service.createArticle('category', GET_VALID_ARTICLE());
+                article.then(function(data) {
+                    // cannot get here
+                    expect(true).toBe(false);
+                })
+                http.flush();
+            } catch (error) {
+                expect(error.message).toEqual('You are not authorized for this action!');
+            }
+        });
+    });
+});
+
 /* Read Article */
 
 describe('Read All Article', function() {
@@ -353,6 +427,155 @@ describe('Read Article', function() {
 
             try {
                 var article = service.readArticle('category', 'id');
+                article.then(function(data) {
+                    // cannot get here
+                    expect(true).toBe(false);
+                })
+                http.flush();
+            } catch (error) {
+                expect(error.message).toEqual('You are not authorized for this action!');
+            }
+        });
+    });
+});
+
+/* Update Article */
+
+describe('Update Article', function() {
+
+    beforeEach(module('blog'));
+    beforeEach(inject(function(blogArticleService, $httpBackend) {
+        service = blogArticleService;
+        http    = $httpBackend;
+    }));
+
+    describe('Operation Succeeded', function() {
+        it('Valid Article - 200', function() {
+            http.when('PUT', 'http://localhost:8080/category/id')
+                .respond(200, GET_VALID_ARTICLE());
+
+            var article = service.updateArticle('category', GET_VALID_ARTICLE());
+            article.then(function(data) {
+                expect(data).toEqual(GET_VALID_ARTICLE());
+            })
+            http.flush();
+        });
+
+        it('Valid Article - 204', function() {
+            http.when('PUT', 'http://localhost:8080/category/id')
+                .respond(204, GET_VALID_ARTICLE());
+
+            var article = service.updateArticle('category', 'id',GET_VALID_ARTICLE());
+            article.then(function(data) {
+                expect(data).toEqual(null);
+            })
+            http.flush();
+        });
+
+        it('Invalid Article - 200', function() {
+            http.when('PUT', 'http://localhost:8080/category/id')
+                .respond(200, GET_INVALID_ARTICLE());
+
+            var article = service.updateArticle('category', 'id', GET_INVALID_ARTICLE());
+            article.then(function(data) {
+                expect(data).toEqual(null);
+            })
+            http.flush();
+        });
+
+        it('Valid Article - 204', function() {
+            http.when('PUT', 'http://localhost:8080/category/id')
+                .respond(204, GET_INVALID_ARTICLE());
+
+            var article = service.updateArticle('category', 'id', GET_INVALID_ARTICLE());
+            article.then(function(data) {
+                expect(data).toEqual(null);
+            })
+            http.flush();
+        });
+    });
+
+    describe('Operation Failed', function() {
+        it('Valid Article - 403', function() {
+            http.when('PUT', 'http://localhost:8080/category/id')
+                .respond(403, GET_VALID_ARTICLE());
+
+            try {
+                var article = service.updateArticle('category', 'id', GET_VALID_ARTICLE());
+                article.then(function(data) {
+                    // cannot get here
+                    expect(true).toBe(false);
+                })
+                http.flush();
+            } catch (error) {
+                expect(error.message).toEqual('You are not authorized for this action!');
+            }
+        });
+    });
+});
+
+describe('Partially Update Article', function() {
+
+    beforeEach(module('blog'));
+    beforeEach(inject(function(blogArticleService, $httpBackend) {
+        service = blogArticleService;
+        http    = $httpBackend;
+    }));
+
+    describe('Operation Succeeded', function() {
+        it('Valid Article - 200', function() {
+            http.when('PATCH', 'http://localhost:8080/category/id')
+                .respond(200, GET_VALID_ARTICLE());
+
+            var article = service.partiallyUpdateArticle('category', GET_VALID_ARTICLE());
+            article.then(function(data) {
+                expect(data).toEqual(GET_VALID_ARTICLE());
+            })
+            http.flush();
+        });
+
+        it('Valid Article - 204', function() {
+            http.when('PATCH', 'http://localhost:8080/category/id')
+                .respond(204, GET_VALID_ARTICLE());
+
+            var article = service.partiallyUpdateArticle('category', 'id',GET_VALID_ARTICLE());
+            article.then(function(data) {
+                expect(data).toEqual(null);
+            })
+            http.flush();
+        });
+
+        // partial input passed and the output should be valid
+        it('Invalid Article - 200', function() {
+            http.when('PATCH', 'http://localhost:8080/category/id')
+                .respond(200, GET_VALID_ARTICLE());
+
+            var article = service.partiallyUpdateArticle('category', 'id', GET_INVALID_ARTICLE());
+            article.then(function(data) {
+                expect(data).toEqual(GET_VALID_ARTICLE());
+            })
+            http.flush();
+        });
+
+        it('Valid Article - 204', function() {
+            http.when('PATCH', 'http://localhost:8080/category/id')
+                .respond(204, GET_INVALID_ARTICLE());
+
+            var article = service.partiallyUpdateArticle('category', 'id', GET_INVALID_ARTICLE());
+            article.then(function(data) {
+                expect(data).toEqual(null);
+            })
+            http.flush();
+        });
+    });
+
+    describe('Operation Failed', function() {
+        it('Valid Article - 403', function() {
+            http.when('PATCH', 'http://localhost:8080/category/id')
+                .respond(403, GET_VALID_ARTICLE());
+
+            try {
+                var article = service.partiallyUpdateArticle('category', 'id', GET_VALID_ARTICLE());
                 article.then(function(data) {
                     // cannot get here
                     expect(true).toBe(false);
