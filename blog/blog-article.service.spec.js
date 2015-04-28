@@ -177,7 +177,7 @@ describe('Create Article', function() {
                 .respond(201, GET_INVALID_ARTICLE());
 
             try {
-                var article = service.createArticle('category', GET_VALID_ARTICLE());
+                var article = service.createArticle('category', GET_INVALID_ARTICLE());
                 article.then(function(data) {
                     // should not be here
                     expect(true).toBe(false);
@@ -193,7 +193,7 @@ describe('Create Article', function() {
                 .respond(204, GET_INVALID_ARTICLE());
 
             try {
-                var article = service.createArticle('category', GET_VALID_ARTICLE());
+                var article = service.createArticle('category', GET_INVALID_ARTICLE());
                 article.then(function(data) {
                     // should not be here
                     expect(true).toBe(false);
