@@ -210,7 +210,7 @@ describe('Read All Article', function() {
                 http.flush();
             } catch (error) {
                 expect(error.message).toEqual('Something is wrong with the request!');
-            }            
+            }
         });
     });
 });
@@ -277,15 +277,15 @@ describe('Read Article In Category', function() {
                 .respond(401, GET_VALID_ARTICLE_ARRAY());
 
             try {
-                var article = readArticleInCategory('category');
+                var article = service.readArticleInCategory('category');
                 article.then(function(data) {
                     // cannot get here
                     expect(true).toBe(false);
-                })
+                });
                 http.flush();
             } catch (error) {
                 expect(error.message).toEqual('Please sign in first!');
-            }            
+            }
         });
     });
 });
@@ -350,7 +350,7 @@ describe('Read Article', function() {
                 .respond(403, GET_VALID_ARTICLE());
 
             try {
-                var article = readArticle('category', 'id');
+                var article = service.readArticle('category', 'id');
                 article.then(function(data) {
                     // cannot get here
                     expect(true).toBe(false);
@@ -358,7 +358,7 @@ describe('Read Article', function() {
                 http.flush();
             } catch (error) {
                 expect(error.message).toEqual('You are not authorized for this action!');
-            }            
+            }
         });
     });
 });
