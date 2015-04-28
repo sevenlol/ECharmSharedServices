@@ -52,7 +52,7 @@ function blogArticleService($http, blogValidatorService, blogExceptionCatcherSer
         if (blogValidatorService.requestValidator
                                 .articleValidator
                                 .validateFilled(article) === null) {
-            throw new Error('Some Unknown Error Occurred');
+            throw new Error('Article Not Valid!');
         }
 
         var url = assembleURL(SERVER_URL, category, '');
@@ -140,7 +140,7 @@ function blogArticleService($http, blogValidatorService, blogExceptionCatcherSer
         if (blogValidatorService.requestValidator
                                 .articleValidator
                                 .validateFilled(article) === null) {
-            throw new Error('Some Unknown Error Occurred');
+            throw new Error('Article Not Valid!');
         }
 
         var url = assembleURL(SERVER_URL, category, id);
@@ -167,7 +167,7 @@ function blogArticleService($http, blogValidatorService, blogExceptionCatcherSer
         if (blogValidatorService.requestValidator
                                 .articleValidator
                                 .validateNotEmpty(article) === null) {
-            throw new Error('Some Unknown Error Occurred');
+            throw new Error('Article Not Valid!');
         }
 
         var url = assembleURL(SERVER_URL, category, id);

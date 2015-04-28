@@ -176,22 +176,32 @@ describe('Create Article', function() {
             http.when('POST', 'http://localhost:8080/category')
                 .respond(201, GET_INVALID_ARTICLE());
 
-            var article = service.createArticle('category', GET_INVALID_ARTICLE());
-            article.then(function(data) {
-                expect(data).toEqual(null);
-            })
-            http.flush();
+            try {
+                var article = service.createArticle('category', GET_VALID_ARTICLE());
+                article.then(function(data) {
+                    // should not be here
+                    expect(true).toBe(false);
+                })
+                http.flush();
+            } catch (error) {
+                expect(error.message).toEqual('Article Not Valid!');
+            }
         });
 
-        it('Valid Article - 204', function() {
+        it('Invalid Article - 204', function() {
             http.when('POST', 'http://localhost:8080/category')
                 .respond(204, GET_INVALID_ARTICLE());
 
-            var article = service.createArticle('category', GET_INVALID_ARTICLE());
-            article.then(function(data) {
-                expect(data).toEqual(null);
-            })
-            http.flush();
+            try {
+                var article = service.createArticle('category', GET_VALID_ARTICLE());
+                article.then(function(data) {
+                    // should not be here
+                    expect(true).toBe(false);
+                })
+                http.flush();
+            } catch (error) {
+                expect(error.message).toEqual('Article Not Valid!');
+            }
         });
     });
 
@@ -476,22 +486,32 @@ describe('Update Article', function() {
             http.when('PUT', 'http://localhost:8080/category/id')
                 .respond(200, GET_INVALID_ARTICLE());
 
-            var article = service.updateArticle('category', 'id', GET_INVALID_ARTICLE());
-            article.then(function(data) {
-                expect(data).toEqual(null);
-            })
-            http.flush();
+            try {
+                var article = service.updateArticle('category', 'id', GET_INVALID_ARTICLE());
+                article.then(function(data) {
+                    // should not be here
+                    expect(true).toBe(false);
+                })
+                http.flush();
+            } catch (error) {
+                expect(error.message).toEqual('Article Not Valid!');
+            }
         });
 
-        it('Valid Article - 204', function() {
+        it('Invalid Article - 204', function() {
             http.when('PUT', 'http://localhost:8080/category/id')
                 .respond(204, GET_INVALID_ARTICLE());
 
-            var article = service.updateArticle('category', 'id', GET_INVALID_ARTICLE());
-            article.then(function(data) {
-                expect(data).toEqual(null);
-            })
-            http.flush();
+            try {
+                var article = service.updateArticle('category', 'id', GET_INVALID_ARTICLE());
+                article.then(function(data) {
+                    // should not be here
+                    expect(true).toBe(false);
+                })
+                http.flush();
+            } catch (error) {
+                expect(error.message).toEqual('Article Not Valid!');
+            }
         });
     });
 
