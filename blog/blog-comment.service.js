@@ -78,7 +78,20 @@ function blogCommentService() {
      * @throws {Object}  the error object when failing to read
      */
     function readAllComment(category, articleId) {
+        // TODO validate category
 
+        // validate articleId
+        if (!angular.isString(articleId) || articleId === '')
+            throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
+
+        var url = assembleURL(SERVER_URL, category, articleId, '');
+
+        if (!url)
+            throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
+
+        return $http.get(url)
+                    .then(getRequestCompleted)
+                    .catch(requestFailed);
     }
 
     /*
@@ -90,7 +103,20 @@ function blogCommentService() {
      * @throws {Object}  the error object when failing to read
      */
     function readComment(category, articleId, commentId) {
+        // TODO validate category
 
+        // validate articleId
+        if (!angular.isString(articleId) || articleId === '')
+            throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
+
+        var url = assembleURL(SERVER_URL, category, articleId, commentId);
+
+        if (!url)
+            throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
+
+        return $http.get(url)
+                    .then(getRequestCompleted)
+                    .catch(requestFailed);
     }
 
     /* Update */
@@ -105,7 +131,31 @@ function blogCommentService() {
      * @throws {Object}  the error object when failing to update
      */
     function updateComment(category, articleId, commentId, comment) {
+        // TODO validate category
 
+        // validate articleId
+        if (!angular.isString(articleId) || articleId === '')
+            throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
+
+        // validate commentId
+        if (!angular.isString(commentId) || commentId === '')
+            throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
+
+        // validate comment object
+        if (blogValidatorService.requestValidator
+                                .commentValidator
+                                .validateFilled(comment) === null) {
+            throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
+        }
+
+        var url = assembleURL(SERVER_URL, category, articleId, commentId);
+
+        if (!url)
+            throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
+
+        return $http.put(url, comment)
+                    .then(putRequestCompleted)
+                    .catch(requestFailed);
     }
 
     /*
@@ -118,7 +168,31 @@ function blogCommentService() {
      * @throws {Object}  the error object when failing to update
      */
     function partiallyUpdateComment(category, articleId, commentId, comment) {
+        // TODO validate category
 
+        // validate articleId
+        if (!angular.isString(articleId) || articleId === '')
+            throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
+
+        // validate commentId
+        if (!angular.isString(commentId) || commentId === '')
+            throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
+
+        // validate comment object
+        if (blogValidatorService.requestValidator
+                                .commentValidator
+                                .validateFilled(comment) === null) {
+            throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
+        }
+
+        var url = assembleURL(SERVER_URL, category, articleId, commentId);
+
+        if (!url)
+            throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
+
+        return $http.patch(url, comment)
+                    .then(putRequestCompleted)
+                    .catch(requestFailed);
     }
 
     /* Delete */
@@ -131,7 +205,20 @@ function blogCommentService() {
      * @throws {Object}  the error object when failing to delete
      */
     function deleteAllComment(category, articleId) {
+        // TODO validate category
 
+        // validate articleId
+        if (!angular.isString(articleId) || articleId === '')
+            throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
+
+        var url = assembleURL(SERVER_URL, category, articleId, '');
+
+        if (!url)
+            throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
+
+        return $http.delete(url)
+                    .then(deleteRequestCompleted)
+                    .catch(requestFailed);
     }
 
     /*
@@ -143,7 +230,24 @@ function blogCommentService() {
      * @throws {Object}  the error object when failing to delete
      */
     function deleteComment(category, articleId, commentId) {
+        // TODO validate category
 
+        // validate articleId
+        if (!angular.isString(articleId) || articleId === '')
+            throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
+
+        // validate commentId
+        if (!angular.isString(commentId) || commentId === '')
+            throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
+
+        var url = assembleURL(SERVER_URL, category, articleId, commentId);
+
+        if (!url)
+            throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
+
+        return $http.delete(url)
+                    .then(deleteRequestCompleted)
+                    .catch(requestFailed);
     }
 
     /*
