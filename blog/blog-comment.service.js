@@ -181,7 +181,7 @@ function blogCommentService($http, blogValidatorService, blogExceptionCatcherSer
         // validate comment object
         if (blogValidatorService.requestValidator
                                 .commentValidator
-                                .validateFilled(comment) === null) {
+                                .validateNotEmpty(comment) === null) {
             throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
         }
 
