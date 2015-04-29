@@ -261,7 +261,7 @@ function blogArticleService($http, blogValidatorService, blogExceptionCatcherSer
         if (!SERVER_URL)
             return '';
 
-        var assembledUrl = SERVER_URL;
+        var assembledUrl = SERVER_URL + '/articles';
 
         // category == ''
         if (!category) {

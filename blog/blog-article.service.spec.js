@@ -21,7 +21,7 @@ describe('', function() {
                 image_arr : [],
                 tag_arr : []
             };
-        http.when('GET', 'http://localhost:8080/category/id')
+        http.when('GET', 'http://localhost:8080/articles/category/id')
             .respond(200, resBody);
         try {
             var article = service.readArticle('category', 'id');
@@ -151,7 +151,7 @@ describe('Create Article', function() {
 
     describe('Operation Succeeded', function() {
         it('Valid Article - 201', function() {
-            http.when('POST', 'http://localhost:8080/category')
+            http.when('POST', 'http://localhost:8080/articles/category')
                 .respond(201, GET_VALID_ARTICLE());
 
             var article = service.createArticle('category', GET_VALID_ARTICLE());
@@ -162,7 +162,7 @@ describe('Create Article', function() {
         });
 
         it('Valid Article - 204', function() {
-            http.when('POST', 'http://localhost:8080/category')
+            http.when('POST', 'http://localhost:8080/articles/category')
                 .respond(204, GET_VALID_ARTICLE());
 
             var article = service.createArticle('category', GET_VALID_ARTICLE());
@@ -173,7 +173,7 @@ describe('Create Article', function() {
         });
 
         it('Invalid Article - 201', function() {
-            http.when('POST', 'http://localhost:8080/category')
+            http.when('POST', 'http://localhost:8080/articles/category')
                 .respond(201, GET_INVALID_ARTICLE());
 
             try {
@@ -189,7 +189,7 @@ describe('Create Article', function() {
         });
 
         it('Invalid Article - 204', function() {
-            http.when('POST', 'http://localhost:8080/category')
+            http.when('POST', 'http://localhost:8080/articles/category')
                 .respond(204, GET_INVALID_ARTICLE());
 
             try {
@@ -207,7 +207,7 @@ describe('Create Article', function() {
 
     describe('Operation Failed', function() {
         it('Valid Article - 403', function() {
-            http.when('POST', 'http://localhost:8080/category')
+            http.when('POST', 'http://localhost:8080/articles/category')
                 .respond(403, GET_VALID_ARTICLE());
 
             try {
@@ -236,7 +236,7 @@ describe('Read All Article', function() {
 
     describe('Operation Succeeded', function() {
         it('Valid Article Arr - 200', function() {
-            http.when('GET', 'http://localhost:8080')
+            http.when('GET', 'http://localhost:8080/articles')
                 .respond(200, GET_VALID_ARTICLE_ARRAY());
 
             var article = service.readAllArticle();
@@ -247,7 +247,7 @@ describe('Read All Article', function() {
         });
 
         it('Valid Article Arr - 204', function() {
-            http.when('GET', 'http://localhost:8080')
+            http.when('GET', 'http://localhost:8080/articles')
                 .respond(204, GET_VALID_ARTICLE_ARRAY());
 
             var article = service.readAllArticle();
@@ -258,7 +258,7 @@ describe('Read All Article', function() {
         });
 
         it('Invalid Article Arr - 200', function() {
-            http.when('GET', 'http://localhost:8080')
+            http.when('GET', 'http://localhost:8080/articles')
                 .respond(200, GET_INVALID_ARTICLE_ARRAY());
 
             var article = service.readAllArticle();
@@ -271,7 +271,7 @@ describe('Read All Article', function() {
         });
 
         it('Valid Article Arr - 204', function() {
-            http.when('GET', 'http://localhost:8080')
+            http.when('GET', 'http://localhost:8080/articles')
                 .respond(204, GET_INVALID_ARTICLE_ARRAY());
 
             var article = service.readAllArticle();
@@ -284,7 +284,7 @@ describe('Read All Article', function() {
 
     describe('Operation Failed', function() {
         it('Valid Article Arr - 400', function() {
-            http.when('GET', 'http://localhost:8080')
+            http.when('GET', 'http://localhost:8080/articles')
                 .respond(400, GET_VALID_ARTICLE_ARRAY());
 
             try {
@@ -311,7 +311,7 @@ describe('Read Article In Category', function() {
 
     describe('Operation Succeeded', function() {
         it('Valid Article Arr - 200', function() {
-            http.when('GET', 'http://localhost:8080/category')
+            http.when('GET', 'http://localhost:8080/articles/category')
                 .respond(200, GET_VALID_ARTICLE_ARRAY());
 
             var article = service.readArticleInCategory('category');
@@ -322,7 +322,7 @@ describe('Read Article In Category', function() {
         });
 
         it('Valid Article Arr - 204', function() {
-            http.when('GET', 'http://localhost:8080/category')
+            http.when('GET', 'http://localhost:8080/articles/category')
                 .respond(204, GET_VALID_ARTICLE_ARRAY());
 
             var article = service.readArticleInCategory('category');
@@ -333,7 +333,7 @@ describe('Read Article In Category', function() {
         });
 
         it('Invalid Article Arr - 200', function() {
-            http.when('GET', 'http://localhost:8080/category')
+            http.when('GET', 'http://localhost:8080/articles/category')
                 .respond(200, GET_INVALID_ARTICLE_ARRAY());
 
             var article = service.readArticleInCategory('category');
@@ -346,7 +346,7 @@ describe('Read Article In Category', function() {
         });
 
         it('Valid Article Arr - 204', function() {
-            http.when('GET', 'http://localhost:8080/category')
+            http.when('GET', 'http://localhost:8080/articles/category')
                 .respond(204, GET_INVALID_ARTICLE_ARRAY());
 
             var article = service.readArticleInCategory('category');
@@ -359,7 +359,7 @@ describe('Read Article In Category', function() {
 
     describe('Operation Failed', function() {
         it('Valid Article Arr - 401', function() {
-            http.when('GET', 'http://localhost:8080/category')
+            http.when('GET', 'http://localhost:8080/articles/category')
                 .respond(401, GET_VALID_ARTICLE_ARRAY());
 
             try {
@@ -386,7 +386,7 @@ describe('Read Article', function() {
 
     describe('Operation Succeeded', function() {
         it('Valid Article - 200', function() {
-            http.when('GET', 'http://localhost:8080/category/id')
+            http.when('GET', 'http://localhost:8080/articles/category/id')
                 .respond(200, GET_VALID_ARTICLE());
 
             var article = service.readArticle('category', 'id');
@@ -397,7 +397,7 @@ describe('Read Article', function() {
         });
 
         it('Valid Article - 204', function() {
-            http.when('GET', 'http://localhost:8080/category/id')
+            http.when('GET', 'http://localhost:8080/articles/category/id')
                 .respond(204, GET_VALID_ARTICLE());
 
             var article = service.readArticle('category', 'id');
@@ -408,7 +408,7 @@ describe('Read Article', function() {
         });
 
         it('Invalid Article - 200', function() {
-            http.when('GET', 'http://localhost:8080/category/id')
+            http.when('GET', 'http://localhost:8080/articles/category/id')
                 .respond(200, GET_INVALID_ARTICLE());
 
             var article = service.readArticle('category', 'id');
@@ -419,7 +419,7 @@ describe('Read Article', function() {
         });
 
         it('Valid Article - 204', function() {
-            http.when('GET', 'http://localhost:8080/category/id')
+            http.when('GET', 'http://localhost:8080/articles/category/id')
                 .respond(204, GET_INVALID_ARTICLE());
 
             var article = service.readArticle('category', 'id');
@@ -432,7 +432,7 @@ describe('Read Article', function() {
 
     describe('Operation Failed', function() {
         it('Valid Article - 403', function() {
-            http.when('GET', 'http://localhost:8080/category/id')
+            http.when('GET', 'http://localhost:8080/articles/category/id')
                 .respond(403, GET_VALID_ARTICLE());
 
             try {
@@ -461,7 +461,7 @@ describe('Update Article', function() {
 
     describe('Operation Succeeded', function() {
         it('Valid Article - 200', function() {
-            http.when('PUT', 'http://localhost:8080/category/id')
+            http.when('PUT', 'http://localhost:8080/articles/category/id')
                 .respond(200, GET_VALID_ARTICLE());
 
             var article = service.updateArticle('category', 'id', GET_VALID_ARTICLE());
@@ -472,7 +472,7 @@ describe('Update Article', function() {
         });
 
         it('Valid Article - 204', function() {
-            http.when('PUT', 'http://localhost:8080/category/id')
+            http.when('PUT', 'http://localhost:8080/articles/category/id')
                 .respond(204, GET_VALID_ARTICLE());
 
             var article = service.updateArticle('category', 'id', GET_VALID_ARTICLE());
@@ -483,7 +483,7 @@ describe('Update Article', function() {
         });
 
         it('Invalid Article - 200', function() {
-            http.when('PUT', 'http://localhost:8080/category/id')
+            http.when('PUT', 'http://localhost:8080/articles/category/id')
                 .respond(200, GET_INVALID_ARTICLE());
 
             try {
@@ -499,7 +499,7 @@ describe('Update Article', function() {
         });
 
         it('Invalid Article - 204', function() {
-            http.when('PUT', 'http://localhost:8080/category/id')
+            http.when('PUT', 'http://localhost:8080/articles/category/id')
                 .respond(204, GET_INVALID_ARTICLE());
 
             try {
@@ -517,7 +517,7 @@ describe('Update Article', function() {
 
     describe('Operation Failed', function() {
         it('Valid Article - 403', function() {
-            http.when('PUT', 'http://localhost:8080/category/id')
+            http.when('PUT', 'http://localhost:8080/articles/category/id')
                 .respond(403, GET_VALID_ARTICLE());
 
             try {
@@ -544,7 +544,7 @@ describe('Partially Update Article', function() {
 
     describe('Operation Succeeded', function() {
         it('Valid Article - 200', function() {
-            http.when('PATCH', 'http://localhost:8080/category/id')
+            http.when('PATCH', 'http://localhost:8080/articles/category/id')
                 .respond(200, GET_VALID_ARTICLE());
 
             var article = service.partiallyUpdateArticle('category', 'id', GET_VALID_ARTICLE());
@@ -555,7 +555,7 @@ describe('Partially Update Article', function() {
         });
 
         it('Valid Article - 204', function() {
-            http.when('PATCH', 'http://localhost:8080/category/id')
+            http.when('PATCH', 'http://localhost:8080/articles/category/id')
                 .respond(204, GET_VALID_ARTICLE());
 
             var article = service.partiallyUpdateArticle('category', 'id',GET_VALID_ARTICLE());
@@ -567,7 +567,7 @@ describe('Partially Update Article', function() {
 
         // partial input passed and the output should be valid
         it('Invalid Article - 200', function() {
-            http.when('PATCH', 'http://localhost:8080/category/id')
+            http.when('PATCH', 'http://localhost:8080/articles/category/id')
                 .respond(200, GET_VALID_ARTICLE());
 
             var article = service.partiallyUpdateArticle('category', 'id', GET_INVALID_ARTICLE());
@@ -578,7 +578,7 @@ describe('Partially Update Article', function() {
         });
 
         it('Valid Article - 204', function() {
-            http.when('PATCH', 'http://localhost:8080/category/id')
+            http.when('PATCH', 'http://localhost:8080/articles/category/id')
                 .respond(204, GET_INVALID_ARTICLE());
 
             var article = service.partiallyUpdateArticle('category', 'id', GET_INVALID_ARTICLE());
@@ -591,7 +591,7 @@ describe('Partially Update Article', function() {
 
     describe('Operation Failed', function() {
         it('Valid Article - 403', function() {
-            http.when('PATCH', 'http://localhost:8080/category/id')
+            http.when('PATCH', 'http://localhost:8080/articles/category/id')
                 .respond(403, GET_VALID_ARTICLE());
 
             try {
@@ -620,7 +620,7 @@ describe('Delete All Article', function() {
 
     describe('Operation Succeeded', function() {
         it('Valid Article Arr - 200', function() {
-            http.when('DELETE', 'http://localhost:8080')
+            http.when('DELETE', 'http://localhost:8080/articles')
                 .respond(200, GET_VALID_ARTICLE_ARRAY());
 
             var article = service.deleteAllArticle();
@@ -631,7 +631,7 @@ describe('Delete All Article', function() {
         });
 
         it('Valid Article Arr - 204', function() {
-            http.when('DELETE', 'http://localhost:8080')
+            http.when('DELETE', 'http://localhost:8080/articles')
                 .respond(204, GET_VALID_ARTICLE_ARRAY());
 
             var article = service.deleteAllArticle();
@@ -642,7 +642,7 @@ describe('Delete All Article', function() {
         });
 
         it('Invalid Article Arr - 200', function() {
-            http.when('DELETE', 'http://localhost:8080')
+            http.when('DELETE', 'http://localhost:8080/articles')
                 .respond(200, GET_INVALID_ARTICLE_ARRAY());
 
             var article = service.deleteAllArticle();
@@ -655,7 +655,7 @@ describe('Delete All Article', function() {
         });
 
         it('Valid Article Arr - 204', function() {
-            http.when('DELETE', 'http://localhost:8080')
+            http.when('DELETE', 'http://localhost:8080/articles')
                 .respond(204, GET_INVALID_ARTICLE_ARRAY());
 
             var article = service.deleteAllArticle();
@@ -668,7 +668,7 @@ describe('Delete All Article', function() {
 
     describe('Operation Failed', function() {
         it('Valid Article Arr - 404', function() {
-            http.when('DELETE', 'http://localhost:8080')
+            http.when('DELETE', 'http://localhost:8080/articles')
                 .respond(404, GET_VALID_ARTICLE_ARRAY());
 
             try {
@@ -695,7 +695,7 @@ describe('Delete Article In Category', function() {
 
     describe('Operation Succeeded', function() {
         it('Valid Article Arr - 200', function() {
-            http.when('DELETE', 'http://localhost:8080/category')
+            http.when('DELETE', 'http://localhost:8080/articles/category')
                 .respond(200, GET_VALID_ARTICLE_ARRAY());
 
             var article = service.deleteArticleInCategory('category');
@@ -706,7 +706,7 @@ describe('Delete Article In Category', function() {
         });
 
         it('Valid Article Arr - 204', function() {
-            http.when('DELETE', 'http://localhost:8080/category')
+            http.when('DELETE', 'http://localhost:8080/articles/category')
                 .respond(204, GET_VALID_ARTICLE_ARRAY());
 
             var article = service.deleteArticleInCategory('category');
@@ -717,7 +717,7 @@ describe('Delete Article In Category', function() {
         });
 
         it('Invalid Article Arr - 200', function() {
-            http.when('DELETE', 'http://localhost:8080/category')
+            http.when('DELETE', 'http://localhost:8080/articles/category')
                 .respond(200, GET_INVALID_ARTICLE_ARRAY());
 
             var article = service.deleteArticleInCategory('category');
@@ -730,7 +730,7 @@ describe('Delete Article In Category', function() {
         });
 
         it('Valid Article Arr - 204', function() {
-            http.when('DELETE', 'http://localhost:8080/category')
+            http.when('DELETE', 'http://localhost:8080/articles/category')
                 .respond(204, GET_INVALID_ARTICLE_ARRAY());
 
             var article = service.deleteArticleInCategory('category');
@@ -743,7 +743,7 @@ describe('Delete Article In Category', function() {
 
     describe('Operation Failed', function() {
         it('Valid Article Arr - 409', function() {
-            http.when('DELETE', 'http://localhost:8080/category')
+            http.when('DELETE', 'http://localhost:8080/articles/category')
                 .respond(409, GET_VALID_ARTICLE_ARRAY());
 
             try {
@@ -770,7 +770,7 @@ describe('Delete Article', function() {
 
     describe('Operation Succeeded', function() {
         it('Valid Article - 200', function() {
-            http.when('DELETE', 'http://localhost:8080/category/id')
+            http.when('DELETE', 'http://localhost:8080/articles/category/id')
                 .respond(200, GET_VALID_ARTICLE());
 
             var article = service.deleteArticle('category', 'id');
@@ -781,7 +781,7 @@ describe('Delete Article', function() {
         });
 
         it('Valid Article - 204', function() {
-            http.when('DELETE', 'http://localhost:8080/category/id')
+            http.when('DELETE', 'http://localhost:8080/articles/category/id')
                 .respond(204, GET_VALID_ARTICLE());
 
             var article = service.deleteArticle('category', 'id');
@@ -792,7 +792,7 @@ describe('Delete Article', function() {
         });
 
         it('Invalid Article - 200', function() {
-            http.when('DELETE', 'http://localhost:8080/category/id')
+            http.when('DELETE', 'http://localhost:8080/articles/category/id')
                 .respond(200, GET_INVALID_ARTICLE());
 
             var article = service.deleteArticle('category', 'id');
@@ -803,7 +803,7 @@ describe('Delete Article', function() {
         });
 
         it('Valid Article - 204', function() {
-            http.when('DELETE', 'http://localhost:8080/category/id')
+            http.when('DELETE', 'http://localhost:8080/articles/category/id')
                 .respond(204, GET_INVALID_ARTICLE());
 
             var article = service.deleteArticle('category', 'id');
@@ -816,7 +816,7 @@ describe('Delete Article', function() {
 
     describe('Operation Failed', function() {
         it('Valid Article - 500', function() {
-            http.when('DELETE', 'http://localhost:8080/category/id')
+            http.when('DELETE', 'http://localhost:8080/articles/category/id')
                 .respond(500, GET_VALID_ARTICLE());
 
             try {
