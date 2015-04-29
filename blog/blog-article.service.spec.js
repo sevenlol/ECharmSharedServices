@@ -184,7 +184,7 @@ describe('Create Article', function() {
                 })
                 http.flush();
             } catch (error) {
-                expect(error.message).toEqual('Article Not Valid!');
+                expect(error.message).toEqual('Some Unknown Error Occurred!');
             }
         });
 
@@ -200,7 +200,7 @@ describe('Create Article', function() {
                 })
                 http.flush();
             } catch (error) {
-                expect(error.message).toEqual('Article Not Valid!');
+                expect(error.message).toEqual('Some Unknown Error Occurred!');
             }
         });
     });
@@ -494,7 +494,7 @@ describe('Update Article', function() {
                 })
                 http.flush();
             } catch (error) {
-                expect(error.message).toEqual('Article Not Valid!');
+                expect(error.message).toEqual('Some Unknown Error Occurred!');
             }
         });
 
@@ -510,7 +510,7 @@ describe('Update Article', function() {
                 })
                 http.flush();
             } catch (error) {
-                expect(error.message).toEqual('Article Not Valid!');
+                expect(error.message).toEqual('Some Unknown Error Occurred!');
             }
         });
     });

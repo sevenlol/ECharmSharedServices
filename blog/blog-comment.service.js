@@ -9,7 +9,7 @@ angular
 
 blogCommentService.$inject = ['$http', 'blogValidatorService', 'blogExceptionCatcherService'];
 
-function blogCommentService() {
+function blogCommentService($http, blogValidatorService, blogExceptionCatcherService) {
     // TODO put SERVER_URL in another module
     var SERVER_URL = 'http://localhost:8080';
     var service = {
