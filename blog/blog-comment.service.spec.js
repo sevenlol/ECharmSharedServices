@@ -496,3 +496,155 @@ describe('Partially Update Comment', function() {
 
 
 /* Delete Comment */
+
+describe('Delete All Comment', function() {
+
+    beforeEach(module('blog'));
+    beforeEach(inject(function(blogCommentService, blogExceptionCatcherService, $httpBackend) {
+        service = blogCommentService;
+        exceptionService = blogExceptionCatcherService;
+        http    = $httpBackend;
+        URL     = 'http://localhost:8080/articles/category/articleId/comments';
+    }));
+
+    describe('Operation Succeeded', function() {
+        it('Valid Comment Arr - 200', function() {
+            http.when('DELETE', URL)
+                .respond(200, GET_VALID_COMMENT_ARRAY());
+
+            var comment = service.deleteAllComment('category', 'articleId');
+            comment.then(function(data) {
+                expect(data).toEqual(GET_VALID_COMMENT_ARRAY());
+            })
+            http.flush();
+        });
+
+        it('Valid Comment Arr - 204', function() {
+            http.when('DELETE', URL)
+                .respond(204, GET_VALID_COMMENT_ARRAY());
+
+            var comment = service.deleteAllComment('category', 'articleId');
+            comment.then(function(data) {
+                expect(data).toEqual(null);
+            })
+            http.flush();
+        });
+
+        it('Invalid Comment Arr - 200', function() {
+            http.when('DELETE', URL)
+                .respond(200, GET_INVALID_COMMENT_ARRAY());
+
+            var comment = service.deleteAllComment('category', 'articleId');
+            comment.then(function(data) {
+                var invalidArr = GET_INVALID_COMMENT_ARRAY();
+                invalidArr.splice(1, 1);
+                expect(data).toEqual(invalidArr);
+            })
+            http.flush();
+        });
+
+        it('Valid Comment Arr - 204', function() {
+            http.when('DELETE', URL)
+                .respond(204, GET_INVALID_COMMENT_ARRAY());
+
+            var comment = service.deleteAllComment('category', 'articleId');
+            comment.then(function(data) {
+                expect(data).toEqual(null);
+            })
+            http.flush();
+        });
+    });
+
+    describe('Operation Failed', function() {
+        it('Valid Comment Arr - 404', function() {
+            http.when('DELETE', URL)
+                .respond(404, GET_VALID_COMMENT_ARRAY());
+
+            try {
+                var comment = service.deleteAllComment('category', 'articleId');
+                comment.then(function(data) {
+                    // cannot get here
+                    expect(true).toBe(false);
+                })
+                http.flush();
+            } catch (error) {
+                expect(error.message).toEqual('Object not found!');
+            }
+        });
+    });
+});
+
+describe('Delete Comment', function() {
+
+    beforeEach(module('blog'));
+    beforeEach(inject(function(blogCommentService, blogExceptionCatcherService, $httpBackend) {
+        service = blogCommentService;
+        exceptionService = blogExceptionCatcherService;
+        http    = $httpBackend;
+        URL     = 'http://localhost:8080/articles/category/articleId/comments/commentId';
+    }));
+
+    describe('Operation Succeeded', function() {
+        it('Valid Comment - 200', function() {
+            http.when('DELETE', URL)
+                .respond(200, GET_VALID_COMMENT());
+
+            var comment = service.deleteComment('category', 'articleId', 'commentId');
+            comment.then(function(data) {
+                expect(data).toEqual(GET_VALID_COMMENT());
+            })
+            http.flush();
+        });
+
+        it('Valid Comment - 204', function() {
+            http.when('DELETE', URL)
+                .respond(204, GET_VALID_COMMENT());
+
+            var comment = service.deleteComment('category', 'articleId', 'commentId');
+            comment.then(function(data) {
+                expect(data).toEqual(null);
+            })
+            http.flush();
+        });
+
+        it('Invalid Comment - 200', function() {
+            http.when('DELETE', URL)
+                .respond(200, GET_INVALID_COMMENT());
+
+            var comment = service.deleteComment('category', 'articleId', 'commentId');
+            comment.then(function(data) {
+                expect(data).toEqual(null);
+            })
+            http.flush();
+        });
+
+        it('Valid Comment - 204', function() {
+            http.when('DELETE', URL)
+                .respond(204, GET_INVALID_COMMENT());
+
+            var comment = service.deleteComment('category', 'articleId', 'commentId');
+            comment.then(function(data) {
+                expect(data).toEqual(null);
+            })
+            http.flush();
+        });
+    });
+
+    describe('Operation Failed', function() {
+        it('Valid Comment - 500', function() {
+            http.when('DELETE', URL)
+                .respond(500, GET_VALID_COMMENT());
+
+            try {
+                var comment = service.deleteComment('category', 'articleId', 'commentId');
+                comment.then(function(data) {
+                    // cannot get here
+                    expect(true).toBe(false);
+                })
+                http.flush();
+            } catch (error) {
+                expect(error.message).toEqual('Something is wrong with the server!');
+            }
+        });
+    });
+});
