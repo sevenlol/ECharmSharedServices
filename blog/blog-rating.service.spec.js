@@ -5,7 +5,7 @@ function GET_VALID_RATING_ARRAY() {
             rating_id : 'id',
             category : 'category',
             rater_id : 'id',
-            rating_value : 'text',
+            rating_value : 100,
             created_at : 'created_at',
             updated_at : 'updated_at'
         },
@@ -14,7 +14,7 @@ function GET_VALID_RATING_ARRAY() {
             rating_id : 'id',
             category : 'category',
             rater_id : 'id',
-            rating_value : 'text',
+            rating_value : 100,
             created_at : 'created_at',
             updated_at : 'updated_at'
         },
@@ -23,7 +23,7 @@ function GET_VALID_RATING_ARRAY() {
             rating_id : 'id',
             category : 'category',
             rater_id : 'id',
-            rating_value : 'text',
+            rating_value : 100,
             created_at : 'created_at',
             updated_at : 'updated_at'
         }
@@ -37,7 +37,7 @@ function GET_INVALID_RATING_ARRAY() {
             rating_id : 'id',
             category : 'category',
             rater_id : 'id',
-            rating_value : 'text',
+            rating_value : 100,
             created_at : 'created_at',
             updated_at : 'updated_at'
         },
@@ -46,7 +46,7 @@ function GET_INVALID_RATING_ARRAY() {
             rating_id : 'id',
             category : 'category',
             rater_id : 'id',
-            rating_value : 'text'
+            rating_value : 100
         }
     ];
 }
@@ -57,7 +57,7 @@ function GET_VALID_RATING() {
         rating_id : 'id',
         category : 'category',
         rater_id : 'id',
-        rating_value : 'text',
+        rating_value : 100,
         created_at : 'created_at',
         updated_at : 'updated_at'
     };
