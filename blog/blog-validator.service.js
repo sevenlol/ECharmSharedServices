@@ -17,6 +17,10 @@ function blogValidatorService() {
             commentValidator : {
                 validateFilled : validateRequestCommentFilled,
                 validateNotEmpty : validateRequestCommentNotEmpty
+            },
+            ratingValidator : {
+                validateFilled : validateRequestRatingFilled,
+                validateNotEmpty : validateRequestRatingNotEmpty
             }
         },
         responseValidator : {
@@ -27,6 +31,10 @@ function blogValidatorService() {
             commentValidator : {
                 validateArray : validateResponseCommentArray,
                 validateObject : validateResponseCommentObject
+            },
+            ratingValidator : {
+                validateArray : validateResponseRatingArray,
+                validateObject : validateResponseRatingObject
             }
         }
     };
@@ -273,5 +281,53 @@ function blogValidatorService() {
         }
 
         return comment;
+    }
+
+
+    /* Rating validation functions */
+
+    /*
+     * @desc Validate if the input rating has all fields required
+     *       in a HTTP request
+     * @param {Object} rating the rating object to be checked
+     * @returns {Object}  the input rating object if validated,
+     *                    null otherwise
+     */
+    function validateRequestRatingFilled(rating) {
+
+    }
+
+    /*
+     * @desc Validate if the input rating has at least one field
+     *       required in a HTTP request
+     * @param {Object} rating the rating object to be checked
+     * @returns {Object}  the input rating object if validated,
+     *                    null otherwise
+     */
+    function validateRequestRatingNotEmpty(rating) {
+
+    }
+
+    /*
+     * @desc Validate if the input rating array has all fields
+     *       required in a HTTP response
+     * @param {Object} ratingArray an array of rating objects
+     *                              to be checked
+     * @returns {Array} an array that only contains the ligit
+     *                  ratings (others are filtered)
+     */
+    function validateResponseRatingArray(ratingArray) {
+
+    }
+
+    /*
+     * @desc Validate if the input rating has all fields required
+     *       in a HTTP response
+     * @param {Object} rating the rating object to be checked
+     * @returns {Object}  the input rating object if validated,
+     *                    null otherwise
+     */
+    function validateResponseRatingObject(rating) {
+
     }
 }
