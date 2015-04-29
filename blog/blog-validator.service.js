@@ -294,7 +294,23 @@ function blogValidatorService() {
      *                    null otherwise
      */
     function validateRequestRatingFilled(rating) {
+        // check if the rating object is valid
+        if (!angular.isObject(rating) || rating === null || angular.isArray(rating))
+            return null;
 
+        // check number fields
+        if (!angular.isNumber(rating.rating_value)) {
+            return null;
+        }
+
+        // check string fields
+        if (!angular.isString(rating.rater_id)   || rating.rater_id     === "" ||
+            !angular.isString(rating.created_at) || rating.created_at   === "" ||
+            !angular.isString(rating.updated_at) || rating.updated_at   === "") {
+            return null;
+        }
+
+        return rating;
     }
 
     /*
@@ -305,7 +321,19 @@ function blogValidatorService() {
      *                    null otherwise
      */
     function validateRequestRatingNotEmpty(rating) {
+        // check if the rating object
+        if (!angular.isObject(rating) || rating === null || angular.isArray(rating))
+            return null;
 
+        // check if any fields are invalid
+        if (!angular.isNumber(rating.rating_value)                            &&
+           (!angular.isString(rating.rater_id)   || rating.rater_id   === "") &&
+           (!angular.isString(rating.created_at) || rating.created_at === "") &&
+           (!angular.isString(rating.updated_at) || rating.updated_at === "")) {
+            return null;
+        }
+
+        return rating;
     }
 
     /*
@@ -317,7 +345,22 @@ function blogValidatorService() {
      *                  ratings (others are filtered)
      */
     function validateResponseRatingArray(ratingArray) {
+        // check the rating array
+        if (!angular.isArray(ratingArray) || ratingArray.length <= 0)
+            return null;
 
+        for (var i = 0; i < ratingArray.length; i++) {
+            var rating = validateResponseRatingObject(ratingArray[i]);
+            if (rating === null) {
+                // remove invalid array
+                ratingArray.splice(i--, 1);
+            }
+        }
+
+        if (ratingArray.length === 0)
+            return null;
+
+        return ratingArray;
     }
 
     /*
@@ -328,6 +371,25 @@ function blogValidatorService() {
      *                    null otherwise
      */
     function validateResponseRatingObject(rating) {
+        // check if the rating object is valid
+        if (!angular.isObject(rating) || rating === null || angular.isArray(rating))
+            return null;
 
+        // check number fields
+        if (!angular.isNumber(rating.rating_value)) {
+            return null;
+        }
+
+        // check string fields
+        if (!angular.isString(rating.category)   || rating.category     === "" ||
+            !angular.isString(rating.article_id) || rating.article_id   === "" ||
+            !angular.isString(rating.rating_id)  || rating.rating_id    === "" ||
+            !angular.isString(rating.rater_id)   || rating.rater_id     === "" ||
+            !angular.isString(rating.created_at) || rating.created_at   === "" ||
+            !angular.isString(rating.updated_at) || rating.updated_at   === "") {
+            return null;
+        }
+
+        return rating;
     }
 }
