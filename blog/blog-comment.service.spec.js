@@ -332,3 +332,167 @@ describe('Read Comment', function() {
 });
 
 /* Update Comment */
+
+describe('Update Comment', function() {
+
+    beforeEach(module('blog'));
+    beforeEach(inject(function(blogCommentService, blogExceptionCatcherService, $httpBackend) {
+        service = blogCommentService;
+        exceptionService = blogExceptionCatcherService;
+        http    = $httpBackend;
+        URL     = 'http://localhost:8080/articles/category/articleId/comments/commentId';
+    }));
+
+    describe('Operation Succeeded', function() {
+        it('Valid Comment - 200', function() {
+            http.when('PUT', URL)
+                .respond(200, GET_VALID_COMMENT());
+
+            var comment = service.updateComment('category', 'articleId', 'commentId', GET_VALID_COMMENT());
+            comment.then(function(data) {
+                expect(data).toEqual(GET_VALID_COMMENT());
+            })
+            http.flush();
+        });
+
+        it('Valid Comment - 204', function() {
+            http.when('PUT', URL)
+                .respond(204, GET_VALID_COMMENT());
+
+            var comment = service.updateComment('category', 'articleId', 'commentId', GET_VALID_COMMENT());
+            comment.then(function(data) {
+                expect(data).toEqual(null);
+            })
+            http.flush();
+        });
+
+        it('Invalid Comment - 200', function() {
+            http.when('PUT', URL)
+                .respond(200, GET_INVALID_COMMENT());
+
+            try {
+                var comment = service.updateComment('category', 'articleId', 'commentId', GET_INVALID_COMMENT());
+                comment.then(function(data) {
+                    // should not be here
+                    expect(true).toBe(false);
+                })
+                http.flush();
+            } catch (error) {
+                expect(error.message).toEqual(exceptionService.DEFAULT_ERROR_MESSAGE);
+            }
+        });
+
+        it('Invalid Comment - 204', function() {
+            http.when('PUT', URL)
+                .respond(204, GET_INVALID_COMMENT());
+
+            try {
+                var comment = service.updateComment('category', 'articleId', 'commentId', GET_INVALID_COMMENT());
+                comment.then(function(data) {
+                    // should not be here
+                    expect(true).toBe(false);
+                })
+                http.flush();
+            } catch (error) {
+                expect(error.message).toEqual(exceptionService.DEFAULT_ERROR_MESSAGE);
+            }
+        });
+    });
+
+    describe('Operation Failed', function() {
+        it('Valid Comment - 403', function() {
+            http.when('PUT', URL)
+                .respond(403, GET_VALID_COMMENT());
+
+            try {
+                var comment = service.updateComment('category', 'articleId', 'commentId', GET_VALID_COMMENT());
+                comment.then(function(data) {
+                    // cannot get here
+                    expect(true).toBe(false);
+                })
+                http.flush();
+            } catch (error) {
+                expect(error.message).toEqual('You are not authorized for this action!');
+            }
+        });
+    });
+});
+
+describe('Partially Update Comment', function() {
+
+    beforeEach(module('blog'));
+    beforeEach(inject(function(blogCommentService, blogExceptionCatcherService, $httpBackend) {
+        service = blogCommentService;
+        exceptionService = blogExceptionCatcherService;
+        http    = $httpBackend;
+        URL     = 'http://localhost:8080/articles/category/articleId/comments/commentId';
+    }));
+
+    describe('Operation Succeeded', function() {
+        it('Valid Comment - 200', function() {
+            http.when('PATCH', URL)
+                .respond(200, GET_VALID_COMMENT());
+
+            var comment = service.partiallyUpdateComment('category', 'articleId', 'commentId', GET_VALID_COMMENT());
+            comment.then(function(data) {
+                expect(data).toEqual(GET_VALID_COMMENT());
+            })
+            http.flush();
+        });
+
+        it('Valid Comment - 204', function() {
+            http.when('PATCH', URL)
+                .respond(204, GET_VALID_COMMENT());
+
+            var comment = service.partiallyUpdateComment('category', 'articleId', 'commentId', GET_VALID_COMMENT());
+            comment.then(function(data) {
+                expect(data).toEqual(null);
+            })
+            http.flush();
+        });
+
+        // partial input passed and the output should be valid
+        it('Invalid Comment - 200', function() {
+            http.when('PATCH', URL)
+                .respond(200, GET_VALID_COMMENT());
+
+            var comment = service.partiallyUpdateComment('category', 'articleId', 'commentId', GET_INVALID_COMMENT());
+            comment.then(function(data) {
+                expect(data).toEqual(GET_VALID_COMMENT());
+            })
+            http.flush();
+        });
+
+        it('Invalid Comment - 204', function() {
+            http.when('PATCH', URL)
+                .respond(204, GET_INVALID_COMMENT());
+
+            var comment = service.partiallyUpdateComment('category', 'articleId', 'commentId', GET_INVALID_COMMENT());
+            comment.then(function(data) {
+                expect(data).toEqual(null);
+            })
+            http.flush();
+        });
+    });
+
+    describe('Operation Failed', function() {
+        it('Valid Comment - 403', function() {
+            http.when('PATCH', URL)
+                .respond(403, GET_VALID_COMMENT());
+
+            try {
+                var comment = service.partiallyUpdateComment('category', 'articleId', 'commentId', GET_VALID_COMMENT());
+                comment.then(function(data) {
+                    // cannot get here
+                    expect(true).toBe(false);
+                })
+                http.flush();
+            } catch (error) {
+                expect(error.message).toEqual('You are not authorized for this action!');
+            }
+        });
+    });
+});
+
+
+/* Delete Comment */
