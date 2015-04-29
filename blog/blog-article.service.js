@@ -52,13 +52,13 @@ function blogArticleService($http, blogValidatorService, blogExceptionCatcherSer
         if (blogValidatorService.requestValidator
                                 .articleValidator
                                 .validateFilled(article) === null) {
-            throw new Error('Article Not Valid!');
+            throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
         }
 
         var url = assembleURL(SERVER_URL, category, '');
 
         if (!url)
-            throw new Error('Some Unknown Error Occurred');
+            throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
 
         return $http.post(url, article)
                     .then(postRequestCompleted)
@@ -77,7 +77,7 @@ function blogArticleService($http, blogValidatorService, blogExceptionCatcherSer
         var url = assembleURL(SERVER_URL, '', '');
 
         if (!url)
-            throw new Error('Some Unknown Error Occurred');
+            throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
 
         return $http.get(url)
                     .then(getRequestCompleted)
@@ -96,7 +96,7 @@ function blogArticleService($http, blogValidatorService, blogExceptionCatcherSer
         var url = assembleURL(SERVER_URL, category, '');
 
         if (!url)
-            throw new Error('Some Unknown Error Occurred');
+            throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
 
         return $http.get(url)
                     .then(getRequestCompleted)
@@ -116,7 +116,7 @@ function blogArticleService($http, blogValidatorService, blogExceptionCatcherSer
         var url = assembleURL(SERVER_URL, category, id);
 
         if (!url)
-            throw new Error('Some Unknown Error Occurred');
+            throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
 
         return $http.get(url)
                     .then(getRequestCompleted)
@@ -140,13 +140,13 @@ function blogArticleService($http, blogValidatorService, blogExceptionCatcherSer
         if (blogValidatorService.requestValidator
                                 .articleValidator
                                 .validateFilled(article) === null) {
-            throw new Error('Article Not Valid!');
+            throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
         }
 
         var url = assembleURL(SERVER_URL, category, id);
 
         if (!url)
-            throw new Error('Some Unknown Error Occurred');
+            throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
 
         return $http.put(url, article)
                     .then(putRequestCompleted)
@@ -167,13 +167,13 @@ function blogArticleService($http, blogValidatorService, blogExceptionCatcherSer
         if (blogValidatorService.requestValidator
                                 .articleValidator
                                 .validateNotEmpty(article) === null) {
-            throw new Error('Article Not Valid!');
+            throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
         }
 
         var url = assembleURL(SERVER_URL, category, id);
 
         if (!url)
-            throw new Error('Some Unknown Error Occurred');
+            throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
 
         return $http.patch(url, article)
                     .then(patchRequestCompleted)
@@ -192,7 +192,7 @@ function blogArticleService($http, blogValidatorService, blogExceptionCatcherSer
         var url = assembleURL(SERVER_URL, '', '');
 
         if (!url)
-            throw new Error('Some Unknown Error Occurred');
+            throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
 
         return $http.delete(url)
                     .then(deleteRequestCompleted)
@@ -211,7 +211,7 @@ function blogArticleService($http, blogValidatorService, blogExceptionCatcherSer
         var url = assembleURL(SERVER_URL, category, '');
 
         if (!url)
-            throw new Error('Some Unknown Error Occurred');
+            throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
 
         return $http.delete(url)
                     .then(deleteRequestCompleted)
@@ -231,7 +231,7 @@ function blogArticleService($http, blogValidatorService, blogExceptionCatcherSer
         var url = assembleURL(SERVER_URL, category, id);
 
         if (!url)
-            throw new Error('Some Unknown Error Occurred');
+            throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
 
         return $http.delete(url)
                     .then(deleteRequestCompleted)
@@ -422,7 +422,7 @@ function blogArticleService($http, blogValidatorService, blogExceptionCatcherSer
         var parsedError = blogExceptionCatcherService.catcher(error);
 
         if (!(parsedError && parsedError instanceof blogExceptionCatcherService.error))
-            throw new Error('Some Unknown Error Occurred!');
+            throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
         else
             throw parsedError;
     }

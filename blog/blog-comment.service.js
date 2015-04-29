@@ -45,7 +45,27 @@ function blogCommentService() {
      * @throws {Object}  the error object when failing to create
      */
     function createComment(category, articleId, comment) {
+        // TODO validate category
 
+        // validate articleId
+        if (!angular.isString(articleId) || articleId === '')
+            throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
+
+        // validate comment object
+        if (blogValidatorService.requestValidator
+                                .commentValidator
+                                .validateFilled(comment) === null) {
+            throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
+        }
+
+        var url = assembleURL(SERVER_URL, category, articleId, '');
+
+        if (!url)
+            throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
+
+        return $http.post(url, comment)
+                    .then(postRequestCompleted)
+                    .catch(requestFailed);
     }
 
     /* Read */
@@ -142,7 +162,30 @@ function blogCommentService() {
      * @param {String}  the assembled url
      */
     function assembleURL(SERVER_URL, category, articleId, commentId) {
+        if (!angular.isString(SERVER_URL) ||
+            !angular.isString(category)   ||
+            !angular.isString(articleId)  ||
+            !angular.isString(commentId)) {
+            return '';
+        }
 
+        // SERVER_URL == '' or category == '' or articleId == ''
+        if (!SERVER_URL ||
+            !category   ||
+            !articleId)
+            return '';
+
+        var assembledUrl = SERVER_URL + '/articles';
+        assembledUrl += '/' + category;
+        assembledUrl += '/' + articleId + '/comments';
+
+        // commentId == ''
+        if (!commentId) {
+            return assembledUrl;
+        }
+        assembledUrl += '/' + commentId;
+
+        return assembledUrl;
     }
 
     /*
@@ -152,7 +195,30 @@ function blogCommentService() {
      *                    null otherwise
      */
     function getRequestCompleted(response) {
+        if (!validateResponse(response))
+            return null;
 
+        // no content
+        if (response.status === 204)
+            return null;
+
+        if (response.status === 200) {
+            if (angular.isArray(response.data)) {
+                // array
+                return blogValidatorService.responseValidator
+                                           .commentValidator
+                                           .validateArray(response.data);
+            } else if (angular.isObject(response.data)) {
+                // comment object
+                return blogValidatorService.responseValidator
+                                           .commentValidator
+                                           .validateObject(response.data);
+            } else {
+                return null;
+            }
+        }
+
+        return null;
     }
 
     /*
@@ -162,7 +228,15 @@ function blogCommentService() {
      *                    null otherwise
      */
     function postRequestCompleted(response) {
+        if (!validateResponse(response))
+            return null;
 
+        if (response.status === 201)
+            return blogValidatorService.responseValidator
+                                       .commentValidator
+                                       .validateObject(response.data);
+
+        return null;
     }
 
     /*
@@ -172,7 +246,15 @@ function blogCommentService() {
      *                    null otherwise
      */
     function putRequestCompleted(response) {
+        if (!validateResponse(response))
+            return null;
 
+        if (response.status === 200)
+            return blogValidatorService.responseValidator
+                                       .commentValidator
+                                       .validateObject(response.data);
+
+        return null;
     }
 
     /*
@@ -182,7 +264,15 @@ function blogCommentService() {
      *                    null otherwise
      */
     function patchRequestCompleted(response) {
+        if (!validateResponse(response))
+            return null;
 
+        if (response.status === 200)
+            return blogValidatorService.responseValidator
+                                       .commentValidator
+                                       .validateObject(response.data);
+
+        return null;
     }
 
     /*
@@ -192,7 +282,30 @@ function blogCommentService() {
      *                    null otherwise
      */
     function deleteRequestCompleted(response) {
+        if (!validateResponse(response))
+            return null;
 
+        // no content
+        if (response.status === 204)
+            return null;
+
+        if (response.status === 200) {
+            if (angular.isArray(response.data)) {
+                // array
+                return blogValidatorService.responseValidator
+                                           .commentValidator
+                                           .validateArray(response.data);
+            } else if (angular.isObject(response.data)) {
+                // comment object
+                return blogValidatorService.responseValidator
+                                           .commentValidator
+                                           .validateObject(response.data);
+            } else {
+                return null;
+            }
+        }
+
+        return null;
     }
 
     /*
@@ -220,7 +333,7 @@ function blogCommentService() {
         var parsedError = blogExceptionCatcherService.catcher(error);
 
         if (!(parsedError && parsedError instanceof blogExceptionCatcherService.error))
-            throw new Error('Some Unknown Error Occurred!');
+            throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
         else
             throw parsedError;
     }

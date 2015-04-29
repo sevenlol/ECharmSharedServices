@@ -8,7 +8,9 @@ angular
     .factory('blogExceptionCatcherService', blogExceptionCatcherService);
 
 function blogExceptionCatcherService() {
+    var DEFAULT_ERROR_MESSAGE = 'Some Unknown Error Occurred!';
     var service = {
+        DEFAULT_ERROR_MESSAGE : DEFAULT_ERROR_MESSAGE,
         error : BlogError,
         catcher : catcher
     };
@@ -27,7 +29,7 @@ function blogExceptionCatcherService() {
      */
     function catcher(error) {
         if (!validateError(error) || error.status === 0)
-            return new BlogError('Some Unknown Error Occurred!', error);
+            return new BlogError(DEFAULT_ERROR_MESSAGE, error);
 
         var errorMessage;
 
@@ -45,7 +47,7 @@ function blogExceptionCatcherService() {
         } else if (error.status === 500) {
             errorMessage = 'Something is wrong with the server!';
         } else {
-            errorMessage = 'Some Unknown Error Occurred!';
+            errorMessage = DEFAULT_ERROR_MESSAGE;
         }
 
         return new BlogError(errorMessage, error);
