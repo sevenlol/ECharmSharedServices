@@ -263,7 +263,7 @@ function blogCommentService($http, blogValidatorService, blogExceptionCatcherSer
      * @param {String} category the category. if not needed, set to ''
      * @param {String} articleId the article id. if not needed, set to ''
      * @param {String} commentId the comment id. if not needed, set to ''
-     * @param {String}  the assembled url
+     * @returns {String}  the assembled url
      */
     function assembleURL(SERVER_URL, category, articleId, commentId) {
         if (!angular.isString(SERVER_URL) ||
