@@ -47,11 +47,11 @@ function userAccountService($http, accountResponseHandlerCatcherService, account
     };
     var RES_FAILED_CALLBACK = accountResponseHandlerCatcherService.requestFailed;
     var REQ_COMPLETED_CALLBACK = {
-    	GET : accountResponseHandlerCatcherService.getRequestCompleted;
-    	POST : accountResponseHandlerCatcherService.postRequestCompleted;
-    	PUT : accountResponseHandlerCatcherService.putRequestCompleted;
-    	PATCH : accountResponseHandlerCatcherService.patchRequestCompleted;
-    	DELETE : accountResponseHandlerCatcherService.deleteRequestCompleted;
+    	GET : accountResponseHandlerCatcherService.getRequestCompleted,
+    	POST : accountResponseHandlerCatcherService.postRequestCompleted,
+    	PUT : accountResponseHandlerCatcherService.putRequestCompleted,
+    	PATCH : accountResponseHandlerCatcherService.patchRequestCompleted,
+    	DELETE : accountResponseHandlerCatcherService.deleteRequestCompleted
     };
 
     // the service object
