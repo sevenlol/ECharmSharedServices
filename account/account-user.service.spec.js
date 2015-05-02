@@ -493,3 +493,157 @@ describe('Partially Update User Account', function() {
         });
     });
 });
+
+/* Delete User Account */
+
+describe('Delete All User Account', function() {
+
+    beforeEach(module('data.account'));
+    beforeEach(inject(function(userAccountService, accountExceptionCatcherService, $httpBackend) {
+        service = userAccountService;
+        exceptionService = accountExceptionCatcherService;
+        http    = $httpBackend;
+        URL     = 'http://localhost:8080/accounts/users';
+    }));
+
+    describe('Operation Succeeded', function() {
+        it('Valid User Account Arr - 200', function() {
+            http.when('DELETE', URL)
+                .respond(200, GET_VALID_USER_ACCOUNT_ARRAY());
+
+            var account = service.deleteAllUserAccount();
+            account.then(function(data) {
+                expect(data).toEqual(GET_VALID_USER_ACCOUNT_ARRAY());
+            })
+            http.flush();
+        });
+
+        it('Valid User Account Arr - 204', function() {
+            http.when('DELETE', URL)
+                .respond(204, GET_VALID_USER_ACCOUNT_ARRAY());
+
+            var account = service.deleteAllUserAccount();
+            account.then(function(data) {
+                expect(data).toEqual(null);
+            })
+            http.flush();
+        });
+
+        it('Invalid User Account Arr - 200', function() {
+            http.when('DELETE', URL)
+                .respond(200, GET_INVALID_USER_ACCOUNT_ARRAY());
+
+            var account = service.deleteAllUserAccount();
+            account.then(function(data) {
+                var invalidArr = GET_INVALID_USER_ACCOUNT_ARRAY();
+                invalidArr.splice(1, 1);
+                expect(data).toEqual(invalidArr);
+            })
+            http.flush();
+        });
+
+        it('Valid User Account Arr - 204', function() {
+            http.when('DELETE', URL)
+                .respond(204, GET_INVALID_USER_ACCOUNT_ARRAY());
+
+            var account = service.deleteAllUserAccount();
+            account.then(function(data) {
+                expect(data).toEqual(null);
+            })
+            http.flush();
+        });
+    });
+
+    describe('Operation Failed', function() {
+        it('Valid User Account Arr - 404', function() {
+            http.when('DELETE', URL)
+                .respond(404, GET_VALID_USER_ACCOUNT_ARRAY());
+
+            try {
+                var account = service.deleteAllUserAccount();
+                account.then(function(data) {
+                    // cannot get here
+                    expect(true).toBe(false);
+                })
+                http.flush();
+            } catch (error) {
+                expect(error.message).toEqual('Object not found!');
+            }
+        });
+    });
+});
+
+describe('Delete User Account', function() {
+
+    beforeEach(module('data.account'));
+    beforeEach(inject(function(userAccountService, accountExceptionCatcherService, $httpBackend) {
+        service = userAccountService;
+        exceptionService = accountExceptionCatcherService;
+        http    = $httpBackend;
+        URL     = 'http://localhost:8080/accounts/users/accountId';
+    }));
+
+    describe('Operation Succeeded', function() {
+        it('Valid User Account - 200', function() {
+            http.when('DELETE', URL)
+                .respond(200, GET_VALID_USER_ACCOUNT());
+
+            var account = service.deleteUserAccount('accountId');
+            account.then(function(data) {
+                expect(data).toEqual(GET_VALID_USER_ACCOUNT());
+            })
+            http.flush();
+        });
+
+        it('Valid User Account - 204', function() {
+            http.when('DELETE', URL)
+                .respond(204, GET_VALID_USER_ACCOUNT());
+
+            var account = service.deleteUserAccount('accountId');
+            account.then(function(data) {
+                expect(data).toEqual(null);
+            })
+            http.flush();
+        });
+
+        it('Invalid User Account - 200', function() {
+            http.when('DELETE', URL)
+                .respond(200, GET_INVALID_USER_ACCOUNT());
+
+            var account = service.deleteUserAccount('accountId');
+            account.then(function(data) {
+                expect(data).toEqual(null);
+            })
+            http.flush();
+        });
+
+        it('Valid User Account - 204', function() {
+            http.when('DELETE', URL)
+                .respond(204, GET_INVALID_USER_ACCOUNT());
+
+            var account = service.deleteUserAccount('accountId');
+            account.then(function(data) {
+                expect(data).toEqual(null);
+            })
+            http.flush();
+        });
+    });
+
+    describe('Operation Failed', function() {
+        it('Valid User Account - 500', function() {
+            http.when('DELETE', URL)
+                .respond(500, GET_VALID_USER_ACCOUNT());
+
+            try {
+                var account = service.deleteUserAccount('accountId');
+                account.then(function(data) {
+                    // cannot get here
+                    expect(true).toBe(false);
+                })
+                http.flush();
+            } catch (error) {
+                expect(error.message).toEqual('Something is wrong with the server!');
+            }
+        });
+    });
+});
