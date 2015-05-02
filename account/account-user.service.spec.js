@@ -176,3 +176,157 @@ describe('Create User Account', function() {
         });
     });
 });
+
+/* Read User Account */
+
+describe('Read All User Account', function() {
+
+    beforeEach(module('data.blog'));
+    beforeEach(inject(function(userAccountService, accountExceptionCatcherService, $httpBackend) {
+        service = userAccountService;
+        exceptionService = accountExceptionCatcherService;
+        http    = $httpBackend;
+        URL     = 'http://localhost:8080/accounts/users';
+    }));
+
+    describe('Operation Succeeded', function() {
+        it('Valid User Account Arr - 200', function() {
+            http.when('GET', URL)
+                .respond(200, GET_VALID_USER_ACCOUNT_ARRAY());
+
+            var account = service.readAllUserAccount();
+            account.then(function(data) {
+                expect(data).toEqual(GET_VALID_USER_ACCOUNT_ARRAY());
+            })
+            http.flush();
+        });
+
+        it('Valid User Account Arr - 204', function() {
+            http.when('GET', URL)
+                .respond(204, GET_VALID_USER_ACCOUNT_ARRAY());
+
+            var account = service.readAllUserAccount();
+            account.then(function(data) {
+                expect(data).toEqual(null);
+            })
+            http.flush();
+        });
+
+        it('Invalid User Account Arr - 200', function() {
+            http.when('GET', URL)
+                .respond(200, GET_INVALID_USER_ACCOUNT_ARRAY());
+
+            var commment = service.readAllUserAccount();
+            commment.then(function(data) {
+                var invalidArr = GET_INVALID_USER_ACCOUNT_ARRAY();
+                invalidArr.splice(1, 1);
+                expect(data).toEqual(invalidArr);
+            })
+            http.flush();
+        });
+
+        it('Valid User Account Arr - 204', function() {
+            http.when('GET', URL)
+                .respond(204, GET_INVALID_USER_ACCOUNT_ARRAY());
+
+            var account = service.readAllUserAccount();
+            account.then(function(data) {
+                expect(data).toEqual(null);
+            })
+            http.flush();
+        });
+    });
+
+    describe('Operation Failed', function() {
+        it('Valid User Account Arr - 400', function() {
+            http.when('GET', URL)
+                .respond(400, GET_VALID_USER_ACCOUNT_ARRAY());
+
+            try {
+                var account = service.readAllUserAccount();
+                account.then(function(data) {
+                    // cannot get here
+                    expect(true).toBe(false);
+                })
+                http.flush();
+            } catch (error) {
+                expect(error.message).toEqual('Something is wrong with the request!');
+            }
+        });
+    });
+});
+
+describe('Read User Account', function() {
+
+    beforeEach(module('data.blog'));
+    beforeEach(inject(function(userAccountService, accountExceptionCatcherService, $httpBackend) {
+        service = userAccountService;
+        exceptionService = accountExceptionCatcherService;
+        http    = $httpBackend;
+        URL     = 'http://localhost:8080/accounts/users/accountId';
+    }));
+
+    describe('Operation Succeeded', function() {
+        it('Valid User Account - 200', function() {
+            http.when('GET', URL)
+                .respond(200, GET_VALID_USER_ACCOUNT());
+
+            var account = service.readUserAccount('accountId');
+            account.then(function(data) {
+                expect(data).toEqual(GET_VALID_USER_ACCOUNT());
+            })
+            http.flush();
+        });
+
+        it('Valid User Account - 204', function() {
+            http.when('GET', URL)
+                .respond(204, GET_VALID_USER_ACCOUNT());
+
+            var account = service.readUserAccount('accountId');
+            account.then(function(data) {
+                expect(data).toEqual(null);
+            })
+            http.flush();
+        });
+
+        it('Invalid User Account - 200', function() {
+            http.when('GET', URL)
+                .respond(200, GET_INVALID_USER_ACCOUNT());
+
+            var account = service.readUserAccount('accountId');
+            account.then(function(data) {
+                expect(data).toEqual(null);
+            })
+            http.flush();
+        });
+
+        it('Valid User Account - 204', function() {
+            http.when('GET', URL)
+                .respond(204, GET_INVALID_USER_ACCOUNT());
+
+            var account = service.readUserAccount('accountId');
+            account.then(function(data) {
+                expect(data).toEqual(null);
+            })
+            http.flush();
+        });
+    });
+
+    describe('Operation Failed', function() {
+        it('Valid User Account - 403', function() {
+            http.when('GET', URL)
+                .respond(403, GET_VALID_USER_ACCOUNT());
+
+            try {
+                var account = service.readUserAccount('accountId');
+                account.then(function(data) {
+                    // cannot get here
+                    expect(true).toBe(false);
+                })
+                http.flush();
+            } catch (error) {
+                expect(error.message).toEqual('You are not authorized for this action!');
+            }
+        });
+    });
+});
