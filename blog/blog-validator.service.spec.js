@@ -34,7 +34,7 @@ describe('Request - Article: Valid Article', function() {
         tag_arr : []
     };
 
-    beforeEach(module('blog'));
+    beforeEach(module('data.blog'));
     beforeEach(inject(function(blogValidatorService) {
         service = blogValidatorService;
     }));
@@ -56,7 +56,7 @@ describe('Request - Article: Valid Article', function() {
 
 describe('Request - Article: Invalid Article', function() {
     var service;
-    beforeEach(module('blog'));
+    beforeEach(module('data.blog'));
     beforeEach(inject(function(blogValidatorService) {
         service = blogValidatorService;
     }));
@@ -88,7 +88,7 @@ describe('Request - Article: One Invalid Field Article', function() {
 
     var service;
 
-    beforeEach(module('blog'));
+    beforeEach(module('data.blog'));
     beforeEach(inject(function(blogValidatorService) {
         service = blogValidatorService;
     }));
@@ -128,7 +128,7 @@ describe('Request - Article: One Valid Field Article', function() {
 
     var service;
 
-    beforeEach(module('blog'));
+    beforeEach(module('data.blog'));
     beforeEach(inject(function(blogValidatorService) {
         service = blogValidatorService;
     }));
@@ -180,7 +180,7 @@ describe('Response - Article: Valid Article', function() {
 
     var articleArr = [article, article, article];
 
-    beforeEach(module('blog'));
+    beforeEach(module('data.blog'));
     beforeEach(inject(function(blogValidatorService) {
         service = blogValidatorService;
     }));
@@ -202,7 +202,7 @@ describe('Response - Article: Valid Article', function() {
 
 describe('Response - Article: Invalid Article', function() {
     var service;
-    beforeEach(module('blog'));
+    beforeEach(module('data.blog'));
     beforeEach(inject(function(blogValidatorService) {
         service = blogValidatorService;
     }));
@@ -234,7 +234,7 @@ describe('Response - Article: One Invalid Field Article', function() {
 
     var service;
 
-    beforeEach(module('blog'));
+    beforeEach(module('data.blog'));
     beforeEach(inject(function(blogValidatorService) {
         service = blogValidatorService;
     }));
@@ -276,7 +276,7 @@ describe('Response - Article: One Valid Field Article', function() {
 
     var service;
 
-    beforeEach(module('blog'));
+    beforeEach(module('data.blog'));
     beforeEach(inject(function(blogValidatorService) {
         service = blogValidatorService;
     }));

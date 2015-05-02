@@ -80,7 +80,7 @@ var exceptionService;
 /* Create Rating */
 
 describe('Create Rating', function() {
-    beforeEach(module('blog'));
+    beforeEach(module('data.blog'));
     beforeEach(inject(function(blogRatingService, blogExceptionCatcherService, $httpBackend) {
         service = blogRatingService;
         exceptionService = blogExceptionCatcherService;
@@ -167,7 +167,7 @@ describe('Create Rating', function() {
 
 describe('Read All Rating', function() {
 
-    beforeEach(module('blog'));
+    beforeEach(module('data.blog'));
     beforeEach(inject(function(blogRatingService, blogExceptionCatcherService, $httpBackend) {
         service = blogRatingService;
         exceptionService = blogExceptionCatcherService;
@@ -244,7 +244,7 @@ describe('Read All Rating', function() {
 
 describe('Read Rating', function() {
 
-    beforeEach(module('blog'));
+    beforeEach(module('data.blog'));
     beforeEach(inject(function(blogRatingService, blogExceptionCatcherService, $httpBackend) {
         service = blogRatingService;
         exceptionService = blogExceptionCatcherService;
@@ -321,7 +321,7 @@ describe('Read Rating', function() {
 
 describe('Update Rating', function() {
 
-    beforeEach(module('blog'));
+    beforeEach(module('data.blog'));
     beforeEach(inject(function(blogRatingService, blogExceptionCatcherService, $httpBackend) {
         service = blogRatingService;
         exceptionService = blogExceptionCatcherService;
@@ -406,7 +406,7 @@ describe('Update Rating', function() {
 
 describe('Partially Update Rating', function() {
 
-    beforeEach(module('blog'));
+    beforeEach(module('data.blog'));
     beforeEach(inject(function(blogRatingService, blogExceptionCatcherService, $httpBackend) {
         service = blogRatingService;
         exceptionService = blogExceptionCatcherService;
@@ -485,7 +485,7 @@ describe('Partially Update Rating', function() {
 
 describe('Delete All Rating', function() {
 
-    beforeEach(module('blog'));
+    beforeEach(module('data.blog'));
     beforeEach(inject(function(blogRatingService, blogExceptionCatcherService, $httpBackend) {
         service = blogRatingService;
         exceptionService = blogExceptionCatcherService;
@@ -562,7 +562,7 @@ describe('Delete All Rating', function() {
 
 describe('Delete Rating', function() {
 
-    beforeEach(module('blog'));
+    beforeEach(module('data.blog'));
     beforeEach(inject(function(blogRatingService, blogExceptionCatcherService, $httpBackend) {
         service = blogRatingService;
         exceptionService = blogExceptionCatcherService;

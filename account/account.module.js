@@ -3,4 +3,4 @@
  */
 
 // module setter
-angular.module('account', []);
+angular.module('data.account', []);

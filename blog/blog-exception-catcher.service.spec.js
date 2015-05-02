@@ -55,7 +55,7 @@ var VALID_ERROR_ARRAY = [
 describe('Blog - Exception Catcher - Invalid Error Object', function() {
     var service;
 
-    beforeEach(module('blog'));
+    beforeEach(module('data.blog'));
     beforeEach(inject(function(blogExceptionCatcherService) {
         service = blogExceptionCatcherService;
     }));
@@ -75,7 +75,7 @@ describe('Blog - Exception Catcher - Invalid Error Object', function() {
 describe('Blog - Exception Catcher - Valid Error Object', function() {
     var service;
 
-    beforeEach(module('blog'));
+    beforeEach(module('data.blog'));
     beforeEach(inject(function(blogExceptionCatcherService) {
         service = blogExceptionCatcherService;
     }));

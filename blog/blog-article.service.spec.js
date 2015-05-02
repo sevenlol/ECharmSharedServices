@@ -1,7 +1,7 @@
 describe('', function() {
     var service, http;
 
-    beforeEach(module('blog'));
+    beforeEach(module('data.blog'));
     beforeEach(inject(function(blogArticleService, $httpBackend) {
         service = blogArticleService;
         http    = $httpBackend;
@@ -143,7 +143,7 @@ function GET_INVALID_ARTICLE() {
 /* Create Article */
 describe('Create Article', function() {
 
-    beforeEach(module('blog'));
+    beforeEach(module('data.blog'));
     beforeEach(inject(function(blogArticleService, $httpBackend) {
         service = blogArticleService;
         http    = $httpBackend;
@@ -228,7 +228,7 @@ describe('Create Article', function() {
 
 describe('Read All Article', function() {
 
-    beforeEach(module('blog'));
+    beforeEach(module('data.blog'));
     beforeEach(inject(function(blogArticleService, $httpBackend) {
         service = blogArticleService;
         http    = $httpBackend;
@@ -303,7 +303,7 @@ describe('Read All Article', function() {
 
 describe('Read Article In Category', function() {
 
-    beforeEach(module('blog'));
+    beforeEach(module('data.blog'));
     beforeEach(inject(function(blogArticleService, $httpBackend) {
         service = blogArticleService;
         http    = $httpBackend;
@@ -378,7 +378,7 @@ describe('Read Article In Category', function() {
 
 describe('Read Article', function() {
 
-    beforeEach(module('blog'));
+    beforeEach(module('data.blog'));
     beforeEach(inject(function(blogArticleService, $httpBackend) {
         service = blogArticleService;
         http    = $httpBackend;
@@ -453,7 +453,7 @@ describe('Read Article', function() {
 
 describe('Update Article', function() {
 
-    beforeEach(module('blog'));
+    beforeEach(module('data.blog'));
     beforeEach(inject(function(blogArticleService, $httpBackend) {
         service = blogArticleService;
         http    = $httpBackend;
@@ -536,7 +536,7 @@ describe('Update Article', function() {
 
 describe('Partially Update Article', function() {
 
-    beforeEach(module('blog'));
+    beforeEach(module('data.blog'));
     beforeEach(inject(function(blogArticleService, $httpBackend) {
         service = blogArticleService;
         http    = $httpBackend;
@@ -612,7 +612,7 @@ describe('Partially Update Article', function() {
 
 describe('Delete All Article', function() {
 
-    beforeEach(module('blog'));
+    beforeEach(module('data.blog'));
     beforeEach(inject(function(blogArticleService, $httpBackend) {
         service = blogArticleService;
         http    = $httpBackend;
@@ -687,7 +687,7 @@ describe('Delete All Article', function() {
 
 describe('Delete Article In Category', function() {
 
-    beforeEach(module('blog'));
+    beforeEach(module('data.blog'));
     beforeEach(inject(function(blogArticleService, $httpBackend) {
         service = blogArticleService;
         http    = $httpBackend;
@@ -762,7 +762,7 @@ describe('Delete Article In Category', function() {
 
 describe('Delete Article', function() {
 
-    beforeEach(module('blog'));
+    beforeEach(module('data.blog'));
     beforeEach(inject(function(blogArticleService, $httpBackend) {
         service = blogArticleService;
         http    = $httpBackend;

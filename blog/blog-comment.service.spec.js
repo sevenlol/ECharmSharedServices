@@ -94,7 +94,7 @@ var exceptionService;
 /* Create Comment */
 
 describe('Create Comment', function() {
-    beforeEach(module('blog'));
+    beforeEach(module('data.blog'));
     beforeEach(inject(function(blogCommentService, blogExceptionCatcherService, $httpBackend) {
         service = blogCommentService;
         exceptionService = blogExceptionCatcherService;
@@ -181,7 +181,7 @@ describe('Create Comment', function() {
 
 describe('Read All Comment', function() {
 
-    beforeEach(module('blog'));
+    beforeEach(module('data.blog'));
     beforeEach(inject(function(blogCommentService, blogExceptionCatcherService, $httpBackend) {
         service = blogCommentService;
         exceptionService = blogExceptionCatcherService;
@@ -258,7 +258,7 @@ describe('Read All Comment', function() {
 
 describe('Read Comment', function() {
 
-    beforeEach(module('blog'));
+    beforeEach(module('data.blog'));
     beforeEach(inject(function(blogCommentService, blogExceptionCatcherService, $httpBackend) {
         service = blogCommentService;
         exceptionService = blogExceptionCatcherService;
@@ -335,7 +335,7 @@ describe('Read Comment', function() {
 
 describe('Update Comment', function() {
 
-    beforeEach(module('blog'));
+    beforeEach(module('data.blog'));
     beforeEach(inject(function(blogCommentService, blogExceptionCatcherService, $httpBackend) {
         service = blogCommentService;
         exceptionService = blogExceptionCatcherService;
@@ -420,7 +420,7 @@ describe('Update Comment', function() {
 
 describe('Partially Update Comment', function() {
 
-    beforeEach(module('blog'));
+    beforeEach(module('data.blog'));
     beforeEach(inject(function(blogCommentService, blogExceptionCatcherService, $httpBackend) {
         service = blogCommentService;
         exceptionService = blogExceptionCatcherService;
@@ -499,7 +499,7 @@ describe('Partially Update Comment', function() {
 
 describe('Delete All Comment', function() {
 
-    beforeEach(module('blog'));
+    beforeEach(module('data.blog'));
     beforeEach(inject(function(blogCommentService, blogExceptionCatcherService, $httpBackend) {
         service = blogCommentService;
         exceptionService = blogExceptionCatcherService;
@@ -576,7 +576,7 @@ describe('Delete All Comment', function() {
 
 describe('Delete Comment', function() {
 
-    beforeEach(module('blog'));
+    beforeEach(module('data.blog'));
     beforeEach(inject(function(blogCommentService, blogExceptionCatcherService, $httpBackend) {
         service = blogCommentService;
         exceptionService = blogExceptionCatcherService;

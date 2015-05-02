@@ -4,7 +4,7 @@
 
 //module getter
 angular
-    .module('askDoctor')
+    .module('data.askDoctor')
     .factory('askDoctorRatingService', askDoctorRatingService);
 
 function askDoctorRatingService() {

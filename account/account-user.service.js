@@ -4,7 +4,7 @@
 
 //module getter
 angular
-    .module('account')
+    .module('data.account')
     .factory('userAccountService', userAccountService);
 
 userAccountService.$inject = [

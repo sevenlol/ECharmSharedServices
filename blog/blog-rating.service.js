@@ -4,7 +4,7 @@
 
 //module getter
 angular
-    .module('blog')
+    .module('data.blog')
     .factory('blogRatingService', blogRatingService);
 
 blogRatingService.$inject = ['$http', 'blogValidatorService', 'blogExceptionCatcherService'];

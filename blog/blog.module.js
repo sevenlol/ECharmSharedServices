@@ -3,4 +3,4 @@
  */
 
 // module setter
-angular.module('blog', []);
+angular.module('data.blog', []);

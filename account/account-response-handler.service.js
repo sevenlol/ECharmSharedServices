@@ -4,7 +4,7 @@
 
 //module getter
 angular
-    .module('account')
+    .module('data.account')
     .factory('accountResponseHandlerCatcherService', accountResponseHandlerCatcherService);
 
 accountResponseHandlerCatcherService.$inject = [

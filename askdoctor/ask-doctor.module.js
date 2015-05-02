@@ -3,4 +3,4 @@
  */
 
 // module setter
-angular.module('askDoctor', []);
+angular.module('data.askDoctor', []);
