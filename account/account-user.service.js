@@ -61,6 +61,9 @@ function userAccountService($http, accountResponseHandlerCatcherService, account
 
         /* Read */
         readAllUserAccount          :  readAllUserAccount,
+        readUserAccountByUsername   :  readUserAccountByUsername,
+        readUserAccountByEmail      :  readUserAccountByEmail,
+        // read by id
         readUserAccount             :  readUserAccount,
 
         /* Update */
@@ -113,6 +116,36 @@ function userAccountService($http, accountResponseHandlerCatcherService, account
 
         if (!url)
         	throw new Error(accountExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
+
+        return getHttpPromise(HTTP_METHOD.GET, url, null);
+    }
+
+    function readUserAccountByUsername(username) {
+        if (!angular.isString(username) || !username)
+            throw new Error(accountExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
+
+        // assemble URL
+        var url = assembleURL(SERVER_URL, '');
+
+        if (!url)
+            throw new Error(accountExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
+
+        url += '?username=' + username;
+
+        return getHttpPromise(HTTP_METHOD.GET, url, null);
+    }
+
+    function readUserAccountByEmail(email) {
+        if (!angular.isString(email) || !email)
+            throw new Error(accountExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
+
+        // assemble URL
+        var url = assembleURL(SERVER_URL, '');
+
+        if (!url)
+            throw new Error(accountExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
+
+        url += '?email=' + email;
 
         return getHttpPromise(HTTP_METHOD.GET, url, null);
     }
