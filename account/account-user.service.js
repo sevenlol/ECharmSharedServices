@@ -284,7 +284,7 @@ function userAccountService($http, accountResponseHandlerCatcherService, account
                     	.then(
                     		(function (validateArray, validateObject) {
                     			return function(response) {
-                    		    	return REQ_COMPLETED_CALLBACK.POST(response, validateArray, validateObject);
+                    		    	return REQ_COMPLETED_CALLBACK.POST(response, validateObject);
                     			};
                     		})(RES_VALIDATOR.ARRAY, RES_VALIDATOR.OBJECT)
                     	)
@@ -294,7 +294,7 @@ function userAccountService($http, accountResponseHandlerCatcherService, account
                     	.then(
                     		(function (validateArray, validateObject) {
                     			return function(response) {
-                    		    	return REQ_COMPLETED_CALLBACK.PUT(response, validateArray, validateObject);
+                    		    	return REQ_COMPLETED_CALLBACK.PUT(response, validateObject);
                     			};
                     		})(RES_VALIDATOR.ARRAY, RES_VALIDATOR.OBJECT)
                     	)
@@ -304,7 +304,7 @@ function userAccountService($http, accountResponseHandlerCatcherService, account
                     	.then(
                     		(function (validateArray, validateObject) {
                     			return function(response) {
-                    		    	return REQ_COMPLETED_CALLBACK.PATCH(response, validateArray, validateObject);
+                    		    	return REQ_COMPLETED_CALLBACK.PATCH(response, validateObject);
                     			};
                     		})(RES_VALIDATOR.ARRAY, RES_VALIDATOR.OBJECT)
                     	)

@@ -8,7 +8,8 @@ function GET_VALID_USER_ACCOUNT_ARRAY() {
             username : 'username',
             password : 'password',
             salt : 'salt',
-            created_at : 'created_at'
+            created_at : 'created_at',
+            user_info : {}
         },
         {
             account_id : 'id',
@@ -18,7 +19,8 @@ function GET_VALID_USER_ACCOUNT_ARRAY() {
             username : 'username',
             password : 'password',
             salt : 'salt',
-            created_at : 'created_at'
+            created_at : 'created_at',
+            user_info : {}
         },
         {
             account_id : 'id',
@@ -28,7 +30,8 @@ function GET_VALID_USER_ACCOUNT_ARRAY() {
             username : 'username',
             password : 'password',
             salt : 'salt',
-            created_at : 'created_at'
+            created_at : 'created_at',
+            user_info : {}
         }
     ];
 }
@@ -43,7 +46,8 @@ function GET_INVALID_USER_ACCOUNT_ARRAY() {
             username : 'username',
             password : 'password',
             salt : 'salt',
-            created_at : 'created_at'
+            created_at : 'created_at',
+            user_info : {}
         },
         {
             account_id : 'id',
@@ -51,7 +55,8 @@ function GET_INVALID_USER_ACCOUNT_ARRAY() {
             account_type : 'ECHARM',
             email : 'email',
             salt : 'salt',
-            created_at : 'created_at'
+            created_at : 'created_at',
+            user_info : {}
         }
     ];
 }
@@ -65,7 +70,8 @@ function GET_VALID_USER_ACCOUNT() {
         username : 'username',
         password : 'password',
         salt : 'salt',
-        created_at : 'created_at'
+        created_at : 'created_at',
+        user_info : {}
     };
 }
 
@@ -76,7 +82,8 @@ function GET_INVALID_USER_ACCOUNT() {
         account_type : 'ECHARM',
         email : 'email',
         salt : 'salt',
-        created_at : 'created_at'
+        created_at : 'created_at',
+        user_info : {}
     };
 }
 var URL;
@@ -136,7 +143,7 @@ describe('Create User Account', function() {
 
         it('Invalid User Account - 204', function() {
             http.when('POST', URL)
-                .respond(204, GET_INVALID_COMMENT());
+                .respond(204, GET_INVALID_USER_ACCOUNT());
 
             try {
                 var account = service.createUserAccount(GET_INVALID_USER_ACCOUNT());
