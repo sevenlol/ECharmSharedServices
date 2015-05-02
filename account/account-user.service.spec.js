@@ -330,3 +330,166 @@ describe('Read User Account', function() {
         });
     });
 });
+
+/* Update User Account */
+
+describe('Update User Account', function() {
+
+    beforeEach(module('data.account'));
+    beforeEach(inject(function(userAccountService, accountExceptionCatcherService, $httpBackend) {
+        service = userAccountService;
+        exceptionService = accountExceptionCatcherService;
+        http    = $httpBackend;
+        URL     = 'http://localhost:8080/accounts/users/accountId';
+    }));
+
+    describe('Operation Succeeded', function() {
+        it('Valid User Account - 200', function() {
+            http.when('PUT', URL)
+                .respond(200, GET_VALID_USER_ACCOUNT());
+
+            var account = service.updateUserAccount('accountId', GET_VALID_USER_ACCOUNT());
+            account.then(function(data) {
+                expect(data).toEqual(GET_VALID_USER_ACCOUNT());
+            })
+            http.flush();
+        });
+
+        it('Valid User Account - 204', function() {
+            http.when('PUT', URL)
+                .respond(204, GET_VALID_USER_ACCOUNT());
+
+            var account = service.updateUserAccount('accountId', GET_VALID_USER_ACCOUNT());
+            account.then(function(data) {
+                expect(data).toEqual(null);
+            })
+            http.flush();
+        });
+
+        it('Invalid User Account - 200', function() {
+            http.when('PUT', URL)
+                .respond(200, GET_INVALID_USER_ACCOUNT());
+
+            try {
+                var account = service.updateUserAccount('accountId', GET_INVALID_USER_ACCOUNT());
+                account.then(function(data) {
+                    // should not be here
+                    expect(true).toBe(false);
+                })
+                http.flush();
+            } catch (error) {
+                expect(error.message).toEqual(exceptionService.DEFAULT_ERROR_MESSAGE);
+            }
+        });
+
+        it('Invalid User Account - 204', function() {
+            http.when('PUT', URL)
+                .respond(204, GET_INVALID_USER_ACCOUNT());
+
+            try {
+                var account = service.updateUserAccount('accountId', GET_INVALID_USER_ACCOUNT());
+                account.then(function(data) {
+                    // should not be here
+                    expect(true).toBe(false);
+                })
+                http.flush();
+            } catch (error) {
+                expect(error.message).toEqual(exceptionService.DEFAULT_ERROR_MESSAGE);
+            }
+        });
+    });
+
+    describe('Operation Failed', function() {
+        it('Valid User Account - 403', function() {
+            http.when('PUT', URL)
+                .respond(403, GET_VALID_USER_ACCOUNT());
+
+            try {
+                var account = service.updateUserAccount('accountId', GET_VALID_USER_ACCOUNT());
+                account.then(function(data) {
+                    // cannot get here
+                    expect(true).toBe(false);
+                })
+                http.flush();
+            } catch (error) {
+                expect(error.message).toEqual('You are not authorized for this action!');
+            }
+        });
+    });
+});
+
+describe('Partially Update User Account', function() {
+
+    beforeEach(module('data.account'));
+    beforeEach(inject(function(userAccountService, accountExceptionCatcherService, $httpBackend) {
+        service = userAccountService;
+        exceptionService = accountExceptionCatcherService;
+        http    = $httpBackend;
+        URL     = 'http://localhost:8080/accounts/users/accountId';
+    }));
+
+    describe('Operation Succeeded', function() {
+        it('Valid User Account - 200', function() {
+            http.when('PATCH', URL)
+                .respond(200, GET_VALID_USER_ACCOUNT());
+
+            var account = service.partiallyUpdateUserAccount('accountId', GET_VALID_USER_ACCOUNT());
+            account.then(function(data) {
+                expect(data).toEqual(GET_VALID_USER_ACCOUNT());
+            })
+            http.flush();
+        });
+
+        it('Valid User Account - 204', function() {
+            http.when('PATCH', URL)
+                .respond(204, GET_VALID_USER_ACCOUNT());
+
+            var account = service.partiallyUpdateUserAccount('accountId', GET_VALID_USER_ACCOUNT());
+            account.then(function(data) {
+                expect(data).toEqual(null);
+            })
+            http.flush();
+        });
+
+        // partial input passed and the output should be valid
+        it('Invalid User Account - 200', function() {
+            http.when('PATCH', URL)
+                .respond(200, GET_VALID_USER_ACCOUNT());
+
+            var account = service.partiallyUpdateUserAccount('accountId', GET_INVALID_USER_ACCOUNT());
+            account.then(function(data) {
+                expect(data).toEqual(GET_VALID_USER_ACCOUNT());
+            })
+            http.flush();
+        });
+
+        it('Invalid User Account - 204', function() {
+            http.when('PATCH', URL)
+                .respond(204, GET_INVALID_USER_ACCOUNT());
+
+            var account = service.partiallyUpdateUserAccount('accountId', GET_INVALID_USER_ACCOUNT());
+            account.then(function(data) {
+                expect(data).toEqual(null);
+            })
+            http.flush();
+        });
+    });
+
+    describe('Operation Failed', function() {
+        it('Valid User Account - 403', function() {
+            http.when('PATCH', URL)
+                .respond(403, GET_VALID_USER_ACCOUNT());
+
+            try {
+                var account = service.partiallyUpdateUserAccount('accountId', GET_VALID_USER_ACCOUNT());
+                account.then(function(data) {
+                    // cannot get here
+                    expect(true).toBe(false);
+                })
+                http.flush();
+            } catch (error) {
+                expect(error.message).toEqual('You are not authorized for this action!');
+            }
+        });
+    });
+});
