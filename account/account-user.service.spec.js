@@ -181,7 +181,7 @@ describe('Create User Account', function() {
 
 describe('Read All User Account', function() {
 
-    beforeEach(module('data.blog'));
+    beforeEach(module('data.account'));
     beforeEach(inject(function(userAccountService, accountExceptionCatcherService, $httpBackend) {
         service = userAccountService;
         exceptionService = accountExceptionCatcherService;
@@ -258,7 +258,7 @@ describe('Read All User Account', function() {
 
 describe('Read User Account', function() {
 
-    beforeEach(module('data.blog'));
+    beforeEach(module('data.account'));
     beforeEach(inject(function(userAccountService, accountExceptionCatcherService, $httpBackend) {
         service = userAccountService;
         exceptionService = accountExceptionCatcherService;
