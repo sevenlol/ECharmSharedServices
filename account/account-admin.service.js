@@ -1,5 +1,5 @@
 /*
- * Admin Account Data Service for Blog System
+ * Admin Account Data Service for Account System
  */
 
 //module getter

@@ -1,5 +1,5 @@
 /*
- * User Account Data Service for Blog System
+ * User Account Data Service for Account System
  */
 
 //module getter
