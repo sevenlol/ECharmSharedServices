@@ -7,13 +7,26 @@ angular
     .module('data.account')
     .factory('accountService', accountService);
 
-function accountService() {
-    var service = {
+accountService.$inject = [
+    '$http',
+    'accountResponseHandlerCatcherService',
+    'accountValidatorService',
+    'accountExceptionCatcherService'
+];
 
+function accountService($http, accountResponseHandlerCatcherService, accountValidatorService, accountExceptionCatcherService) {
+    var service = {
+        readArbitraryAccount            :  readArbitraryAccount,
+        readArbitraryAccountByUsername  :  readArbitraryAccountByUsername,
+        readArbitraryAccountByEmail     :  readArbitraryAccountByEmail
     };
     return service;
 
     /*
-     * functions
+     * public functions
+     */
+
+    /*
+     * private functions
      */
 }
