@@ -1,0 +1,51 @@
+/*
+ * Value Service
+ */
+
+//module getter
+angular
+    .module('app.value')
+    .factory('valueService', valueService);
+
+valueService.$inject = [
+    /* Server */
+    'SERVER_URL',
+    'HTTP_METHOD_GET',
+    'HTTP_METHOD_POST',
+    'HTTP_METHOD_PUT',
+    'HTTP_METHOD_PATCH',
+    'HTTP_METHOD_DELETE',
+
+    /* Account System */
+    'USER_TYPE_USER',
+    'USER_TYPE_DOCTOR',
+    'USER_TYPE_ADMIN',
+    'ACCOUNT_TYPE_ECHARM'
+];
+
+function valueService(SERVER_URL, HTTP_METHOD_GET, HTTP_METHOD_POST, HTTP_METHOD_PUT,
+                      HTTP_METHOD_PATCH, HTTP_METHOD_DELETE, USER_TYPE_USER, USER_TYPE_DOCTOR,
+                      USER_TYPE_ADMIN, ACCOUNT_TYPE_ECHARM) {
+    var service = {
+        /* Server */
+        SERVER_URL : SERVER_URL,
+        HTTP_METHOD : {
+            GET    : HTTP_METHOD_GET,
+            POST   : HTTP_METHOD_POST,
+            PUT    : HTTP_METHOD_PUT,
+            PATCH  : HTTP_METHOD_PATCH,
+            DELETE : HTTP_METHOD_DELETE
+        },
+
+        /* Account System */
+        USER_TYPE : {
+            USER   : USER_TYPE_USER,
+            DOCTOR : USER_TYPE_DOCTOR,
+            ADMIN  : USER_TYPE_ADMIN
+        },
+        ACCOUNT_TYPE : {
+            ECHARM : ACCOUNT_TYPE_ECHARM
+        }
+    };
+    return service;
+}
