@@ -25,39 +25,37 @@ function accountService($http, accountResponseHandlerCatcherService, accountVali
         DELETE : 'DELETE'
     };
 
+    var USER_TYPE = {
+        USER   : 'USER',
+        DOCTOR : 'DOCTOR',
+        ADMIN  : 'ADMIN'
+    };
+
     var VALIDATOR = {
-        USER : {
-            RES : {
-                ARRAY : accountValidatorService.responseValidator
+        ARRAY : {
+            USER : accountValidatorService.responseValidator
                         .userAccountValidator
                         .validateArray,
-                OBJECT : accountValidatorService
-                         .responseValidator
-                         .userAccountValidator
-                         .validateObject
-            }
-        },
-        DOCTOR : {
-            RES : {
-                ARRAY : accountValidatorService.responseValidator
+            DOCTOR : accountValidatorService.responseValidator
                         .doctorAccountValidator
                         .validateArray,
-                OBJECT : accountValidatorService
+            ADMIN : accountValidatorService.responseValidator
+                        .adminAccountValidator
+                        .validateArray
+        },
+        OBJECT : {
+            USER : accountValidatorService
+                         .responseValidator
+                         .userAccountValidator
+                         .validateObject,
+            DOCTOR : accountValidatorService
                          .responseValidator
                          .doctorAccountValidator
-                         .validateObject
-            }
-        },
-        ADMIN : {
-            RES : {
-                ARRAY : accountValidatorService.responseValidator
-                        .adminAccountValidator
-                        .validateArray,
-                OBJECT : accountValidatorService
+                         .validateObject,
+            ADMIN : accountValidatorService
                          .responseValidator
                          .adminAccountValidator
                          .validateObject
-            }
         }
     };
     var RES_FAILED_CALLBACK = accountResponseHandlerCatcherService.requestFailed;
@@ -90,7 +88,7 @@ function accountService($http, accountResponseHandlerCatcherService, accountVali
         if (!url)
             throw new Error(accountExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
 
-        return getHttpPromise(HTTP_METHOD.GET, url, null);
+        return getHttpPromise(HTTP_METHOD.GET, url, null, VALIDATOR.ARRAY, VALIDATOR.OBJECT);
     }
 
     function readArbitraryAccountByUsername(username) {
@@ -105,7 +103,7 @@ function accountService($http, accountResponseHandlerCatcherService, accountVali
 
         url += '?username=' + username;
 
-        return getHttpPromise(HTTP_METHOD.GET, url, null);
+        return getHttpPromise(HTTP_METHOD.GET, url, null, VALIDATOR.ARRAY, VALIDATOR.OBJECT);
     }
 
     function readArbitraryAccountByEmail(email) {
@@ -120,7 +118,7 @@ function accountService($http, accountResponseHandlerCatcherService, accountVali
 
         url += '?email=' + email;
 
-        return getHttpPromise(HTTP_METHOD.GET, url, null);
+        return getHttpPromise(HTTP_METHOD.GET, url, null, VALIDATOR.ARRAY, VALIDATOR.OBJECT);
     }
 
     /*
@@ -168,47 +166,29 @@ function accountService($http, accountResponseHandlerCatcherService, accountVali
                         .then(
                             (function (validateArray, validateObject) {
                                 return function(response) {
-                                    return REQ_COMPLETED_CALLBACK.GET(response, validateArray, validateObject);
-                                };
-                            })(VALIDATE_ARRAY, VALIDATE_OBJECT)
-                        )
-                        .catch(RES_FAILED_CALLBACK);
-        } else if (method === HTTP_METHOD.POST) {
-            return $http.post(url, account)
-                        .then(
-                            (function (validateArray, validateObject) {
-                                return function(response) {
-                                    return REQ_COMPLETED_CALLBACK.POST(response, validateObject);
-                                };
-                            })(VALIDATE_ARRAY, VALIDATE_OBJECT)
-                        )
-                        .catch(RES_FAILED_CALLBACK);
-        } else if (method === HTTP_METHOD.PUT) {
-            return $http.put(url, account)
-                        .then(
-                            (function (validateArray, validateObject) {
-                                return function(response) {
-                                    return REQ_COMPLETED_CALLBACK.PUT(response, validateObject);
-                                };
-                            })(VALIDATE_ARRAY, VALIDATE_OBJECT)
-                        )
-                        .catch(RES_FAILED_CALLBACK);
-        } else if (method === HTTP_METHOD.PATCH) {
-            return $http.patch(url, account)
-                        .then(
-                            (function (validateArray, validateObject) {
-                                return function(response) {
-                                    return REQ_COMPLETED_CALLBACK.PATCH(response, validateObject);
-                                };
-                            })(VALIDATE_ARRAY, VALIDATE_OBJECT)
-                        )
-                        .catch(RES_FAILED_CALLBACK);
-        } else if (method === HTTP_METHOD.DELETE) {
-            return $http.delete(url)
-                        .then(
-                            (function (validateArray, validateObject) {
-                                return function(response) {
-                                    return REQ_COMPLETED_CALLBACK.DELETE(response, validateArray, validateObject);
+                                    var arrayCallback;
+                                    var objectCallback;
+
+                                    if (!angular.isObject(response) || response === null)
+                                        return null;
+
+                                    if (!angular.isObject(response.data) || response.data === null)
+                                        return null;
+
+                                    if (response.data.user_type === USER_TYPE.USER) {
+                                        arrayCallback = validateArray.USER;
+                                        objectCallback = validateObject.USER;
+                                    } else if (response.data.user_type === USER_TYPE.DOCTOR) {
+                                        arrayCallback = validateArray.DOCTOR;
+                                        objectCallback = validateObject.DOCTOR;
+                                    } else if (response.data.user_type === USER_TYPE.ADMIN) {
+                                        arrayCallback = validateArray.ADMIN;
+                                        objectCallback = validateObject.ADMIN;
+                                    } else {
+                                        return null;
+                                    }
+
+                                    return REQ_COMPLETED_CALLBACK.GET(response, arrayCallback, objectCallback);
                                 };
                             })(VALIDATE_ARRAY, VALIDATE_OBJECT)
                         )
