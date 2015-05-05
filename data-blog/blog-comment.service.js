@@ -7,11 +7,11 @@ angular
     .module('data.blog')
     .factory('blogCommentService', blogCommentService);
 
-blogCommentService.$inject = ['$http', 'blogValidatorService', 'blogExceptionCatcherService'];
+blogCommentService.$inject = ['$http', 'blogValidatorService', 'blogExceptionCatcherService', 'valueService'];
 
-function blogCommentService($http, blogValidatorService, blogExceptionCatcherService) {
+function blogCommentService($http, blogValidatorService, blogExceptionCatcherService, valueService) {
     // TODO put SERVER_URL in another module
-    var SERVER_URL = 'http://localhost:8080';
+    var SERVER_URL = valueService.SERVER_URL;
     var service = {
         /* Create */
         createComment           :  createComment,

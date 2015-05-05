@@ -7,11 +7,15 @@ angular
     .module('data.blog')
     .factory('blogArticleService', blogArticleService);
 
-blogArticleService.$inject = ['$http', 'blogValidatorService', 'blogExceptionCatcherService'];
+blogArticleService.$inject = ['$http', 'blogValidatorService', 'blogExceptionCatcherService', 'valueService', 'Logger'];
 
-function blogArticleService($http, blogValidatorService, blogExceptionCatcherService) {
+function blogArticleService($http, blogValidatorService, blogExceptionCatcherService, valueService, Logger) {
     // TODO put SERVER_URL in another module
-    var SERVER_URL = 'http://localhost:8080';
+    var SERVER_URL = valueService.SERVER_URL;
+
+    // Logger object
+    var logger = Logger.getInstance('app - data - blog - article');
+
     var service = {
         /* Create */
         createArticle           :  createArticle,
