@@ -56,14 +56,18 @@ function blogArticleService($http, blogValidatorService, blogExceptionCatcherSer
         if (blogValidatorService.requestValidator
                                 .articleValidator
                                 .validateFilled(article) === null) {
+            logger.error('createArticle', 'Invalid input article!');
             throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
         }
 
         var url = assembleURL(SERVER_URL, category, '');
 
-        if (!url)
+        if (!url) {
+            logger.error('createArticle', 'Url assemble failed!');
             throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
+        }
 
+        logger.log('createArticle', 'Validation done. Creating article ...');
         return $http.post(url, article)
                     .then(postRequestCompleted)
                     .catch(requestFailed);
@@ -80,9 +84,12 @@ function blogArticleService($http, blogValidatorService, blogExceptionCatcherSer
     function readAllArticle() {
         var url = assembleURL(SERVER_URL, '', '');
 
-        if (!url)
+        if (!url) {
+            logger.error('readAllArticle', 'Url assemble failed!');
             throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
+        }
 
+        logger.log('readAllArticle', 'Validation done. Reading all articles ...');
         return $http.get(url)
                     .then(getRequestCompleted)
                     .catch(requestFailed);
