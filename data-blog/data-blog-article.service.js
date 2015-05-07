@@ -502,13 +502,13 @@ function blogArticleService($http, blogValidatorService, blogExceptionCatcherSer
      */
     function validateResponse(response) {
         if (!angular.isObject(response) || response === null) {
-            logger.error('validateResponse', 'Invalid input response!';
+            logger.error('validateResponse', 'Invalid input response!');
             logger.debug('validateResponse', 'Response type: {0}', [ typeof response ]);
             return false;
         }
 
         if (!angular.isNumber(response.status)) {
-            logger.error('validateResponse', 'Invalid response status!';
+            logger.error('validateResponse', 'Invalid response status!');
             logger.debug('validateResponse', 'Response status type: {0}', [ typeof response.status ]);
             return false;
         }
