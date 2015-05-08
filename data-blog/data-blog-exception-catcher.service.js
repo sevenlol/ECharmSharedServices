@@ -59,7 +59,8 @@ function blogExceptionCatcherService() {
      * @returns
      */
     function BlogError(message, error) {
-        Error.captureStackTrace(this);
+        if (angular.isFunction(Error.captureStackTrace))
+            Error.captureStackTrace(this);
         this.message = message;
         this.name = "BlogError";
 
