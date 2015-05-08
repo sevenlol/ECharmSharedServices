@@ -70,7 +70,10 @@ function accountService($http, accountResponseHandlerCatcherService, accountVali
     var service = {
         readArbitraryAccount            :  readArbitraryAccount,
         readArbitraryAccountByUsername  :  readArbitraryAccountByUsername,
-        readArbitraryAccountByEmail     :  readArbitraryAccountByEmail
+        readArbitraryAccountByEmail     :  readArbitraryAccountByEmail,
+
+        /* read all */
+        readAllAccount                  :  readAllAccount
     };
     return service;
 
@@ -83,7 +86,7 @@ function accountService($http, accountResponseHandlerCatcherService, accountVali
             throw new Error(accountExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
         }
 
-        var url = assembleURL(SERVER_URL, accountId);
+        var url = assembleURL(SERVER_URL, true, accountId);
 
         if (!url)
             throw new Error(accountExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
@@ -96,7 +99,7 @@ function accountService($http, accountResponseHandlerCatcherService, accountVali
             throw new Error(accountExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
         }
 
-        var url = assembleURL(SERVER_URL, '');
+        var url = assembleURL(SERVER_URL, true, '');
 
         if (!url)
             throw new Error(accountExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
@@ -111,12 +114,21 @@ function accountService($http, accountResponseHandlerCatcherService, accountVali
             throw new Error(accountExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
         }
 
-        var url = assembleURL(SERVER_URL, '');
+        var url = assembleURL(SERVER_URL, true, '');
 
         if (!url)
             throw new Error(accountExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
 
         url += '?email=' + email;
+
+        return getHttpPromise(HTTP_METHOD.GET, url, null, VALIDATOR.ARRAY, VALIDATOR.OBJECT);
+    }
+
+    function readAllAccount() {
+        var url = assembleURL(SERVER_URL, false, '');
+
+        if (!url)
+            throw new Error(accountExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
 
         return getHttpPromise(HTTP_METHOD.GET, url, null, VALIDATOR.ARRAY, VALIDATOR.OBJECT);
     }
@@ -131,7 +143,7 @@ function accountService($http, accountResponseHandlerCatcherService, accountVali
      * @param {String} accountId the account id. if not needed, set to ''
      * @returns {String}  the assembled url
      */
-    function assembleURL(SERVER_URL, accountId) {
+    function assembleURL(SERVER_URL, isArbitrary, accountId) {
         if (!angular.isString(SERVER_URL) ||
             !angular.isString(accountId)) {
             return '';
@@ -140,6 +152,9 @@ function accountService($http, accountResponseHandlerCatcherService, accountVali
         // SERVER_URL == ''
         if (!SERVER_URL)
             return '';
+
+        if (!isArbitrary)
+            return SERVER_URL + '/accounts';
 
         var assembledUrl = SERVER_URL + '/accounts/arbitrarys';
 
