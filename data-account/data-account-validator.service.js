@@ -118,9 +118,9 @@ function accountValidatorService() {
             (!angular.isString(doctorInfo.specialty)         || doctorInfo.specialty         === "") &&
             (!angular.isString(doctorInfo.available_time)    || doctorInfo.available_time    === "") &&
             (!angular.isString(doctorInfo.facebook_account)  /*|| doctorInfo.facebook_account   === ""*/) &&
-            (!angular.isString(doctorInfo.blog_url)  /*doctorInfo.blog_url   === "" ||*/)            &&
+            (!angular.isString(doctorInfo.blog_url)  /*doctorInfo.blog_url   === "" ||*/)            /*&&
             (!angular.isNumber(doctorInfo.average_rating))                                           &&
-            (!angular.isNumber(doctorInfo.rating_count))) {
+            (!angular.isNumber(doctorInfo.rating_count))*/) {
             return null;
         }
 
@@ -410,10 +410,10 @@ function accountValidatorService() {
             return null;
         }
 
-        if (!angular.isNumber(doctorInfo.average_rating) ||
+        /*if (!angular.isNumber(doctorInfo.average_rating) ||
             !angular.isNumber(doctorInfo.rating_count)) {
             return null;
-        }
+        }*/
 
         return doctorInfo;
     }
