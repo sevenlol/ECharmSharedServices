@@ -130,7 +130,10 @@ function accountService($http, accountResponseHandlerCatcherService, accountVali
         if (!url)
             throw new Error(accountExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
 
-        return getHttpPromise(HTTP_METHOD.GET, url, null, VALIDATOR.ARRAY, VALIDATOR.OBJECT);
+        // TODO refactor this
+        return $http.get(url)
+                .then(getAllAccountSucceeded)
+                .catch(RES_FAILED_CALLBACK);
     }
 
     /*
@@ -212,5 +215,63 @@ function accountService($http, accountResponseHandlerCatcherService, accountVali
 
         // wrong HTTP method
         throw new Error(accountExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
+    }
+
+    /* TODO REFACTOR AND MOVE THE FOLLOWING FUNCTIONS */
+    function getAllAccountSucceeded(response) {
+        if (!angular.isObject(response) || response === null)
+            return null;
+
+        if (!angular.isNumber(response.status))
+            return null;
+
+        if (response.status === 204)
+            return null;
+
+        if (response.status === 200) {
+            if (angular.isArray(response.data)) {
+                // array
+                return validateArbitraryAccountArray(response.data);
+            } else if (angular.isObject(response.data)) {
+                // object
+                return validateArbitraryAccount(response.data);
+            }
+        }
+
+        return null;
+    }
+
+    function validateArbitraryAccountArray(accountArray) {
+        // check the comment array
+        if (!angular.isArray(accountArray) || accountArray.length <= 0)
+            return null;
+
+        for (var i = 0; i < accountArray.length; i++) {
+            var comment = validateArbitraryAccount(accountArray[i]);
+            if (comment === null) {
+                // remove invalid array
+                accountArray.splice(i--, 1);
+            }
+        }
+
+        if (accountArray.length === 0)
+            return null;
+
+        return accountArray;
+    }
+
+    function validateArbitraryAccount(account) {
+        if (!account.user_type)
+            return null;
+
+        if (account.user_type === 'USER') {
+            return VALIDATOR.OBJECT.USER(account);
+        } else if (account.user_type === 'DOCTOR') {
+            return VALIDATOR.OBJECT.DOCTOR(account);
+        } else if (account.user_type === 'ADMIN') {
+            return VALIDATOR.OBJECT.ADMIN(account);
+        }
+
+        return null;
     }
 }
