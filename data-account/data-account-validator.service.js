@@ -41,6 +41,10 @@ function accountValidatorService() {
             adminAccountValidator : {
                 validateArray : validateResponseAdminAccountArray,
                 validateObject : validateResponseAdminAccountObject
+            },
+            arbitraryAccountValidator : {
+                validateArray : validateResponseArbitraryAccountArray,
+                validateObject : validateResponseArbitraryAccountObject
             }
         }
     };
@@ -290,6 +294,56 @@ function accountValidatorService() {
             return null;
 
         return adminAccount;
+    }
+
+    /*
+     * @desc Validate if the input arbitrary Account array has all fields
+     *       required in a HTTP response (the account could be UserAccount,
+     *       DoctorAccount, or AdminAccount)
+     * @param {Object} arbitraryAccountArray an array of arbitrary Account
+     *                 objects to be checked
+     * @returns {Array} an array that only contains the ligit
+     *                  arbitrary Accounts (others are filtered)
+     */
+    function validateResponseArbitraryAccountArray(arbitraryAccountArray) {
+        // check the arbitrary account array
+        if (!angular.isArray(arbitraryAccountArray) || arbitraryAccountArray.length <= 0)
+            return null;
+
+        for (var i = 0; i < arbitraryAccountArray.length; i++) {
+            var account = validateResponseArbitraryAccountObject(arbitraryAccountArray[i]);
+            if (account === null) {
+                // remove invalid array
+                arbitraryAccountArray.splice(i--, 1);
+            }
+        }
+
+        if (arbitraryAccountArray.length === 0)
+            return null;
+
+        return arbitraryAccountArray;
+    }
+
+    /*
+     * @desc Validate if the input arbitrary account has all fields required
+     *       in a HTTP response (the account could be UserAccount, DoctorAccount,
+     *       or AdminAccount)
+     * @param {Object} arbitraryAccount the arbitraryAccount object to be checked
+     * @returns {Object}  the input arbitrary Account object if validated,
+     *                    null otherwise
+     */
+    function validateResponseArbitraryAccountObject(arbitraryAccount) {
+        if (!angular.isString(arbitraryAccount.user_type))
+            return null;
+
+        if (arbitraryAccount.user_type === USER_TYPE.USER)
+            return validateResponseUserAccountObject(arbitraryAccount);
+        else if (arbitraryAccount.user_type === USER_TYPE.DOCTOR)
+            return validateResponseDoctorAccountObject(arbitraryAccount);
+        else if (arbitraryAccount.user_type === USER_TYPE.ADMIN)
+            return validateResponseAdminAccountObject(arbitraryAccount);
+
+        return null;
     }
 
     /*
