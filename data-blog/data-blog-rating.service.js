@@ -11,7 +11,7 @@ blogRatingService.$inject = ['$http', 'blogValidatorService', 'blogExceptionCatc
 
 function blogRatingService($http, blogValidatorService, blogExceptionCatcherService, valueService) {
     // TODO put SERVER_URL in another module
-    var SERVER_URL = valueService.SERVER_URL;
+    var SERVER_URL = valueService.SERVER_URL.BLOG;
     var service = {
         /* Create */
         createRating           :  createRating,

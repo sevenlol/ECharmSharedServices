@@ -11,12 +11,13 @@ accountService.$inject = [
     '$http',
     'accountResponseHandlerCatcherService',
     'accountValidatorService',
-    'accountExceptionCatcherService'
+    'accountExceptionCatcherService',
+    'valueService'
 ];
 
-function accountService($http, accountResponseHandlerCatcherService, accountValidatorService, accountExceptionCatcherService) {
+function accountService($http, accountResponseHandlerCatcherService, accountValidatorService, accountExceptionCatcherService, valueService) {
     // Global Variables
-    var SERVER_URL = 'http://localhost:8080';
+    var SERVER_URL = valueService.SERVER_URL.ACCOUNT;
     var HTTP_METHOD = {
         GET : 'GET',
         POST : 'POST',

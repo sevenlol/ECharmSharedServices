@@ -11,13 +11,14 @@ userAccountService.$inject = [
 	'$http',
 	'accountResponseHandlerCatcherService',
 	'accountValidatorService',
-	'accountExceptionCatcherService'
+	'accountExceptionCatcherService',
+    'valueService'
 ];
 
-function userAccountService($http, accountResponseHandlerCatcherService, accountValidatorService, accountExceptionCatcherService) {
+function userAccountService($http, accountResponseHandlerCatcherService, accountValidatorService, accountExceptionCatcherService, valueService) {
 	// TODO put SERVER_URL in another module
 	// Global Variables
-    var SERVER_URL = 'http://localhost:8080';
+    var SERVER_URL = valueService.SERVER_URL.ACCOUNT;
     var HTTP_METHOD = {
     	GET : 'GET',
     	POST : 'POST',

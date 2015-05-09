@@ -3,4 +3,6 @@
  */
 
 // module setter
-angular.module('data.account', []);
+angular.module('data.account', [
+	'app.value'
+]);
