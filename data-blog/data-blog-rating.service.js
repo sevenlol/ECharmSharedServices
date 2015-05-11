@@ -7,11 +7,21 @@ angular
     .module('data.blog')
     .factory('blogRatingService', blogRatingService);
 
-blogRatingService.$inject = ['$http', 'blogValidatorService', 'blogExceptionCatcherService', 'valueService'];
+blogRatingService.$inject = [
+    '$http',
+    'blogValidatorService',
+    'blogExceptionCatcherService',
+    'valueService',
+    'Logger'
+];
 
-function blogRatingService($http, blogValidatorService, blogExceptionCatcherService, valueService) {
+function blogRatingService($http, blogValidatorService, blogExceptionCatcherService, valueService, Logger) {
     // TODO put SERVER_URL in another module
     var SERVER_URL = valueService.SERVER_URL.BLOG;
+
+    // Logger object
+    var logger = Logger.getInstance('app - data - blog - rating');
+
     var service = {
         /* Create */
         createRating           :  createRating,
@@ -48,21 +58,28 @@ function blogRatingService($http, blogValidatorService, blogExceptionCatcherServ
         // TODO validate category
 
         // validate articleId
-        if (!angular.isString(articleId) || articleId === '')
+        if (!angular.isString(articleId) || articleId === '') {
+            logger.error('createRating', 'Invalid input articleId!');
+            logger.debug('createRating', 'articleId: {0}, typeof articleId: {1}', [ articleId, typeof articleId ]);
             throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
+        }
 
         // validate rating object
         if (blogValidatorService.requestValidator
                                 .ratingValidator
                                 .validateFilled(rating) === null) {
+            logger.error('createRating', 'Invalid input rating!');
             throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
         }
 
         var url = assembleURL(SERVER_URL, category, articleId, '');
 
-        if (!url)
+        if (!url) {
+            logger.error('createRating', 'Url assemble failed!');
             throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
+        }
 
+        logger.log('createRating', 'Validation done. Creating rating ...');
         return $http.post(url, rating)
                     .then(postRequestCompleted)
                     .catch(requestFailed);
@@ -81,14 +98,20 @@ function blogRatingService($http, blogValidatorService, blogExceptionCatcherServ
         // TODO validate category
 
         // validate articleId
-        if (!angular.isString(articleId) || articleId === '')
+        if (!angular.isString(articleId) || articleId === '') {
+            logger.error('readAllRating', 'Invalid input articleId!');
+            logger.debug('readAllRating', 'articleId: {0}, typeof articleId: {1}', [ articleId, typeof articleId ]);
             throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
+        }
 
         var url = assembleURL(SERVER_URL, category, articleId, '');
 
-        if (!url)
+        if (!url) {
+            logger.error('readAllRating', 'Url assemble failed!');
             throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
+        }
 
+        logger.log('readAllRating', 'Validation done. Reading ratings ...');
         return $http.get(url)
                     .then(getRequestCompleted)
                     .catch(requestFailed);
@@ -106,14 +129,20 @@ function blogRatingService($http, blogValidatorService, blogExceptionCatcherServ
         // TODO validate category
 
         // validate articleId
-        if (!angular.isString(articleId) || articleId === '')
+        if (!angular.isString(articleId) || articleId === '') {
+            logger.error('readRating', 'Invalid input articleId!');
+            logger.debug('readRating', 'articleId: {0}, typeof articleId: {1}', [ articleId, typeof articleId ]);
             throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
+        }
 
         var url = assembleURL(SERVER_URL, category, articleId, ratingId);
 
-        if (!url)
+        if (!url) {
+            logger.error('readRating', 'Url assemble failed!');
             throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
+        }
 
+        logger.log('readRating', 'Validation done. Reading rating ...');
         return $http.get(url)
                     .then(getRequestCompleted)
                     .catch(requestFailed);
@@ -134,25 +163,35 @@ function blogRatingService($http, blogValidatorService, blogExceptionCatcherServ
         // TODO validate category
 
         // validate articleId
-        if (!angular.isString(articleId) || articleId === '')
+        if (!angular.isString(articleId) || articleId === '') {
+            logger.error('updateRating', 'Invalid input articleId!');
+            logger.debug('updateRating', 'articleId: {0}, typeof articleId: {1}', [ articleId, typeof articleId ]);
             throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
+        }
 
         // validate ratingId
-        if (!angular.isString(ratingId) || ratingId === '')
+        if (!angular.isString(ratingId) || ratingId === '') {
+            logger.error('updateRating', 'Invalid input ratingId!');
+            logger.debug('updateRating', 'ratingId: {0}, typeof ratingId: {1}', [ ratingId, typeof ratingId ]);
             throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
+        }
 
         // validate rating object
         if (blogValidatorService.requestValidator
                                 .ratingValidator
                                 .validateFilled(rating) === null) {
+            logger.error('updateRating', 'Invalid input rating!');
             throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
         }
 
         var url = assembleURL(SERVER_URL, category, articleId, ratingId);
 
-        if (!url)
+        if (!url) {
+            logger.error('updateRating', 'Url assemble failed!');
             throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
+        }
 
+        logger.log('updateRating', 'Validation done. Updating rating ...');
         return $http.put(url, rating)
                     .then(putRequestCompleted)
                     .catch(requestFailed);
@@ -171,25 +210,35 @@ function blogRatingService($http, blogValidatorService, blogExceptionCatcherServ
         // TODO validate category
 
         // validate articleId
-        if (!angular.isString(articleId) || articleId === '')
+        if (!angular.isString(articleId) || articleId === '') {
+            logger.error('partiallyUpdateRating', 'Invalid input articleId!');
+            logger.debug('partiallyUpdateRating', 'articleId: {0}, typeof articleId: {1}', [ articleId, typeof articleId ]);
             throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
+        }
 
         // validate ratingId
-        if (!angular.isString(ratingId) || ratingId === '')
+        if (!angular.isString(ratingId) || ratingId === '') {
+            logger.error('partiallyUpdateRating', 'Invalid input ratingId!');
+            logger.debug('partiallyUpdateRating', 'ratingId: {0}, typeof ratingId: {1}', [ ratingId, typeof ratingId ]);
             throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
+        }
 
         // validate rating object
         if (blogValidatorService.requestValidator
                                 .ratingValidator
                                 .validateNotEmpty(rating) === null) {
+            logger.error('partiallyUpdateRating', 'Invalid input rating!');
             throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
         }
 
         var url = assembleURL(SERVER_URL, category, articleId, ratingId);
 
-        if (!url)
+        if (!url) {
+            logger.error('partiallyUpdateRating', 'Url assemble failed!');
             throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
+        }
 
+        logger.log('partiallyUpdateRating', 'Validation done. Partially updating rating ...');
         return $http.patch(url, rating)
                     .then(putRequestCompleted)
                     .catch(requestFailed);
@@ -208,14 +257,20 @@ function blogRatingService($http, blogValidatorService, blogExceptionCatcherServ
         // TODO validate category
 
         // validate articleId
-        if (!angular.isString(articleId) || articleId === '')
+        if (!angular.isString(articleId) || articleId === '') {
+            logger.error('deleteAllRating', 'Invalid input articleId!');
+            logger.debug('deleteAllRating', 'articleId: {0}, typeof articleId: {1}', [ articleId, typeof articleId ]);
             throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
+        }
 
         var url = assembleURL(SERVER_URL, category, articleId, '');
 
-        if (!url)
+        if (!url) {
+            logger.error('deleteAllRating', 'Url assemble failed!');
             throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
+        }
 
+        logger.log('deleteAllRating', 'Validation done. Deleting ratings ...');
         return $http.delete(url)
                     .then(deleteRequestCompleted)
                     .catch(requestFailed);
@@ -233,18 +288,27 @@ function blogRatingService($http, blogValidatorService, blogExceptionCatcherServ
         // TODO validate category
 
         // validate articleId
-        if (!angular.isString(articleId) || articleId === '')
+        if (!angular.isString(articleId) || articleId === '') {
+            logger.error('deleteRating', 'Invalid input articleId!');
+            logger.debug('deleteRating', 'articleId: {0}, typeof articleId: {1}', [ articleId, typeof articleId ]);
             throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
+        }
 
         // validate ratingId
-        if (!angular.isString(ratingId) || ratingId === '')
+        if (!angular.isString(ratingId) || ratingId === '') {
+            logger.error('deleteRating', 'Invalid input ratingId!');
+            logger.debug('deleteRating', 'ratingId: {0}, typeof ratingId: {1}', [ ratingId, typeof ratingId ]);
             throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
+        }
 
         var url = assembleURL(SERVER_URL, category, articleId, ratingId);
 
-        if (!url)
+        if (!url) {
+            logger.error('deleteRating', 'Url assemble failed!');
             throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
+        }
 
+        logger.log('deleteRating', 'Validation done. Deleting rating ...');
         return $http.delete(url)
                     .then(deleteRequestCompleted)
                     .catch(requestFailed);
@@ -270,14 +334,21 @@ function blogRatingService($http, blogValidatorService, blogExceptionCatcherServ
             !angular.isString(category)   ||
             !angular.isString(articleId)  ||
             !angular.isString(ratingId)) {
+            logger.error('assembleURL', 'Invalid input type!');
+            logger.debug('assembleURL', 'SERVER_URL: {0}, category: {1}, articleId: {2}, ratingId: {3}',
+                [typeof SERVER_URL, typeof category, typeof articleId, typeof ratingId]);
             return '';
         }
 
         // SERVER_URL == '' or category == '' or articleId == ''
         if (!SERVER_URL ||
             !category   ||
-            !articleId)
+            !articleId) {
+            logger.error('assembleURL', 'Empty input string!');
+            logger.debug('assembleURL', 'SERVER_URL: {0}, category: {1}, articleId: {2}',
+                [SERVER_URL, category, articleId]);
             return '';
+        }
 
         var assembledUrl = SERVER_URL + '/articles';
         assembledUrl += '/' + category;
@@ -285,10 +356,13 @@ function blogRatingService($http, blogValidatorService, blogExceptionCatcherServ
 
         // ratingId == ''
         if (!ratingId) {
+            logger.debug('assembleURL', 'Empty Input String: {0}!', [ 'ratingId' ]);
+            logger.debug('assembleURL', 'Assembled Url: {0}!', [ assembledUrl ]);
             return assembledUrl;
         }
         assembledUrl += '/' + ratingId;
 
+        logger.debug('assembleURL', 'Assembled Url: {0}!', [ assembledUrl ]);
         return assembledUrl;
     }
 
@@ -299,29 +373,38 @@ function blogRatingService($http, blogValidatorService, blogExceptionCatcherServ
      *                    null otherwise
      */
     function getRequestCompleted(response) {
-        if (!validateResponse(response))
+        if (!validateResponse(response)) {
+            logger.error('getRequestCompleted', 'Invalid input response');
             return null;
+        }
 
         // no content
-        if (response.status === 204)
+        if (response.status === 204) {
+            logger.log('getRequestCompleted', 'Response status: {0} => {1}!', [204, 'No Content']);
             return null;
+        }
 
         if (response.status === 200) {
+            logger.log('getRequestCompleted', 'Response status: {0} => {1}!', [200, 'Succeeded']);
             if (angular.isArray(response.data)) {
                 // array
+                logger.log('getRequestCompleted', 'Response data type: article array!');
                 return blogValidatorService.responseValidator
                                            .ratingValidator
                                            .validateArray(response.data);
             } else if (angular.isObject(response.data)) {
                 // rating object
+                logger.log('getRequestCompleted', 'Response data type: article object!');
                 return blogValidatorService.responseValidator
                                            .ratingValidator
                                            .validateObject(response.data);
             } else {
+                logger.error('getRequestCompleted', 'Response data type: {0}!', [ typeof response.data ]);
                 return null;
             }
         }
 
+        logger.error('getRequestCompleted', 'Response status: {0}!', [ response.status ]);
         return null;
     }
 
@@ -350,14 +433,19 @@ function blogRatingService($http, blogValidatorService, blogExceptionCatcherServ
      *                    null otherwise
      */
     function putRequestCompleted(response) {
-        if (!validateResponse(response))
+        if (!validateResponse(response)) {
+            logger.error('postRequestCompleted', 'Invalid input response');
             return null;
+        }
 
-        if (response.status === 200)
+        if (response.status === 200) {
+            logger.log('postRequestCompleted', 'Response status: {0} => {1}!', [201, 'Created']);
             return blogValidatorService.responseValidator
                                        .ratingValidator
                                        .validateObject(response.data);
+        }
 
+        logger.error('postRequestCompleted', 'Response status: {0}!', [ response.status ]);
         return null;
     }
 
@@ -368,14 +456,19 @@ function blogRatingService($http, blogValidatorService, blogExceptionCatcherServ
      *                    null otherwise
      */
     function patchRequestCompleted(response) {
-        if (!validateResponse(response))
+        if (!validateResponse(response)) {
+            logger.error('putRequestCompleted', 'Invalid input response');
             return null;
+        }
 
-        if (response.status === 200)
+        if (response.status === 200) {
+            logger.log('putRequestCompleted', 'Response status: {0} => {1}!', [200, 'Succeeded']);
             return blogValidatorService.responseValidator
                                        .ratingValidator
                                        .validateObject(response.data);
+        }
 
+        logger.error('putRequestCompleted', 'Response status: {0}!', [ response.status ]);
         return null;
     }
 
@@ -386,29 +479,38 @@ function blogRatingService($http, blogValidatorService, blogExceptionCatcherServ
      *                    null otherwise
      */
     function deleteRequestCompleted(response) {
-        if (!validateResponse(response))
+        if (!validateResponse(response)) {
+            logger.error('deleteRequestCompleted', 'Invalid input response');
             return null;
+        }
 
         // no content
-        if (response.status === 204)
+        if (response.status === 204) {
+            logger.log('deleteRequestCompleted', 'Response status: {0} => {1}!', [204, 'No Content']);
             return null;
+        }
 
         if (response.status === 200) {
+            logger.log('deleteRequestCompleted', 'Response status: {0} => {1}!', [200, 'Succeeded']);
             if (angular.isArray(response.data)) {
                 // array
+                logger.log('deleteRequestCompleted', 'Response data type: article array!');
                 return blogValidatorService.responseValidator
                                            .ratingValidator
                                            .validateArray(response.data);
             } else if (angular.isObject(response.data)) {
                 // rating object
+                logger.log('deleteRequestCompleted', 'Response data type: article object!');
                 return blogValidatorService.responseValidator
                                            .ratingValidator
                                            .validateObject(response.data);
             } else {
+                logger.error('deleteRequestCompleted', 'Response data type: {0}!', [ typeof response.data ]);
                 return null;
             }
         }
 
+        logger.error('deleteRequestCompleted', 'Response status: {0}!', [ response.status ]);
         return null;
     }
 
@@ -419,11 +521,17 @@ function blogRatingService($http, blogValidatorService, blogExceptionCatcherServ
      *                    false otherwise
      */
     function validateResponse(response) {
-        if (!angular.isObject(response) || response === null)
+        if (!angular.isObject(response) || response === null) {
+            logger.error('validateResponse', 'Invalid input response!');
+            logger.debug('validateResponse', 'Response type: {0}', [ typeof response ]);
             return false;
+        }
 
-        if (!angular.isNumber(response.status))
+        if (!angular.isNumber(response.status)) {
+            logger.error('validateResponse', 'Invalid response status!');
+            logger.debug('validateResponse', 'Response status type: {0}', [ typeof response.status ]);
             return false;
+        }
 
         return true;
     }
@@ -434,11 +542,18 @@ function blogRatingService($http, blogValidatorService, blogExceptionCatcherServ
      * @returns {Object} the processed error with a custom error message
      */
     function requestFailed(error) {
+        logger.error('requestFailed', 'Request failed!');
         var parsedError = blogExceptionCatcherService.catcher(error);
 
-        if (!(parsedError && parsedError instanceof blogExceptionCatcherService.error))
+        if (!(parsedError && parsedError instanceof blogExceptionCatcherService.error)) {
+            logger.error('requestFailed', 'Unknown error!');
+            logger.debug('requestFailed', 'Error object: {0}', [ JSON.stringify(parsedError, null, 2) ]);
             throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
-        else
+        }
+        else {
+            logger.error('requestFailed', 'Blog error!');
+            logger.debug('requestFailed', 'Blog Error object: {0}', [ JSON.stringify(parsedError, null, 2) ]);
             throw parsedError;
+        }
     }
 }
