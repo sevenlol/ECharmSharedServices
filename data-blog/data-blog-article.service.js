@@ -7,7 +7,13 @@ angular
     .module('data.blog')
     .factory('blogArticleService', blogArticleService);
 
-blogArticleService.$inject = ['$http', 'blogValidatorService', 'blogExceptionCatcherService', 'valueService', 'Logger'];
+blogArticleService.$inject = [
+    '$http',
+    'blogValidatorService',
+    'blogExceptionCatcherService',
+    'valueService',
+    'Logger'
+];
 
 function blogArticleService($http, blogValidatorService, blogExceptionCatcherService, valueService, Logger) {
     // TODO put SERVER_URL in another module
