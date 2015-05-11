@@ -7,7 +7,14 @@ angular
     .module('data.blog')
     .factory('blogValidatorService', blogValidatorService);
 
-function blogValidatorService() {
+blogValidatorService.$inject = [
+    'Logger'
+];
+
+function blogValidatorService(Logger) {
+    // Logger instance
+    var logger = Logger.getInstance('app - data - blog - validator');
+
     var service = {
         requestValidator : {
             articleValidator : {
@@ -54,13 +61,20 @@ function blogValidatorService() {
      *                    null otherwise
      */
     function validateRequestArticleFilled(article) {
+        logger.debug('validateRequestArticleFilled', 'article: {0}', [ JSON.stringify(article, null, 2) ]);
+
         // check if the article object
-        if (!angular.isObject(article) || article === null || angular.isArray(article))
+        if (!angular.isObject(article) || article === null || angular.isArray(article)) {
+            logger.error('validateRequestArticleFilled', 'Invalid input: article object');
+            logger.debug('validateRequestArticleFilled', 'article type: {0}', [ typeof article ]);
             return null;
+        }
 
         // check number fields
         if (!angular.isNumber(article.rating) ||
             !angular.isNumber(article.rating_count)) {
+            logger.error('validateRequestArticleFilled', 'Invalid number field!');
+            logger.debug('validateRequestArticleFilled', 'article.rating: {0}, article.rating_count: {1}', [ typeof article.rating, typeof article.rating_count]);
             return null;
         }
 
@@ -70,12 +84,18 @@ function blogValidatorService() {
             !angular.isString(article.title)        || article.title        === "" ||
             !angular.isString(article.created_at)   || article.created_at   === "" ||
             !angular.isString(article.updated_at)   || article.updated_at   === "") {
+            logger.error('validateRequestArticleFilled', 'Invalid string field!');
+            logger.debug('validateRequestArticleFilled', 'article.content_text: {0}, article.author_id: {1}', [ typeof article.content_text, typeof article.author_id]);
+            logger.debug('validateRequestArticleFilled', 'article.title: {0}, article.created_at: {1}, article.updated_at: {2}',
+                         [ typeof article.title, typeof article.created_at, typeof article.updated_at]);
             return null;
         }
 
         // check array fields
         if (!angular.isArray(article.image_arr) ||
             !angular.isArray(article.tag_arr)) {
+            logger.error('validateRequestArticleFilled', 'Invalid array field!');
+            logger.debug('validateRequestArticleFilled', 'article.image_arr: {0}, article.tag_arr: {1}', [ typeof article.image_arr, typeof article.tag_arr]);
             return null;
         }
 
@@ -90,9 +110,14 @@ function blogValidatorService() {
      *                    null otherwise
      */
     function validateRequestArticleNotEmpty(article) {
+        logger.debug('validateRequestArticleNotEmpty', 'article: {0}', [ JSON.stringify(article, null, 2) ]);
+
         // check if the article object
-        if (!angular.isObject(article) || article === null || angular.isArray(article))
+        if (!angular.isObject(article) || article === null || angular.isArray(article)) {
+            logger.error('validateRequestArticleNotEmpty', 'Invalid input: article object');
+            logger.debug('validateRequestArticleNotEmpty', 'article type: {0}', [ typeof article ]);
             return null;
+        }
 
         // check if any fields are invalid
         if (!angular.isNumber(article.rating)        &&
@@ -104,6 +129,7 @@ function blogValidatorService() {
             (!angular.isString(article.updated_at)   || article.updated_at   === "") &&
             !angular.isArray(article.image_arr)      &&
             !angular.isArray(article.tag_arr)) {
+            logger.error('validateRequestArticleNotEmpty', 'Empty input: article object');
             return null;
         }
 
@@ -119,20 +145,32 @@ function blogValidatorService() {
      *                  articles (others are filtered)
      */
     function validateResponseArticleArray(articleArray) {
+        logger.debug('validateResponseArticleArray', 'article array: {0}', [ JSON.stringify(articleArray, null, 2) ]);
+
         // check the article array
-        if (!angular.isArray(articleArray) || articleArray.length <= 0)
+        if (!angular.isArray(articleArray) || articleArray.length <= 0) {
+            logger.error('validateResponseArticleArray', 'Invalid input: articleArray');
+            logger.debug('validateResponseArticleArray', 'articleArray type: {0}', [ typeof articleArray ]);
+            if (angular.isArray(articleArray))
+                logger.debug('validateResponseArticleArray', 'articleArray length: {0}', [ articleArray.length ]);
+
             return null;
+        }
 
         for (var i = 0; i < articleArray.length; i++) {
             var article = validateResponseArticleObject(articleArray[i]);
             if (article === null) {
+                logger.error('validateResponseArticleArray', 'Invalid article: articleArray[{0}]', [ i ]);
+                logger.debug('validateResponseArticleArray', 'articleArray[{0}]: {1}', [ i, JSON.stringify(articleArray[i], null, 2)]);
                 // remove invalid array
                 articleArray.splice(i--, 1);
             }
         }
 
-        if (articleArray.length === 0)
+        if (articleArray.length === 0) {
+            logger.error('validateResponseArticleArray', 'Empty Array!');
             return null;
+        }
 
         return articleArray;
     }
@@ -145,13 +183,20 @@ function blogValidatorService() {
      *                    null otherwise
      */
     function validateResponseArticleObject(article) {
+        logger.debug('validateResponseArticleObject', 'article: {0}', [ JSON.stringify(article, null, 2) ]);
+
         // check if the article object
-        if (!angular.isObject(article) || article === null  || angular.isArray(article))
+        if (!angular.isObject(article) || article === null  || angular.isArray(article)) {
+            logger.error('validateResponseArticleObject', 'Invalid input: article object');
+            logger.debug('validateResponseArticleObject', 'article type: {0}', [ typeof article ]);
             return null;
+        }
 
         // check number fields
         if (!angular.isNumber(article.rating) ||
             !angular.isNumber(article.rating_count)) {
+            logger.error('validateResponseArticleObject', 'Invalid number field!');
+            logger.debug('validateResponseArticleObject', 'article.rating: {0}, article.rating_count: {1}', [ typeof article.rating, typeof article.rating_count]);
             return null;
         }
 
@@ -163,12 +208,19 @@ function blogValidatorService() {
             !angular.isString(article.title)        || article.title        === "" ||
             !angular.isString(article.created_at)   || article.created_at   === "" ||
             !angular.isString(article.updated_at)   || article.updated_at   === "") {
+            logger.error('validateResponseArticleObject', 'Invalid string field!');
+            logger.debug('validateResponseArticleObject', 'article.content_text: {0}, article.author_id: {1}, article.article_id: {2}, article.category: {3}',
+                         [ typeof article.content_text, typeof article.author_id, typeof article.article_id, typeof article.category]);
+            logger.debug('validateResponseArticleObject', 'article.title: {0}, article.created_at: {1}, article.updated_at: {2}',
+                         [ typeof article.title, typeof article.created_at, typeof article.updated_at]);
             return null;
         }
 
         // check array fields
         if (!angular.isArray(article.image_arr) ||
             !angular.isArray(article.tag_arr)) {
+            logger.error('validateResponseArticleObject', 'Invalid array field!');
+            logger.debug('validateResponseArticleObject', 'article.image_arr: {0}, article.tag_arr: {1}', [ typeof article.image_arr, typeof article.tag_arr]);
             return null;
         }
 
