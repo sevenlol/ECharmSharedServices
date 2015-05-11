@@ -7,8 +7,16 @@ angular
     .module('data.blog')
     .factory('blogExceptionCatcherService', blogExceptionCatcherService);
 
-function blogExceptionCatcherService() {
+blogExceptionCatcherService.$inject = [
+    'Logger'
+];
+
+function blogExceptionCatcherService(Logger) {
     var DEFAULT_ERROR_MESSAGE = 'Some Unknown Error Occurred!';
+
+    // Logger object
+    var logger = Logger.getInstance('app - data - blog - exception - catcher');
+
     var service = {
         DEFAULT_ERROR_MESSAGE : DEFAULT_ERROR_MESSAGE,
         error : BlogError,
@@ -28,10 +36,14 @@ function blogExceptionCatcherService() {
      *                   error message
      */
     function catcher(error) {
-        if (!validateError(error) || error.status === 0)
+        if (!validateError(error) || error.status === 0) {
+            logger.error('catcher', 'Invalid input: error');
             return new BlogError(DEFAULT_ERROR_MESSAGE, error);
+        }
 
         var errorMessage;
+
+        logger.debug('catcher', 'Error status: {0}', [ error.status ]);
 
         if (error.status === 400) {
             errorMessage = 'Something is wrong with the request!';
@@ -86,11 +98,15 @@ function blogExceptionCatcherService() {
      *                    return false otherwise
      */
     function validateError(error) {
-        if (!angular.isObject(error) || error === null || angular.isArray(error))
+        if (!angular.isObject(error) || error === null || angular.isArray(error)) {
+            logger.error('validateError', 'Invalid input: error, type: {0}', [ typeof error ]);
             return false;
+        }
 
-        if (!angular.isNumber(error.status))
+        if (!angular.isNumber(error.status)) {
+            logger.error('validateError', 'Invalid input: error.status, type: {0}', [ typeof error.status ]);
             return false;
+        }
 
         return true;
     }
