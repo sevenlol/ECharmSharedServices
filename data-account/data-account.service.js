@@ -56,7 +56,10 @@ function accountService($http, accountResponseHandlerCatcherService, accountVali
         readArbitraryAccountByEmail     :  readArbitraryAccountByEmail,
 
         /* read all */
-        readAllAccount                  :  readAllAccount
+        readAllAccount                  :  readAllAccount,
+
+        /* delete all */
+        deleteAllAccount                :  deleteAllAccount
     };
     return service;
 
@@ -116,6 +119,15 @@ function accountService($http, accountResponseHandlerCatcherService, accountVali
         return getHttpPromise(HTTP_METHOD.GET, url, null, VALIDATOR.ARRAY, VALIDATOR.OBJECT);
     }
 
+    function deleteAllAccount() {
+        var url = assembleURL(SERVER_URL, false, '');
+
+        if (!url)
+            throw new Error(accountExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
+
+        return getHttpPromise(HTTP_METHOD.DELETE, url, null, VALIDATOR.ARRAY, VALIDATOR.OBJECT);
+    }
+
     /*
      * private functions
      */
@@ -165,6 +177,16 @@ function accountService($http, accountResponseHandlerCatcherService, accountVali
                         (function (validateArray, validateObject) {
                             return function(response) {
                                 return REQ_COMPLETED_CALLBACK.GET(response, validateArray, validateObject);
+                            };
+                        })(validateArray, validateObject)
+                    )
+                    .catch(RES_FAILED_CALLBACK);
+        } else if (method === HTTP_METHOD.DELETE) {
+            return $http.delete(url)
+                    .then(
+                        (function (validateArray, validateObject) {
+                            return function(response) {
+                                return REQ_COMPLETED_CALLBACK.DELETE(response, validateArray, validateObject);
                             };
                         })(validateArray, validateObject)
                     )
