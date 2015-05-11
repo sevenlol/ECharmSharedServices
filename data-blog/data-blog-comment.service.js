@@ -191,7 +191,7 @@ function blogCommentService($http, blogValidatorService, blogExceptionCatcherSer
             throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
         }
 
-        logger.log('updateComment', 'Validation done. Reading comment ...');
+        logger.log('updateComment', 'Validation done. Updating comment ...');
         return $http.put(url, comment)
                     .then(putRequestCompleted)
                     .catch(requestFailed);
@@ -238,7 +238,7 @@ function blogCommentService($http, blogValidatorService, blogExceptionCatcherSer
             throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
         }
 
-        logger.log('partiallyUpdateComment', 'Validation done. Reading comment ...');
+        logger.log('partiallyUpdateComment', 'Validation done. Partially updating comment ...');
         return $http.patch(url, comment)
                     .then(putRequestCompleted)
                     .catch(requestFailed);
@@ -345,8 +345,8 @@ function blogCommentService($http, blogValidatorService, blogExceptionCatcherSer
             !category   ||
             !articleId) {
             logger.error('assembleURL', 'Empty input string!');
-            logger.debug('assembleURL', 'SERVER_URL: {0}, category: {1}, articleId: {2}, commentId: {3}',
-                [SERVER_URL, category, articleId, commentId]);
+            logger.debug('assembleURL', 'SERVER_URL: {0}, category: {1}, articleId: {2}',
+                [SERVER_URL, category, articleId]);
             return '';
         }
 
