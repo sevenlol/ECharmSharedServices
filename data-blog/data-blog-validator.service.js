@@ -238,9 +238,14 @@ function blogValidatorService(Logger) {
      *                    null otherwise
      */
     function validateRequestCommentFilled(comment) {
+        logger.debug('validateRequestCommentFilled', 'comment: {0}', [ JSON.stringify(comment, null, 2) ]);
+
         // check if the comment object is valid
-        if (!angular.isObject(comment) || comment === null || angular.isArray(comment))
+        if (!angular.isObject(comment) || comment === null || angular.isArray(comment)) {
+            logger.error('validateRequestCommentFilled', 'Invalid input: comment object');
+            logger.debug('validateRequestCommentFilled', 'comment type: {0}', [ typeof comment ]);
             return null;
+        }
 
         // check string fields
         if (!angular.isString(comment.commenter_id)           || comment.commenter_id === "" ||
@@ -249,6 +254,10 @@ function blogValidatorService(Logger) {
             !angular.isString(comment.created_at)             || comment.created_at   === "" ||
             !angular.isString(comment.updated_at)             || comment.updated_at   === "" ||
             !angular.isString(comment.author_response_text)   || comment.author_response_text   === "") {
+            logger.error('validateRequestCommentFilled', 'Invalid string field!');
+            logger.debug('validateRequestCommentFilled', 'comment.commenter_id: {0}, comment.comment_text: {1}', [ typeof comment.commenter_id, typeof comment.comment_text]);
+            logger.debug('validateRequestCommentFilled', 'comment.responded_at: {0}, comment.created_at: {1}, comment.updated_at: {2}, comment.author_response_text: {3}',
+                         [ typeof comment.responded_at, typeof comment.created_at, typeof comment.updated_at, comment.author_response_text]);
             return null;
         }
 
@@ -263,9 +272,14 @@ function blogValidatorService(Logger) {
      *                    null otherwise
      */
     function validateRequestCommentNotEmpty(comment) {
+        logger.debug('validateRequestCommentNotEmpty', 'comment: {0}', [ JSON.stringify(comment, null, 2) ]);
+
         // check if the comment object is valid
-        if (!angular.isObject(comment) || comment === null || angular.isArray(comment))
+        if (!angular.isObject(comment) || comment === null || angular.isArray(comment)) {
+            logger.error('validateRequestCommentNotEmpty', 'Invalid input: comment object');
+            logger.debug('validateRequestCommentNotEmpty', 'comment type: {0}', [ typeof comment ]);
             return null;
+        }
 
         // check if any fields are invalid
         if ((!angular.isString(comment.commenter_id)         || comment.commenter_id === "") &&
@@ -274,6 +288,7 @@ function blogValidatorService(Logger) {
             (!angular.isString(comment.created_at)           || comment.created_at   === "") &&
             (!angular.isString(comment.updated_at)           || comment.updated_at   === "") &&
             (!angular.isString(comment.author_response_text) || comment.author_response_text === "")) {
+            logger.error('validateRequestCommentNotEmpty', 'Empty input: comment object');
             return null;
         }
 
@@ -289,20 +304,32 @@ function blogValidatorService(Logger) {
      *                  comments (others are filtered)
      */
     function validateResponseCommentArray(commentArray) {
+        logger.debug('validateResponseCommentArray', 'comment array: {0}', [ JSON.stringify(commentArray, null, 2) ]);
+
         // check the comment array
-        if (!angular.isArray(commentArray) || commentArray.length <= 0)
+        if (!angular.isArray(commentArray) || commentArray.length <= 0) {
+            logger.error('validateResponseCommentArray', 'Invalid input: commentArray');
+            if (angular.isArray(commentArray))
+                logger.debug('validateResponseCommentArray', 'commentArray length: {0}', [ commentArray.length ]);
+            else
+                logger.debug('validateResponseCommentArray', 'commentArray type: {0}', [ typeof commentArray ]);
             return null;
+        }
 
         for (var i = 0; i < commentArray.length; i++) {
             var comment = validateResponseCommentObject(commentArray[i]);
             if (comment === null) {
                 // remove invalid array
+                logger.error('validateResponseCommentArray', 'Invalid comment: commentArray[{0}]', [ i ]);
+                logger.debug('validateResponseCommentArray', 'commentArray[{0}]: {1}', [ i, JSON.stringify(commentArray[i], null, 2)]);
                 commentArray.splice(i--, 1);
             }
         }
 
-        if (commentArray.length === 0)
+        if (commentArray.length === 0) {
+            logger.error('validateResponseCommentArray', 'Empty Array!');
             return null;
+        }
 
         return commentArray;
     }
@@ -315,9 +342,14 @@ function blogValidatorService(Logger) {
      *                    null otherwise
      */
     function validateResponseCommentObject(comment) {
+        logger.debug('validateResponseCommentObject', 'comment: {0}', [ JSON.stringify(comment, null, 2) ]);
+
         // check if the comment object is valid
-        if (!angular.isObject(comment) || comment === null || angular.isArray(comment))
+        if (!angular.isObject(comment) || comment === null || angular.isArray(comment)) {
+            logger.error('validateResponseCommentObject', 'Invalid input: comment object');
+            logger.debug('validateResponseCommentObject', 'comment type: {0}', [ typeof comment ]);
             return null;
+        }
 
         // check string fields
         if (!angular.isString(comment.article_id)             || comment.article_id   === "" ||
@@ -329,6 +361,12 @@ function blogValidatorService(Logger) {
             !angular.isString(comment.created_at)             || comment.created_at   === "" ||
             !angular.isString(comment.updated_at)             || comment.updated_at   === "" ||
             !angular.isString(comment.author_response_text)   || comment.author_response_text   === "") {
+            logger.error('validateResponseCommentObject', 'Invalid string field!');
+            logger.debug('validateResponseCommentObject', 'comment.commenter_id: {0}, comment.comment_text: {1}, comment.article_id: {2}, comment.comment_id: {3}',
+                         [ typeof comment.commenter_id, typeof comment.comment_text, typeof comment.article_id, typeof comment.comment_id]);
+            logger.debug('validateResponseCommentObject', 'comment.responded_at: {0}, comment.created_at: {1}, comment.updated_at: {2}, comment.author_response_text: {3}',
+                         [ typeof comment.responded_at, typeof comment.created_at, typeof comment.updated_at, comment.author_response_text]);
+            logger.debug('validateResponseCommentObject', 'comment.category: {0}', [ typeof comment.category ]);
             return null;
         }
 
@@ -346,12 +384,19 @@ function blogValidatorService(Logger) {
      *                    null otherwise
      */
     function validateRequestRatingFilled(rating) {
+        logger.debug('validateRequestRatingFilled', 'rating: {0}', [ JSON.stringify(rating, null, 2) ]);
+
         // check if the rating object is valid
-        if (!angular.isObject(rating) || rating === null || angular.isArray(rating))
+        if (!angular.isObject(rating) || rating === null || angular.isArray(rating)) {
+            logger.error('validateRequestRatingFilled', 'Invalid input: rating object');
+            logger.debug('validateRequestRatingFilled', 'rating type: {0}', [ typeof rating ]);
             return null;
+        }
 
         // check number fields
         if (!angular.isNumber(rating.rating_value)) {
+            logger.error('validateRequestRatingFilled', 'Invalid number field!');
+            logger.debug('validateRequestRatingFilled', 'rating.rating_value: {0}', [ typeof rating.rating_value ]);
             return null;
         }
 
@@ -359,6 +404,9 @@ function blogValidatorService(Logger) {
         if (!angular.isString(rating.rater_id)   || rating.rater_id     === "" ||
             !angular.isString(rating.created_at) || rating.created_at   === "" ||
             !angular.isString(rating.updated_at) || rating.updated_at   === "") {
+            logger.error('validateRequestRatingFilled', 'Invalid string field!');
+            logger.debug('validateRequestRatingFilled', 'rating.rater_id: {0}, rating.created_at: {1}, rating.updated_at: {2}',
+                         [ typeof rating.rater_id, typeof rating.created_at, typeof rating.updated_at]);
             return null;
         }
 
@@ -373,15 +421,21 @@ function blogValidatorService(Logger) {
      *                    null otherwise
      */
     function validateRequestRatingNotEmpty(rating) {
+        logger.debug('validateRequestRatingNotEmpty', 'rating: {0}', [ JSON.stringify(rating, null, 2) ]);
+
         // check if the rating object
-        if (!angular.isObject(rating) || rating === null || angular.isArray(rating))
+        if (!angular.isObject(rating) || rating === null || angular.isArray(rating)) {
+            logger.error('validateRequestRatingNotEmpty', 'Invalid input: rating object');
+            logger.debug('validateRequestRatingNotEmpty', 'rating type: {0}', [ typeof rating ]);
             return null;
+        }
 
         // check if any fields are invalid
         if (!angular.isNumber(rating.rating_value)                            &&
            (!angular.isString(rating.rater_id)   || rating.rater_id   === "") &&
            (!angular.isString(rating.created_at) || rating.created_at === "") &&
            (!angular.isString(rating.updated_at) || rating.updated_at === "")) {
+            logger.error('validateRequestRatingNotEmpty', 'Empty input: rating object');
             return null;
         }
 
@@ -397,20 +451,33 @@ function blogValidatorService(Logger) {
      *                  ratings (others are filtered)
      */
     function validateResponseRatingArray(ratingArray) {
+        logger.debug('validateResponseRatingArray', 'rating array: {0}', [ JSON.stringify(ratingArray, null, 2) ]);
+
         // check the rating array
-        if (!angular.isArray(ratingArray) || ratingArray.length <= 0)
+        if (!angular.isArray(ratingArray) || ratingArray.length <= 0) {
+            logger.error('validateResponseRatingArray', 'Invalid input: ratingArray');
+            if (angular.isArray(ratingArray))
+                logger.debug('validateResponseRatingArray', 'ratingArray length: {0}', [ ratingArray.length ]);
+            else
+                logger.debug('validateResponseRatingArray', 'ratingArray type: {0}', [ typeof ratingArray ]);
+
             return null;
+        }
 
         for (var i = 0; i < ratingArray.length; i++) {
             var rating = validateResponseRatingObject(ratingArray[i]);
             if (rating === null) {
                 // remove invalid array
+                logger.error('validateResponseRatingArray', 'Invalid rating: ratingArray[{0}]', [ i ]);
+                logger.debug('validateResponseRatingArray', 'ratingArray[{0}]: {1}', [ i, JSON.stringify(ratingArray[i], null, 2)]);
                 ratingArray.splice(i--, 1);
             }
         }
 
-        if (ratingArray.length === 0)
+        if (ratingArray.length === 0) {
+            logger.error('validateResponseRatingArray', 'Empty Array!');
             return null;
+        }
 
         return ratingArray;
     }
@@ -423,12 +490,19 @@ function blogValidatorService(Logger) {
      *                    null otherwise
      */
     function validateResponseRatingObject(rating) {
+        logger.debug('validateResponseRatingObject', 'rating: {0}', [ JSON.stringify(rating, null, 2) ]);
+
         // check if the rating object is valid
-        if (!angular.isObject(rating) || rating === null || angular.isArray(rating))
+        if (!angular.isObject(rating) || rating === null || angular.isArray(rating)) {
+            logger.error('validateResponseRatingObject', 'Invalid input: rating object');
+            logger.debug('validateResponseRatingObject', 'rating type: {0}', [ typeof rating ]);
             return null;
+        }
 
         // check number fields
         if (!angular.isNumber(rating.rating_value)) {
+            logger.error('validateResponseRatingObject', 'Invalid number field!');
+            logger.debug('validateResponseRatingObject', 'rating.rating_value: {0}', [ typeof rating.rating_value]);
             return null;
         }
 
@@ -439,6 +513,11 @@ function blogValidatorService(Logger) {
             !angular.isString(rating.rater_id)   || rating.rater_id     === "" ||
             !angular.isString(rating.created_at) || rating.created_at   === "" ||
             !angular.isString(rating.updated_at) || rating.updated_at   === "") {
+            logger.error('validateResponseRatingObject', 'Invalid string field!');
+            logger.debug('validateResponseRatingObject', 'rating.category: {0}, rating.article_id: {1}, rating.rating_id: {2}, rating.rater_id: {3}',
+                         [ typeof rating.category, typeof rating.article_id, typeof rating.rating_id, typeof rating.rater_id]);
+            logger.debug('validateResponseRatingObject', 'rating.created_at: {0}, rating.updated_at: {1}',
+                         [ typeof rating.created_at, typeof rating.updated_at]);
             return null;
         }
 
