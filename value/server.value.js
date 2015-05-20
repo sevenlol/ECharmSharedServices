@@ -5,6 +5,7 @@
 //module getter
 angular
     .module('app.value')
+    .constant('SERVER_URL_AUTH', 'http://localhost:8080')
     .constant('SERVER_URL_BLOG', 'http://localhost:8080')
     .constant('SERVER_URL_ASKDOCTOR', 'http://localhost:8080')
     .constant('SERVER_URL_ACCOUNT', 'http://localhost:8080')

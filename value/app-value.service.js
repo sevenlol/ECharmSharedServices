@@ -9,6 +9,7 @@ angular
 
 valueService.$inject = [
     /* Server */
+    'SERVER_URL_AUTH',
     'SERVER_URL_BLOG',
     'SERVER_URL_ASKDOCTOR',
     'SERVER_URL_ACCOUNT',
@@ -25,12 +26,13 @@ valueService.$inject = [
     'ACCOUNT_TYPE_ECHARM'
 ];
 
-function valueService(SERVER_URL_BLOG, SERVER_URL_ASKDOCTOR, SERVER_URL_ACCOUNT, HTTP_METHOD_GET,
+function valueService(SERVER_URL_AUTH, SERVER_URL_BLOG, SERVER_URL_ASKDOCTOR, SERVER_URL_ACCOUNT, HTTP_METHOD_GET,
                       HTTP_METHOD_POST, HTTP_METHOD_PUT, HTTP_METHOD_PATCH, HTTP_METHOD_DELETE,
                       USER_TYPE_USER, USER_TYPE_DOCTOR, USER_TYPE_ADMIN, ACCOUNT_TYPE_ECHARM) {
     var service = {
         /* Server */
         SERVER_URL : {
+            AUTH      : SERVER_URL_AUTH,
             BLOG      : SERVER_URL_BLOG,
             ASKDOCTOR : SERVER_URL_ASKDOCTOR,
             ACCOUNT   : SERVER_URL_ACCOUNT
