@@ -53,7 +53,7 @@ function authService($http, $window, valueService) {
     }
 
     function fbSignIn(redirectUrl) {
-        $window.location.href = $rootScope.serverUrl + 'auth/facebook';
+        $window.location.href = SERVER_URL + '/auth/facebook';
     }
 
     /* private functions */
