@@ -22,7 +22,7 @@ function authService($http, $window, valueService) {
     /* public functions */
 
     function checkAuthStatus(authedCallback, notAuthedCallback) {
-        authenticate(null, authedCallback, notAuthedCallback);
+        return authenticate(null, authedCallback, notAuthedCallback);
     }
 
     function signIn(credentials, successCallback, failureCallback) {
@@ -70,9 +70,9 @@ function authService($http, $window, valueService) {
                       { authorization : "Basic " + btoa(credentials.username + ":" + credentials.password) } :
                       {};
 
-        $http
-            .get(SERVER_URL + '/user', {headers : headers})
-            .success(verifiedSuccessCallback)
-            .error(verifiedFailureCallback);
+        return $http
+                .get(SERVER_URL + '/user', {headers : headers})
+                .success(verifiedSuccessCallback)
+                .error(verifiedFailureCallback);
     }
 }
