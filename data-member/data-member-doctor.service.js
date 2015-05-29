@@ -16,9 +16,30 @@
 
     function memberDoctorService() {
         var service = {
-
+            createDoctor          : createDoctor,
+            readAllDoctors        : readAllDoctors,
+            readDoctorsInCategory : readDoctorsInCategory,
+            updateMeDoctor        : updateMeDoctor
         };
         return service;
+
+        /* public functions */
+
+        function createDoctor() {
+            // body...
+        }
+
+        function readAllDoctors() {
+            // body...
+        }
+
+        function readDoctorsInCategory() {
+            // body...
+        }
+
+        function updateMeDoctor() {
+            // body...
+        }
     }
 
 })();
