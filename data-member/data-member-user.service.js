@@ -36,6 +36,29 @@
         function readUsers(idList) {
             // body...
         }
+
+        /* private functions */
+
+        function buildIdListStr(idList) {
+            if (!angular.isArray(idList) || idList.length <= 0) {
+                return null;
+            }
+
+            var idListStr = '';
+
+            for (var i = 0; i < idList.length; i++) {
+                if (!angular.isString(idList[i]) || idList[i] === '') {
+                    continue;
+                }
+
+                if (i !== 0)
+                    idListStr += ',';
+
+                idListStr += idList[i];
+            }
+
+            return idListStr;
+        }
     }
 
 })();
