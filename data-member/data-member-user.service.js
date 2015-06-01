@@ -11,10 +11,16 @@
         .factory(memberUserService, memberUserService);
 
     memberUserService.$inject = [
-
+        '$http',
+        'memberResponseHandlerService',
+        'memberValidatorService',
+        'memberExceptionCatcherService',
+        'valueService',
+        'Logger'
     ];
 
-    function memberUserService() {
+    function memberUserService($http, memberResponseHandlerService, memberValidatorService,
+                               memberExceptionCatcherService, valueService, Logger) {
         var service = {
             updateMeUser : updateMeUser,
             readUsers    : readUsers
@@ -23,11 +29,11 @@
 
         /* public functions */
 
-        function updateMeUser() {
+        function updateMeUser(userAccount) {
             // body...
         }
 
-        function readUsers() {
+        function readUsers(idList) {
             // body...
         }
     }
