@@ -103,6 +103,10 @@ function accountResponseHandlerCatcherService(accountExceptionCatcherService) {
         if (!angular.isFunction(validateArray) || !angular.isFunction(validateObject))
         	return null;
 
+        // no content
+        if (response.status === 204)
+            return null;
+
         if (response.status === 200) {
             if (angular.isArray(response.data)) {
                 // array
