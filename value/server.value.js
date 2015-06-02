@@ -9,6 +9,7 @@ angular
     .constant('SERVER_URL_BLOG', 'http://localhost:8080')
     .constant('SERVER_URL_ASKDOCTOR', 'http://localhost:8080')
     .constant('SERVER_URL_ACCOUNT', 'http://localhost:8080')
+    .constant('SERVER_URL_MEMBER', 'http://localhost:8080')
     .value('HTTP_METHOD_GET', 'GET')
     .value('HTTP_METHOD_POST', 'POST')
     .value('HTTP_METHOD_PUT', 'PUT')
