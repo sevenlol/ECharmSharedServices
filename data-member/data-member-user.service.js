@@ -126,21 +126,21 @@
                             .then(reqCompletedCallback)
                             .catch(RES_FAILED_CALLBACK);
             } else if (method === HTTP_METHOD.POST) {
-                reqCompletedCallback = (function(validateArray, validateObject) {
+                reqCompletedCallback = (function(validateObject) {
                     return function(response) {
-                        return REQ_COMPLETED_CALLBACK.POST(response, validateArray, validateObject);
+                        return REQ_COMPLETED_CALLBACK.POST(response, validateObject);
                     };
-                })(RES_VALIDATOR.ARRAY, RES_VALIDATOR.OBJECT);
+                })(RES_VALIDATOR.OBJECT);
                 return  $http
                             .post(url, userAccount)
                             .then(reqCompletedCallback)
                             .catch(RES_FAILED_CALLBACK);
             } else if (method === HTTP_METHOD.PUT) {
-                reqCompletedCallback = (function(validateArray, validateObject) {
+                reqCompletedCallback = (function(validateObject) {
                     return function(response) {
-                        return REQ_COMPLETED_CALLBACK.PUT(response, validateArray, validateObject);
+                        return REQ_COMPLETED_CALLBACK.PUT(response, validateObject);
                     };
-                })(RES_VALIDATOR.ARRAY, RES_VALIDATOR.OBJECT);
+                })(RES_VALIDATOR.OBJECT);
                 return  $http
                             .put(url, userAccount)
                             .then(reqCompletedCallback)
