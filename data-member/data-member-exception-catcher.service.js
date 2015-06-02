@@ -8,7 +8,7 @@
     // module setter
     angular
         .module('data.member')
-        .factory(memberExceptionCatcherService, memberExceptionCatcherService);
+        .factory('memberExceptionCatcherService', memberExceptionCatcherService);
 
     memberExceptionCatcherService.$inject = [
 

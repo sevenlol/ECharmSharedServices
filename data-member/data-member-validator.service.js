@@ -8,7 +8,7 @@
     // module setter
     angular
         .module('data.member')
-        .factory(memberValidatorService, memberValidatorService);
+        .factory('memberValidatorService', memberValidatorService);
 
     memberValidatorService.$inject = [
         'Logger'
