@@ -33,6 +33,8 @@
             PATCH : memberResponseHandlerService.patchRequestCompleted,
             DELETE : memberResponseHandlerService.deleteRequestCompleted
         };
+        // Logger object
+        var logger = Logger.getInstance('app - data - member - user');
         var service = {
             updateMeUser : updateMeUser,
             readUsers    : readUsers
@@ -44,6 +46,7 @@
         function updateMeUser(userAccount) {
             // validate userAccount object
             if (REQ_VALIDATOR.PUT(userAccount) === null) {
+                logger.error('updateMeUser', 'Invalid input object: {0}', [ 'userAccount' ]);
                 throw new Error(memberExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
             }
 
@@ -51,9 +54,11 @@
             var url = assembleURL(SERVER_URL, '');
 
             if (!url) {
+                logger.error('updateMeUser', 'url assembly failed!');
                 throw new Error(memberExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
             }
 
+            logger.log('updateMeUser', 'Validation successfull! Updating my user information!');
             return getHttpPromise(HTTP_METHOD.PUT, url, userAccount);
         }
 
@@ -62,9 +67,11 @@
             var url = assembleURL(SERVER_URL, idListStr);
 
             if (!url) {
+                logger.error('readUsers', 'url assembly failed!');
                 throw new Error(memberExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
             }
 
+            logger.log('readUsers', 'Validation successfull! Reading user information!');
             return getHttpPromise(HTTP_METHOD.GET, url, null);
         }
 
@@ -73,6 +80,8 @@
         function buildIdListStr(idList) {
             // return empty string for the assembleURL function
             if (!angular.isArray(idList) || idList.length <= 0) {
+                logger.error('buildIdListStr', 'Invalid input: idList');
+                logger.debug('buildIdListStr', 'idList type: {0}', [ typeof idList ]);
                 return '';
             }
 
@@ -80,6 +89,7 @@
 
             for (var i = 0; i < idList.length; i++) {
                 if (!angular.isString(idList[i]) || idList[i] === '') {
+                    logger.error('buildIdListStr', 'Invalid string item: index={0}', [ i ]);
                     continue;
                 }
 
@@ -89,27 +99,35 @@
                 idListStr += idList[i];
             }
 
+            logger.debug('buildIdListStr', 'Build string succeeded, idListStr={0}', [ idListStr ]);
             return idListStr;
         }
 
         function assembleURL(SERVER_URL, idListStr) {
             if (!angular.isString(SERVER_URL) ||
                 !angular.isString(idListStr)) {
+                logger.error('assembleURL', 'Invalid input type: SERVER_URL or idListStr');
+                logger.debug('assembleURL', 'SERVER_URL: {0}, idListStr: {1}', [ typeof SERVER_URL, typeof idListStr ]);
                 return '';
             }
 
             // SERVER_URL == ''
-            if (!SERVER_URL)
+            if (!SERVER_URL) {
+                logger.error('assembleURL', 'Empty SERVER_URL!');
                 return '';
+            }
 
             var assembledUrl = SERVER_URL + '/members/users';
 
             // idListStr == ''
-            if (!idListStr)
+            if (!idListStr) {
+                logger.debug('assembleURL', 'Empty idListStr, assembledUrl={0}', [ assembledUrl ]);
                 return assembledUrl;
+            }
 
             assembledUrl += '?id_list=' + idListStr;
 
+            logger.debug('assembleURL', 'Url assembled successfully, url={0}', [ assembledUrl ]);
             return assembledUrl;
         }
 
