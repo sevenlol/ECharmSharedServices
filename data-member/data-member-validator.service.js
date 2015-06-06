@@ -138,10 +138,10 @@
 
             // check doctor info's string fields
             if (!angular.isString(doctorInfo.name)              || doctorInfo.name              === "" ||
-                !angular.isString(doctorInfo.gender)            || doctorInfo.gender            === "" ||
-                !angular.isString(doctorInfo.phone_number)      || doctorInfo.phone_number      === "" ||
-                !angular.isString(doctorInfo.address)           || doctorInfo.address           === "" ||
-                !angular.isString(doctorInfo.category)          || doctorInfo.category          === "" ||
+                // !angular.isString(doctorInfo.gender)            || doctorInfo.gender            === "" ||
+                // !angular.isString(doctorInfo.phone_number)      || doctorInfo.phone_number      === "" ||
+                // !angular.isString(doctorInfo.address)           || doctorInfo.address           === "" ||
+                // !angular.isString(doctorInfo.category)          || doctorInfo.category          === "" ||
                 !angular.isString(doctorInfo.current_hospital)  || doctorInfo.current_hospital  === "" ||
                 !angular.isString(doctorInfo.college)           || doctorInfo.college           === "" ||
                 !angular.isString(doctorInfo.title)             || doctorInfo.title             === "" ||
