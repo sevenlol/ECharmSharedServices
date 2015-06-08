@@ -2,18 +2,26 @@
  * Comment Data Service for Ask Doctor System
  */
 
-//module getter
-angular
-    .module('data.askDoctor')
-    .factory('askDoctorCommentService', askDoctorCommentService);
+(function() {
+    "use strict";
 
-function askDoctorCommentService() {
-    var service = {
+	//module getter
+	angular
+	    .module('data.askDoctor')
+	    .factory('askDoctorCommentService', askDoctorCommentService);
 
-    };
-    return service;
+	askDoctorCommentService.$inject = [
+	];
 
-    /*
-     * functions
-     */
-}
+	function askDoctorCommentService() {
+	    var service = {
+
+	    };
+	    return service;
+
+	    /*
+	     * functions
+	     */
+	}
+
+})();

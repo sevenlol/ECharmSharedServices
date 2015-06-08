@@ -2,18 +2,26 @@
  * Answer Data Service for Ask Doctor System
  */
 
-//module getter
-angular
-    .module('data.askDoctor')
-    .factory('askDoctorAnswerService', askDoctorAnswerService);
+(function() {
+    "use strict";
 
-function askDoctorAnswerService() {
-    var service = {
+	//module getter
+	angular
+	    .module('data.askDoctor')
+	    .factory('askDoctorAnswerService', askDoctorAnswerService);
 
-    };
-    return service;
+	askDoctorAnswerService.$inject = [
+	];
 
-    /*
-     * functions
-     */
-}
+	function askDoctorAnswerService() {
+	    var service = {
+
+	    };
+	    return service;
+
+	    /*
+	     * functions
+	     */
+	}
+
+})();

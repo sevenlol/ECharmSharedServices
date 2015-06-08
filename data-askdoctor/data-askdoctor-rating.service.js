@@ -2,18 +2,26 @@
  * Rating Data Service for Ask Doctor System
  */
 
-//module getter
-angular
-    .module('data.askDoctor')
-    .factory('askDoctorRatingService', askDoctorRatingService);
+(function() {
+    "use strict";
 
-function askDoctorRatingService() {
-    var service = {
+	//module getter
+	angular
+	    .module('data.askDoctor')
+	    .factory('askDoctorRatingService', askDoctorRatingService);
 
-    };
-    return service;
+	askDoctorRatingService.$inject = [
+	];
 
-    /*
-     * functions
-     */
-}
+	function askDoctorRatingService() {
+	    var service = {
+
+	    };
+	    return service;
+
+	    /*
+	     * functions
+	     */
+	}
+
+})();

@@ -2,5 +2,13 @@
  *  Module For Ask Doctor System's Data Services
  */
 
-// module setter
-angular.module('data.askDoctor', []);
+(function() {
+    "use strict";
+
+    // module setter
+    angular.module('data.askdoctor', [
+        'ny.logger',
+        'app.value'
+    ]);
+
+})();
