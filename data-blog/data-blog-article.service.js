@@ -31,6 +31,9 @@ function blogArticleService($http, blogValidatorService, blogExceptionCatcherSer
         readArticleInCategory   :  readArticleInCategory,
         readArticle             :  readArticle,
 
+        /* Read By Field */
+        readArticleByAuthorId : readArticleByAuthorId,
+
         /* Update */
         updateArticle           :  updateArticle,
         partiallyUpdateArticle  :  partiallyUpdateArticle,
@@ -146,6 +149,34 @@ function blogArticleService($http, blogValidatorService, blogExceptionCatcherSer
         }
 
         logger.log('readArticle', 'Validation done. Reading the article ...');
+        return $http.get(url)
+                    .then(getRequestCompleted)
+                    .catch(requestFailed);
+    }
+
+    /* Read By Field */
+
+    function readArticleByAuthorId(category, authorId) {
+        // TODO validate category
+        // NOTE category is allowed to be empty
+
+        if (!angular.isString(authorId) || !authorId) {
+            logger.error('readArticleByAuthorId', 'authorId is not a string or is an empty string!');
+            logger.debug('readArticleByAuthorId', 'authorId: {0}', [ authorId ]);
+            throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
+        }
+
+        var url = assembleURL(SERVER_URL, category, '');
+
+        if (!url) {
+            logger.error('readArticleByAuthorId', 'Url assemble failed!');
+            throw new Error(blogExceptionCatcherService.DEFAULT_ERROR_MESSAGE);
+        }
+
+        // add author_id filtering
+        url += '?author_id=' + authorId;
+
+        logger.log('readArticleByAuthorId', 'Validation done. Reading articles ...');
         return $http.get(url)
                     .then(getRequestCompleted)
                     .catch(requestFailed);
