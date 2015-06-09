@@ -204,19 +204,108 @@
         /* answer */
 
         function validatePostRequestAnswer(answer) {
-            // body...
+            logger.debug('validatePostRequestAnswer', 'answer: {0}', [ JSON.stringify(answer, null, 2) ]);
+
+            // check if the answer object
+            if (!angular.isObject(answer) || answer === null || angular.isArray(answer)) {
+                logger.error('validatePostRequestAnswer', 'Invalid input: answer object');
+                logger.debug('validatePostRequestAnswer', 'answer type: {0}', [ typeof answer ]);
+                return null;
+            }
+
+            // check string fields
+            if (!angular.isString(answer.answer_text)   || answer.answer_text  === "" ||
+                !angular.isString(answer.answerer_id)   || answer.answerer_id  === "" ||
+                !angular.isString(answer.created_at)    || answer.created_at   === "" ||
+                !angular.isString(answer.updated_at)    || answer.updated_at   === "") {
+                logger.error('validatePostRequestAnswer', 'Invalid string field!');
+                logger.debug('validatePostRequestAnswer', 'answer.answer_text: {0}, answer.answerer_id: {1}', [ typeof answer.answer_text, typeof answer.answerer_id]);
+                logger.debug('validatePostRequestAnswer', 'answer.created_at: {0}, answer.updated_at: {1}',
+                             [ typeof answer.created_at, typeof answer.updated_at]);
+                return null;
+            }
+
+            return answer;
         }
 
         function validatePutRequestAnswer(answer) {
-            // body...
+            logger.debug('validatePutRequestAnswer', 'answer: {0}', [ JSON.stringify(answer, null, 2) ]);
+
+            // check if the answer object
+            if (!angular.isObject(answer) || answer === null || angular.isArray(answer)) {
+                logger.error('validatePutRequestAnswer', 'Invalid input: answer object');
+                logger.debug('validatePutRequestAnswer', 'answer type: {0}', [ typeof answer ]);
+                return null;
+            }
+
+            // check if any fields are invalid
+            if ((!angular.isString(answer.answer_text) || answer.answer_text  === "") &&
+                (!angular.isString(answer.answerer_id) || answer.answerer_id  === "") &&
+                (!angular.isString(answer.created_at)  || answer.created_at   === "") &&
+                (!angular.isString(answer.updated_at)  || answer.updated_at   === "")) {
+                logger.error('validatePutRequestAnswer', 'Empty input: answer object');
+                return null;
+            }
+
+            return answer;
         }
 
         function validateResponseAnswerArray(answerArray) {
-            // body...
+            logger.debug('validateResponseAnswerArray', 'answer array: {0}', [ JSON.stringify(answerArray, null, 2) ]);
+
+            // check the answer array
+            if (!angular.isArray(answerArray) || answerArray.length <= 0) {
+                logger.error('validateResponseAnswerArray', 'Invalid input: answerArray');
+                logger.debug('validateResponseAnswerArray', 'answerArray type: {0}', [ typeof answerArray ]);
+                if (angular.isArray(answerArray))
+                    logger.debug('validateResponseAnswerArray', 'answerArray length: {0}', [ answerArray.length ]);
+
+                return null;
+            }
+
+            for (var i = 0; i < answerArray.length; i++) {
+                var answer = validateResponseAnswerObject(answerArray[i]);
+                if (answer === null) {
+                    logger.error('validateResponseAnswerArray', 'Invalid answer: answerArray[{0}]', [ i ]);
+                    logger.debug('validateResponseAnswerArray', 'answerArray[{0}]: {1}', [ i, JSON.stringify(answerArray[i], null, 2)]);
+                    // remove invalid array
+                    answerArray.splice(i--, 1);
+                }
+            }
+
+            if (answerArray.length === 0) {
+                logger.error('validateResponseAnswerArray', 'Empty Array!');
+                return null;
+            }
+
+            return answerArray;
         }
 
         function validateResponseAnswerObject(answer) {
-            // body...
+            logger.debug('validateResponseAnswerObject', 'answer: {0}', [ JSON.stringify(answer, null, 2) ]);
+
+            // check if the answer object
+            if (!angular.isObject(answer) || answer === null || angular.isArray(answer)) {
+                logger.error('validateResponseAnswerObject', 'Invalid input: answer object');
+                logger.debug('validateResponseAnswerObject', 'answer type: {0}', [ typeof answer ]);
+                return null;
+            }
+
+            // check string fields
+            if (!angular.isString(answer.category)      || answer.category  === "" ||
+                !angular.isString(answer.question_id)   || answer.question_id  === "" ||
+                !angular.isString(answer.answer_text)   || answer.answer_text  === "" ||
+                !angular.isString(answer.answerer_id)   || answer.answerer_id  === "" ||
+                !angular.isString(answer.created_at)    || answer.created_at   === "" ||
+                !angular.isString(answer.updated_at)    || answer.updated_at   === "") {
+                logger.error('validateResponseAnswerObject', 'Invalid string field!');
+                logger.debug('validateResponseAnswerObject', 'answer.answer_text: {0}, answer.answerer_id: {1}', [ typeof answer.answer_text, typeof answer.answerer_id]);
+                logger.debug('validateResponseAnswerObject', 'answer.created_at: {0}, answer.updated_at: {1}',
+                             [ typeof answer.created_at, typeof answer.updated_at]);
+                return null;
+            }
+
+            return answer;
         }
 
         /* comment */
