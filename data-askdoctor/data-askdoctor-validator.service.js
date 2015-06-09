@@ -311,19 +311,111 @@
         /* comment */
 
         function validatePostRequestComment(comment) {
-            // body...
+            logger.debug('validatePostRequestComment', 'comment: {0}', [ JSON.stringify(comment, null, 2) ]);
+
+            // check if the comment object is valid
+            if (!angular.isObject(comment) || comment === null || angular.isArray(comment)) {
+                logger.error('validatePostRequestComment', 'Invalid input: comment object');
+                logger.debug('validatePostRequestComment', 'comment type: {0}', [ typeof comment ]);
+                return null;
+            }
+
+            // check string fields
+            if (!angular.isString(comment.commenter_id)           || comment.commenter_id === "" ||
+                !angular.isString(comment.comment_text)           || comment.comment_text === "" ||
+                !angular.isString(comment.created_at)             || comment.created_at   === "" ||
+                !angular.isString(comment.updated_at)             || comment.updated_at   === "") {
+                logger.error('validatePostRequestComment', 'Invalid string field!');
+                logger.debug('validatePostRequestComment', 'comment.commenter_id: {0}, comment.comment_text: {1}', [ typeof comment.commenter_id, typeof comment.comment_text]);
+                logger.debug('validatePostRequestComment', 'comment.created_at: {0}, comment.updated_at: {1} ',
+                             [ typeof comment.created_at, typeof comment.updated_at ]);
+                return null;
+            }
+
+            return comment;
         }
 
         function validatePutRequestComment(comment) {
-            // body...
+            logger.debug('validatePutRequestComment', 'comment: {0}', [ JSON.stringify(comment, null, 2) ]);
+
+            // check if the comment object is valid
+            if (!angular.isObject(comment) || comment === null || angular.isArray(comment)) {
+                logger.error('validatePutRequestComment', 'Invalid input: comment object');
+                logger.debug('validatePutRequestComment', 'comment type: {0}', [ typeof comment ]);
+                return null;
+            }
+
+            // check if any fields are invalid
+            if ((!angular.isString(comment.commenter_id)         || comment.commenter_id === "") &&
+                (!angular.isString(comment.comment_text)         || comment.comment_text === "") &&
+                (!angular.isString(comment.created_at)           || comment.created_at   === "") &&
+                (!angular.isString(comment.updated_at)           || comment.updated_at   === "")) {
+                logger.error('validatePutRequestComment', 'Empty input: comment object');
+                return null;
+            }
+
+            return comment;
         }
 
         function validateResponseCommentArray(commentArray) {
-            // body...
+            logger.debug('validateResponseCommentArray', 'comment array: {0}', [ JSON.stringify(commentArray, null, 2) ]);
+
+            // check the comment array
+            if (!angular.isArray(commentArray) || commentArray.length <= 0) {
+                logger.error('validateResponseCommentArray', 'Invalid input: commentArray');
+                if (angular.isArray(commentArray))
+                    logger.debug('validateResponseCommentArray', 'commentArray length: {0}', [ commentArray.length ]);
+                else
+                    logger.debug('validateResponseCommentArray', 'commentArray type: {0}', [ typeof commentArray ]);
+                return null;
+            }
+
+            for (var i = 0; i < commentArray.length; i++) {
+                var comment = validateResponseCommentObject(commentArray[i]);
+                if (comment === null) {
+                    // remove invalid array
+                    logger.error('validateResponseCommentArray', 'Invalid comment: commentArray[{0}]', [ i ]);
+                    logger.debug('validateResponseCommentArray', 'commentArray[{0}]: {1}', [ i, JSON.stringify(commentArray[i], null, 2)]);
+                    commentArray.splice(i--, 1);
+                }
+            }
+
+            if (commentArray.length === 0) {
+                logger.error('validateResponseCommentArray', 'Empty Array!');
+                return null;
+            }
+
+            return commentArray;
         }
 
         function validateResponseCommentObject(comment) {
-            // body...
+            logger.debug('validateResponseCommentObject', 'comment: {0}', [ JSON.stringify(comment, null, 2) ]);
+
+            // check if the comment object is valid
+            if (!angular.isObject(comment) || comment === null || angular.isArray(comment)) {
+                logger.error('validateResponseCommentObject', 'Invalid input: comment object');
+                logger.debug('validateResponseCommentObject', 'comment type: {0}', [ typeof comment ]);
+                return null;
+            }
+
+            // check string fields
+            if (!angular.isString(comment.question_id)            || comment.question_id  === "" ||
+                !angular.isString(comment.comment_id)             || comment.comment_id   === "" ||
+                !angular.isString(comment.category)               || comment.category     === "" ||
+                !angular.isString(comment.commenter_id)           || comment.commenter_id === "" ||
+                !angular.isString(comment.comment_text)           || comment.comment_text === "" ||
+                !angular.isString(comment.created_at)             || comment.created_at   === "" ||
+                !angular.isString(comment.updated_at)             || comment.updated_at   === "") {
+                logger.error('validateResponseCommentObject', 'Invalid string field!');
+                logger.debug('validateResponseCommentObject', 'comment.commenter_id: {0}, comment.comment_text: {1}, comment.question_id: {2}, comment.comment_id: {3}',
+                             [ typeof comment.commenter_id, typeof comment.comment_text, typeof comment.question_id, typeof comment.comment_id]);
+                logger.debug('validateResponseCommentObject', 'comment.created_at: {0}, comment.updated_at: {1}',
+                             [ typeof comment.created_at, typeof comment.updated_at ]);
+                logger.debug('validateResponseCommentObject', 'comment.category: {0}', [ typeof comment.category ]);
+                return null;
+            }
+
+            return comment;
         }
 
         /* rating */
