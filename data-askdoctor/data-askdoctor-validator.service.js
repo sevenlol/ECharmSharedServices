@@ -421,19 +421,122 @@
         /* rating */
 
         function validatePostRequestRating(rating) {
-            // body...
+            logger.debug('validatePostRequestRating', 'rating: {0}', [ JSON.stringify(rating, null, 2) ]);
+
+            // check if the rating object is valid
+            if (!angular.isObject(rating) || rating === null || angular.isArray(rating)) {
+                logger.error('validatePostRequestRating', 'Invalid input: rating object');
+                logger.debug('validatePostRequestRating', 'rating type: {0}', [ typeof rating ]);
+                return null;
+            }
+
+            // check number fields
+            if (!angular.isNumber(rating.rating_value)) {
+                logger.error('validatePostRequestRating', 'Invalid number field!');
+                logger.debug('validatePostRequestRating', 'rating.rating_value: {0}', [ typeof rating.rating_value ]);
+                return null;
+            }
+
+            // check string fields
+            if (!angular.isString(rating.rater_id)   || rating.rater_id     === "" ||
+                !angular.isString(rating.created_at) || rating.created_at   === "" ||
+                !angular.isString(rating.updated_at) || rating.updated_at   === "") {
+                logger.error('validatePostRequestRating', 'Invalid string field!');
+                logger.debug('validatePostRequestRating', 'rating.rater_id: {0}, rating.created_at: {1}, rating.updated_at: {2}',
+                             [ typeof rating.rater_id, typeof rating.created_at, typeof rating.updated_at]);
+                return null;
+            }
+
+            return rating;
         }
 
         function validatePutRequestRating(rating) {
-            // body...
+            logger.debug('validatePutRequestRating', 'rating: {0}', [ JSON.stringify(rating, null, 2) ]);
+
+            // check if the rating object
+            if (!angular.isObject(rating) || rating === null || angular.isArray(rating)) {
+                logger.error('validatePutRequestRating', 'Invalid input: rating object');
+                logger.debug('validatePutRequestRating', 'rating type: {0}', [ typeof rating ]);
+                return null;
+            }
+
+            // check if any fields are invalid
+            if (!angular.isNumber(rating.rating_value)                            &&
+               (!angular.isString(rating.rater_id)   || rating.rater_id   === "") &&
+               (!angular.isString(rating.created_at) || rating.created_at === "") &&
+               (!angular.isString(rating.updated_at) || rating.updated_at === "")) {
+                logger.error('validatePutRequestRating', 'Empty input: rating object');
+                return null;
+            }
+
+            return rating;
         }
 
         function validateResponseRatingArray(ratingArray) {
-            // body...
+            logger.debug('validateResponseRatingArray', 'rating array: {0}', [ JSON.stringify(ratingArray, null, 2) ]);
+
+            // check the rating array
+            if (!angular.isArray(ratingArray) || ratingArray.length <= 0) {
+                logger.error('validateResponseRatingArray', 'Invalid input: ratingArray');
+                if (angular.isArray(ratingArray))
+                    logger.debug('validateResponseRatingArray', 'ratingArray length: {0}', [ ratingArray.length ]);
+                else
+                    logger.debug('validateResponseRatingArray', 'ratingArray type: {0}', [ typeof ratingArray ]);
+
+                return null;
+            }
+
+            for (var i = 0; i < ratingArray.length; i++) {
+                var rating = validateResponseRatingObject(ratingArray[i]);
+                if (rating === null) {
+                    // remove invalid array
+                    logger.error('validateResponseRatingArray', 'Invalid rating: ratingArray[{0}]', [ i ]);
+                    logger.debug('validateResponseRatingArray', 'ratingArray[{0}]: {1}', [ i, JSON.stringify(ratingArray[i], null, 2)]);
+                    ratingArray.splice(i--, 1);
+                }
+            }
+
+            if (ratingArray.length === 0) {
+                logger.error('validateResponseRatingArray', 'Empty Array!');
+                return null;
+            }
+
+            return ratingArray;
         }
 
         function validateResponseRatingObject(rating) {
-            // body...
+            logger.debug('validateResponseRatingObject', 'rating: {0}', [ JSON.stringify(rating, null, 2) ]);
+
+            // check if the rating object is valid
+            if (!angular.isObject(rating) || rating === null || angular.isArray(rating)) {
+                logger.error('validateResponseRatingObject', 'Invalid input: rating object');
+                logger.debug('validateResponseRatingObject', 'rating type: {0}', [ typeof rating ]);
+                return null;
+            }
+
+            // check number fields
+            if (!angular.isNumber(rating.rating_value)) {
+                logger.error('validateResponseRatingObject', 'Invalid number field!');
+                logger.debug('validateResponseRatingObject', 'rating.rating_value: {0}', [ typeof rating.rating_value]);
+                return null;
+            }
+
+            // check string fields
+            if (!angular.isString(rating.category)    || rating.category     === "" ||
+                !angular.isString(rating.question_id) || rating.question_id  === "" ||
+                !angular.isString(rating.rating_id)   || rating.rating_id    === "" ||
+                !angular.isString(rating.rater_id)    || rating.rater_id     === "" ||
+                !angular.isString(rating.created_at)  || rating.created_at   === "" ||
+                !angular.isString(rating.updated_at)  || rating.updated_at   === "") {
+                logger.error('validateResponseRatingObject', 'Invalid string field!');
+                logger.debug('validateResponseRatingObject', 'rating.category: {0}, rating.question_id: {1}, rating.rating_id: {2}, rating.rater_id: {3}',
+                             [ typeof rating.category, typeof rating.question_id, typeof rating.rating_id, typeof rating.rater_id]);
+                logger.debug('validateResponseRatingObject', 'rating.created_at: {0}, rating.updated_at: {1}',
+                             [ typeof rating.created_at, typeof rating.updated_at]);
+                return null;
+            }
+
+            return rating;
         }
     }
 
