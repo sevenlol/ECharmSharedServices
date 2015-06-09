@@ -7,13 +7,13 @@
 
 	//module getter
 	angular
-	    .module('data.askDoctor')
-	    .factory('askDoctorQuestionService', askDoctorQuestionService);
+	    .module('data.askdoctor')
+	    .factory('askdoctorQuestionService', askdoctorQuestionService);
 
-	askDoctorQuestionService.$inject = [
+	askdoctorQuestionService.$inject = [
 	];
 
-	function askDoctorQuestionService() {
+	function askdoctorQuestionService() {
 	    var service = {
 
 	    };

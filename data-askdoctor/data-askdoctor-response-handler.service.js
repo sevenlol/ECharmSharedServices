@@ -7,7 +7,7 @@
 
     // module setter
     angular
-        .module('data.askDoctor')
+        .module('data.askdoctor')
         .factory('askdoctorResponseHandlerService', askdoctorResponseHandlerService);
 
     askdoctorResponseHandlerService.$inject = [
@@ -17,7 +17,7 @@
 
     function askdoctorResponseHandlerService(askdoctorExceptionCatcherService, Logger) {
         // Logger object
-        var logger = Logger.getInstance('app - data - askDoctor - response - handler');
+        var logger = Logger.getInstance('app - data - askdoctor - response - handler');
         var service = {
             getRequestCompleted    : getRequestCompleted,
             postRequestCompleted   : postRequestCompleted,

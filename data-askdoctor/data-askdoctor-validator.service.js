@@ -7,7 +7,7 @@
 
     // module setter
     angular
-        .module('data.askDoctor')
+        .module('data.askdoctor')
         .factory('askdoctorValidatorService', askdoctorValidatorService);
 
     askdoctorValidatorService.$inject = [
