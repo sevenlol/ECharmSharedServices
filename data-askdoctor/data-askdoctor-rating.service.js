@@ -24,8 +24,8 @@
 	    var SERVER_URL = valueService.SERVER_URL.ASKDOCTOR;
 	    var HTTP_METHOD = valueService.HTTP_METHOD;
 	    var REQ_VALIDATOR = {
-	    	FILLED : askdoctorValidatorService.validator.REQ.POST.RATING,
-	    	NOT_EMPTY : askdoctorValidatorService.validator.REQ.PUT.RATING
+	    	FILLED : askdoctorValidatorService.validator.REQ.FILLED.RATING,
+	    	NOT_EMPTY : askdoctorValidatorService.validator.REQ.NOT_EMPTY.RATING
 	    };
 	    var RES_VALIDATOR = {
 	    	ARRAY : askdoctorValidatorService.validator.RES.ARRAY.RATING,

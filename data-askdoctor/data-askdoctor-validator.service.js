@@ -19,17 +19,17 @@
         var service = {
             validator : {
                 REQ : {
-                    POST : {
-                        QUESTION : validatePostRequestQuestion,
-                        ANSWER : validatePostRequestAnswer,
-                        COMMENT : validatePostRequestComment,
-                        RATING : validatePostRequestRating
+                    FILLED : {
+                        QUESTION : validateRequestQuestionFilled,
+                        ANSWER : validateRequestAnswerFilled,
+                        COMMENT : validateRequestCommentFilled,
+                        RATING : validateRequestRatingFilled
                     },
-                    PUT : {
-                        QUESTION : validatePutRequestQuestion,
-                        ANSWER : validatePutRequestAnswer,
-                        COMMENT : validatePutRequestComment,
-                        RATING : validatePutRequestRating
+                    NOT_EMPTY : {
+                        QUESTION : validateRequestQuestionNotEmpty,
+                        ANSWER : validateRequestAnswerNotEmpty,
+                        COMMENT : validateRequestCommentNotEmpty,
+                        RATING : validateRequestRatingNotEmpty
                     }
                 },
                 RES : {
@@ -56,21 +56,21 @@
 
         /* question */
 
-        function validatePostRequestQuestion(question) {
-            logger.debug('validatePostRequestQuestion', 'input question: {0}', [ JSON.stringify(question, null, 2) ]);
+        function validateRequestQuestionFilled(question) {
+            logger.debug('validateRequestQuestionFilled', 'input question: {0}', [ JSON.stringify(question, null, 2) ]);
 
             // check if the question object
             if (!angular.isObject(question) || question === null || angular.isArray(question)) {
-                logger.error('validatePostRequestQuestion', 'Invalid input: question object');
-                logger.debug('validatePostRequestQuestion', 'question type: {0}', [ typeof question ]);
+                logger.error('validateRequestQuestionFilled', 'Invalid input: question object');
+                logger.debug('validateRequestQuestionFilled', 'question type: {0}', [ typeof question ]);
                 return null;
             }
 
             // check number fields
             if (!angular.isNumber(question.rating) ||
                 !angular.isNumber(question.rating_count)) {
-                logger.error('validatePostRequestQuestion', 'Invalid number field!');
-                logger.debug('validatePostRequestQuestion', 'question.rating: {0}, question.rating_count: {1}', [ typeof question.rating, typeof question.rating_count]);
+                logger.error('validateRequestQuestionFilled', 'Invalid number field!');
+                logger.debug('validateRequestQuestionFilled', 'question.rating: {0}, question.rating_count: {1}', [ typeof question.rating, typeof question.rating_count]);
                 return null;
             }
 
@@ -80,9 +80,9 @@
                 !angular.isString(question.title)         || question.title        === "" ||
                 !angular.isString(question.created_at)    || question.created_at   === "" ||
                 !angular.isString(question.updated_at)    || question.updated_at   === "") {
-                logger.error('validatePostRequestQuestion', 'Invalid string field!');
-                logger.debug('validatePostRequestQuestion', 'question.content_text: {0}, question.questioner_id: {1}', [ typeof question.content_text, typeof question.questioner_id]);
-                logger.debug('validatePostRequestQuestion', 'question.title: {0}, question.created_at: {1}, question.updated_at: {2}',
+                logger.error('validateRequestQuestionFilled', 'Invalid string field!');
+                logger.debug('validateRequestQuestionFilled', 'question.content_text: {0}, question.questioner_id: {1}', [ typeof question.content_text, typeof question.questioner_id]);
+                logger.debug('validateRequestQuestionFilled', 'question.title: {0}, question.created_at: {1}, question.updated_at: {2}',
                              [ typeof question.title, typeof question.created_at, typeof question.updated_at]);
                 return null;
             }
@@ -90,21 +90,21 @@
             // check array fields
             if (!angular.isArray(question.image_arr) ||
                 !angular.isArray(question.tag_arr)) {
-                logger.error('validatePostRequestQuestion', 'Invalid array field!');
-                logger.debug('validatePostRequestQuestion', 'question.image_arr: {0}, question.tag_arr: {1}', [ typeof question.image_arr, typeof question.tag_arr]);
+                logger.error('validateRequestQuestionFilled', 'Invalid array field!');
+                logger.debug('validateRequestQuestionFilled', 'question.image_arr: {0}, question.tag_arr: {1}', [ typeof question.image_arr, typeof question.tag_arr]);
                 return null;
             }
 
             return question;
         }
 
-        function validatePutRequestQuestion(question) {
-            logger.debug('validatePutRequestQuestion', 'question: {0}', [ JSON.stringify(question, null, 2) ]);
+        function validateRequestQuestionNotEmpty(question) {
+            logger.debug('validateRequestQuestionNotEmpty', 'question: {0}', [ JSON.stringify(question, null, 2) ]);
 
             // check if the question object
             if (!angular.isObject(question) || question === null || angular.isArray(question)) {
-                logger.error('validatePutRequestQuestion', 'Invalid input: question object');
-                logger.debug('validatePutRequestQuestion', 'question type: {0}', [ typeof question ]);
+                logger.error('validateRequestQuestionNotEmpty', 'Invalid input: question object');
+                logger.debug('validateRequestQuestionNotEmpty', 'question type: {0}', [ typeof question ]);
                 return null;
             }
 
@@ -118,7 +118,7 @@
                 (!angular.isString(question.updated_at)    || question.updated_at    === "") &&
                 !angular.isArray(question.image_arr)       &&
                 !angular.isArray(question.tag_arr)) {
-                logger.error('validatePutRequestQuestion', 'Empty input: question object');
+                logger.error('validateRequestQuestionNotEmpty', 'Empty input: question object');
                 return null;
             }
 
@@ -203,13 +203,13 @@
 
         /* answer */
 
-        function validatePostRequestAnswer(answer) {
-            logger.debug('validatePostRequestAnswer', 'answer: {0}', [ JSON.stringify(answer, null, 2) ]);
+        function validateRequestAnswerFilled(answer) {
+            logger.debug('validateRequestAnswerFilled', 'answer: {0}', [ JSON.stringify(answer, null, 2) ]);
 
             // check if the answer object
             if (!angular.isObject(answer) || answer === null || angular.isArray(answer)) {
-                logger.error('validatePostRequestAnswer', 'Invalid input: answer object');
-                logger.debug('validatePostRequestAnswer', 'answer type: {0}', [ typeof answer ]);
+                logger.error('validateRequestAnswerFilled', 'Invalid input: answer object');
+                logger.debug('validateRequestAnswerFilled', 'answer type: {0}', [ typeof answer ]);
                 return null;
             }
 
@@ -218,9 +218,9 @@
                 !angular.isString(answer.answerer_id)   || answer.answerer_id  === "" ||
                 !angular.isString(answer.created_at)    || answer.created_at   === "" ||
                 !angular.isString(answer.updated_at)    || answer.updated_at   === "") {
-                logger.error('validatePostRequestAnswer', 'Invalid string field!');
-                logger.debug('validatePostRequestAnswer', 'answer.answer_text: {0}, answer.answerer_id: {1}', [ typeof answer.answer_text, typeof answer.answerer_id]);
-                logger.debug('validatePostRequestAnswer', 'answer.created_at: {0}, answer.updated_at: {1}',
+                logger.error('validateRequestAnswerFilled', 'Invalid string field!');
+                logger.debug('validateRequestAnswerFilled', 'answer.answer_text: {0}, answer.answerer_id: {1}', [ typeof answer.answer_text, typeof answer.answerer_id]);
+                logger.debug('validateRequestAnswerFilled', 'answer.created_at: {0}, answer.updated_at: {1}',
                              [ typeof answer.created_at, typeof answer.updated_at]);
                 return null;
             }
@@ -228,13 +228,13 @@
             return answer;
         }
 
-        function validatePutRequestAnswer(answer) {
-            logger.debug('validatePutRequestAnswer', 'answer: {0}', [ JSON.stringify(answer, null, 2) ]);
+        function validateRequestAnswerNotEmpty(answer) {
+            logger.debug('validateRequestAnswerNotEmpty', 'answer: {0}', [ JSON.stringify(answer, null, 2) ]);
 
             // check if the answer object
             if (!angular.isObject(answer) || answer === null || angular.isArray(answer)) {
-                logger.error('validatePutRequestAnswer', 'Invalid input: answer object');
-                logger.debug('validatePutRequestAnswer', 'answer type: {0}', [ typeof answer ]);
+                logger.error('validateRequestAnswerNotEmpty', 'Invalid input: answer object');
+                logger.debug('validateRequestAnswerNotEmpty', 'answer type: {0}', [ typeof answer ]);
                 return null;
             }
 
@@ -243,7 +243,7 @@
                 (!angular.isString(answer.answerer_id) || answer.answerer_id  === "") &&
                 (!angular.isString(answer.created_at)  || answer.created_at   === "") &&
                 (!angular.isString(answer.updated_at)  || answer.updated_at   === "")) {
-                logger.error('validatePutRequestAnswer', 'Empty input: answer object');
+                logger.error('validateRequestAnswerNotEmpty', 'Empty input: answer object');
                 return null;
             }
 
@@ -310,13 +310,13 @@
 
         /* comment */
 
-        function validatePostRequestComment(comment) {
-            logger.debug('validatePostRequestComment', 'comment: {0}', [ JSON.stringify(comment, null, 2) ]);
+        function validateRequestCommentFilled(comment) {
+            logger.debug('validateRequestCommentFilled', 'comment: {0}', [ JSON.stringify(comment, null, 2) ]);
 
             // check if the comment object is valid
             if (!angular.isObject(comment) || comment === null || angular.isArray(comment)) {
-                logger.error('validatePostRequestComment', 'Invalid input: comment object');
-                logger.debug('validatePostRequestComment', 'comment type: {0}', [ typeof comment ]);
+                logger.error('validateRequestCommentFilled', 'Invalid input: comment object');
+                logger.debug('validateRequestCommentFilled', 'comment type: {0}', [ typeof comment ]);
                 return null;
             }
 
@@ -325,9 +325,9 @@
                 !angular.isString(comment.comment_text)           || comment.comment_text === "" ||
                 !angular.isString(comment.created_at)             || comment.created_at   === "" ||
                 !angular.isString(comment.updated_at)             || comment.updated_at   === "") {
-                logger.error('validatePostRequestComment', 'Invalid string field!');
-                logger.debug('validatePostRequestComment', 'comment.commenter_id: {0}, comment.comment_text: {1}', [ typeof comment.commenter_id, typeof comment.comment_text]);
-                logger.debug('validatePostRequestComment', 'comment.created_at: {0}, comment.updated_at: {1} ',
+                logger.error('validateRequestCommentFilled', 'Invalid string field!');
+                logger.debug('validateRequestCommentFilled', 'comment.commenter_id: {0}, comment.comment_text: {1}', [ typeof comment.commenter_id, typeof comment.comment_text]);
+                logger.debug('validateRequestCommentFilled', 'comment.created_at: {0}, comment.updated_at: {1} ',
                              [ typeof comment.created_at, typeof comment.updated_at ]);
                 return null;
             }
@@ -335,13 +335,13 @@
             return comment;
         }
 
-        function validatePutRequestComment(comment) {
-            logger.debug('validatePutRequestComment', 'comment: {0}', [ JSON.stringify(comment, null, 2) ]);
+        function validateRequestCommentNotEmpty(comment) {
+            logger.debug('validateRequestCommentNotEmpty', 'comment: {0}', [ JSON.stringify(comment, null, 2) ]);
 
             // check if the comment object is valid
             if (!angular.isObject(comment) || comment === null || angular.isArray(comment)) {
-                logger.error('validatePutRequestComment', 'Invalid input: comment object');
-                logger.debug('validatePutRequestComment', 'comment type: {0}', [ typeof comment ]);
+                logger.error('validateRequestCommentNotEmpty', 'Invalid input: comment object');
+                logger.debug('validateRequestCommentNotEmpty', 'comment type: {0}', [ typeof comment ]);
                 return null;
             }
 
@@ -350,7 +350,7 @@
                 (!angular.isString(comment.comment_text)         || comment.comment_text === "") &&
                 (!angular.isString(comment.created_at)           || comment.created_at   === "") &&
                 (!angular.isString(comment.updated_at)           || comment.updated_at   === "")) {
-                logger.error('validatePutRequestComment', 'Empty input: comment object');
+                logger.error('validateRequestCommentNotEmpty', 'Empty input: comment object');
                 return null;
             }
 
@@ -420,20 +420,20 @@
 
         /* rating */
 
-        function validatePostRequestRating(rating) {
-            logger.debug('validatePostRequestRating', 'rating: {0}', [ JSON.stringify(rating, null, 2) ]);
+        function validateRequestRatingFilled(rating) {
+            logger.debug('validateRequestRatingFilled', 'rating: {0}', [ JSON.stringify(rating, null, 2) ]);
 
             // check if the rating object is valid
             if (!angular.isObject(rating) || rating === null || angular.isArray(rating)) {
-                logger.error('validatePostRequestRating', 'Invalid input: rating object');
-                logger.debug('validatePostRequestRating', 'rating type: {0}', [ typeof rating ]);
+                logger.error('validateRequestRatingFilled', 'Invalid input: rating object');
+                logger.debug('validateRequestRatingFilled', 'rating type: {0}', [ typeof rating ]);
                 return null;
             }
 
             // check number fields
             if (!angular.isNumber(rating.rating_value)) {
-                logger.error('validatePostRequestRating', 'Invalid number field!');
-                logger.debug('validatePostRequestRating', 'rating.rating_value: {0}', [ typeof rating.rating_value ]);
+                logger.error('validateRequestRatingFilled', 'Invalid number field!');
+                logger.debug('validateRequestRatingFilled', 'rating.rating_value: {0}', [ typeof rating.rating_value ]);
                 return null;
             }
 
@@ -441,8 +441,8 @@
             if (!angular.isString(rating.rater_id)   || rating.rater_id     === "" ||
                 !angular.isString(rating.created_at) || rating.created_at   === "" ||
                 !angular.isString(rating.updated_at) || rating.updated_at   === "") {
-                logger.error('validatePostRequestRating', 'Invalid string field!');
-                logger.debug('validatePostRequestRating', 'rating.rater_id: {0}, rating.created_at: {1}, rating.updated_at: {2}',
+                logger.error('validateRequestRatingFilled', 'Invalid string field!');
+                logger.debug('validateRequestRatingFilled', 'rating.rater_id: {0}, rating.created_at: {1}, rating.updated_at: {2}',
                              [ typeof rating.rater_id, typeof rating.created_at, typeof rating.updated_at]);
                 return null;
             }
@@ -450,13 +450,13 @@
             return rating;
         }
 
-        function validatePutRequestRating(rating) {
-            logger.debug('validatePutRequestRating', 'rating: {0}', [ JSON.stringify(rating, null, 2) ]);
+        function validateRequestRatingNotEmpty(rating) {
+            logger.debug('validateRequestRatingNotEmpty', 'rating: {0}', [ JSON.stringify(rating, null, 2) ]);
 
             // check if the rating object
             if (!angular.isObject(rating) || rating === null || angular.isArray(rating)) {
-                logger.error('validatePutRequestRating', 'Invalid input: rating object');
-                logger.debug('validatePutRequestRating', 'rating type: {0}', [ typeof rating ]);
+                logger.error('validateRequestRatingNotEmpty', 'Invalid input: rating object');
+                logger.debug('validateRequestRatingNotEmpty', 'rating type: {0}', [ typeof rating ]);
                 return null;
             }
 
@@ -465,7 +465,7 @@
                (!angular.isString(rating.rater_id)   || rating.rater_id   === "") &&
                (!angular.isString(rating.created_at) || rating.created_at === "") &&
                (!angular.isString(rating.updated_at) || rating.updated_at === "")) {
-                logger.error('validatePutRequestRating', 'Empty input: rating object');
+                logger.error('validateRequestRatingNotEmpty', 'Empty input: rating object');
                 return null;
             }
 
