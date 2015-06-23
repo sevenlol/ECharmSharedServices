@@ -103,7 +103,7 @@
                     url += '&';
                 }
 
-                url += 'isAnswered=true';
+                url += 'is_answered=true';
             }
 
             logger.debug('readEmbeddedQuestionInCategory', 'Assembled Url: {0}', [ url ]);
@@ -132,7 +132,7 @@
                     url += '&';
                 }
 
-                url += 'isAnswered=true';
+                url += 'is_answered=true';
             }
 
             logger.debug('readAllEmbeddedQuestion', 'Assembled Url: {0}', [ url ]);
@@ -168,7 +168,7 @@
                     url += '&';
                 }
 
-                url += 'isAnswered=true';
+                url += 'is_answered=true';
                 isFirst = false;
             }
 
@@ -212,7 +212,7 @@
                     url += '&';
                 }
 
-                url += 'isAnswered=true';
+                url += 'is_answered=true';
                 isFirst = false;
             }
 
@@ -256,7 +256,7 @@
                     url += '&';
                 }
 
-                url += 'isAnswered=true';
+                url += 'is_answered=true';
                 isFirst = false;
             }
 
@@ -302,7 +302,7 @@
                     url += '&';
                 }
 
-                url += 'isAnswered=true';
+                url += 'is_answered=true';
                 isFirst = false;
             }
 
