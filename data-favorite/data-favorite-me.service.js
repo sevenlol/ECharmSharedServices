@@ -18,6 +18,7 @@
     function favoriteMeService(
         $http,
         favoriteResponseHandlerService,
+        favoriteValidatorService,
         favoriteExceptionCatcherService,
         valueService,
         Logger) {
