@@ -90,10 +90,9 @@
 		/* private functions */
 
 		function assembleURL(SERVER_URL, popularType, category) {
-            if (!angular.isString(SERVER_URL) ||
-                !angular.isString(idListStr)) {
-                logger.error('assembleURL', 'Invalid input type: SERVER_URL or idListStr');
-                logger.debug('assembleURL', 'SERVER_URL: {0}, idListStr: {1}', [ typeof SERVER_URL, typeof idListStr ]);
+            if (!angular.isString(SERVER_URL)) {
+                logger.error('assembleURL', 'Invalid input type: SERVER_URL');
+                logger.debug('assembleURL', 'SERVER_URL: {0}', [ typeof SERVER_URL ]);
                 return '';
             }
 
