@@ -8,13 +8,13 @@
     // module setter
     angular
         .module('data.popular')
-        .factory('PopularExceptionCatcherService', PopularExceptionCatcherService);
+        .factory('popularExceptionCatcherService', popularExceptionCatcherService);
 
-    PopularExceptionCatcherService.$inject = [
+    popularExceptionCatcherService.$inject = [
 
     ];
 
-    function PopularExceptionCatcherService() {
+    function popularExceptionCatcherService() {
         var DEFAULT_ERROR_MESSAGE = 'Some Unknown Error Occurred!';
         var service = {
             DEFAULT_ERROR_MESSAGE : DEFAULT_ERROR_MESSAGE,
