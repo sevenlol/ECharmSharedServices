@@ -8,13 +8,13 @@
     // module setter
     angular
         .module('data.favorite')
-        .factory('FavoriteExceptionCatcherService', FavoriteExceptionCatcherService);
+        .factory('favoriteExceptionCatcherService', favoriteExceptionCatcherService);
 
-    FavoriteExceptionCatcherService.$inject = [
+    favoriteExceptionCatcherService.$inject = [
 
     ];
 
-    function FavoriteExceptionCatcherService() {
+    function favoriteExceptionCatcherService() {
         var DEFAULT_ERROR_MESSAGE = 'Some Unknown Error Occurred!';
         var service = {
             DEFAULT_ERROR_MESSAGE : DEFAULT_ERROR_MESSAGE,
