@@ -296,7 +296,7 @@
             } else if (method === HTTP_METHOD.DELETE) {
                 reqCompletedCallback = (function(validateObject) {
                     return function(response) {
-                        return REQ_COMPLETED_CALLBACK.DELETE(response, validateObject);
+                        return REQ_COMPLETED_CALLBACK.DELETE(response, validateArray, validateObject);
                     };
                 })(objValidator);
                 return  $http
