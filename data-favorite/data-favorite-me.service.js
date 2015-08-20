@@ -294,11 +294,11 @@
                             .then(reqCompletedCallback)
                             .catch(RES_FAILED_CALLBACK);
             } else if (method === HTTP_METHOD.DELETE) {
-                reqCompletedCallback = (function(validateObject) {
+                reqCompletedCallback = (function(validateArray, validateObject) {
                     return function(response) {
                         return REQ_COMPLETED_CALLBACK.DELETE(response, validateArray, validateObject);
                     };
-                })(objValidator);
+                })(arrayValidator, objValidator);
                 return  $http
                             .delete(url, jsonBody)
                             .then(reqCompletedCallback)
