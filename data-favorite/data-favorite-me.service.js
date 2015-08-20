@@ -206,9 +206,9 @@
 
         function assembleURL(SERVER_URL, favoriteType, id) {
             if (!angular.isString(SERVER_URL) ||
-                !angular.isString(idListStr)) {
-                logger.error('assembleURL', 'Invalid input type: SERVER_URL or idListStr');
-                logger.debug('assembleURL', 'SERVER_URL: {0}, idListStr: {1}', [ typeof SERVER_URL, typeof idListStr ]);
+                (id && !angular.isString(id))) {
+                logger.error('assembleURL', 'Invalid input type: SERVER_URL or id');
+                logger.debug('assembleURL', 'SERVER_URL: {0}, id: {1}', [ typeof SERVER_URL, typeof id ]);
                 return '';
             }
 
