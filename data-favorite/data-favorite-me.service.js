@@ -300,7 +300,7 @@
                     };
                 })(objValidator);
                 return  $http
-                            .put(url, jsonBody)
+                            .delete(url, jsonBody)
                             .then(reqCompletedCallback)
                             .catch(RES_FAILED_CALLBACK);
             }
