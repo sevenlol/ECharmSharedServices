@@ -40,7 +40,7 @@
             }
 
             for (var i = 0; i < articleList.length; i++) {
-                var article = validateReqFavArticle(articleList[i]);
+                var article = validateFavArticle(articleList[i]);
                 if (article === null) {
                     // remove invalid array
                     logger.error('validateReqFavArticleList', 'Invalid article object at index: {0}!', [ i ]);
@@ -60,8 +60,8 @@
         function validateFavArticle(article) {
             // check the article object
             if (!angular.isObject(article) || article === null  || angular.isArray(article)) {
-                logger.error('validateReqFavArticle', 'Invalid input favorite article object!');
-                logger.debug('validateReqFavArticle', 'Input object type: {0}', [ typeof article]);
+                logger.error('validateFavArticle', 'Invalid input favorite article object!');
+                logger.debug('validateFavArticle', 'Input object type: {0}', [ typeof article]);
                 return null;
             }
 
@@ -74,37 +74,37 @@
                 !angular.isString(article.author_id)          || !article.author_id          ||
                 !angular.isString(article.author_name)        || !article.author_name        ||
                 !angular.isString(article.favorite_at)        || !article.favorite_at) {
-                logger.error('validateReqFavArticle', 'Missing fields!');
+                logger.error('validateFavArticle', 'Missing fields!');
                 return null;
             }
 
-            logger.debug('validateReqFavArticle', 'Validation succeeded!');
+            logger.debug('validateFavArticle', 'Validation succeeded!');
             return article;
         }
 
         function validateFavQAList(qaList) {
             // check the qa array
             if (!angular.isArray(qaList) || qaList.length <= 0) {
-                logger.error('validateReqFavQAList', 'Invalid input: qaList!');
-                logger.debug('validateReqFavQAList', 'Input type: {0}', [ typeof qaList ]);
+                logger.error('validateFavQAList', 'Invalid input: qaList!');
+                logger.debug('validateFavQAList', 'Input type: {0}', [ typeof qaList ]);
                 return null;
             }
 
             for (var i = 0; i < qaList.length; i++) {
-                var qa = validateReqFavQA(qaList[i]);
+                var qa = validateFavQA(qaList[i]);
                 if (qa === null) {
                     // remove invalid array
-                    logger.error('validateReqFavQAList', 'Invalid qa object at index: {0}!', [ i ]);
+                    logger.error('validateFavQAList', 'Invalid qa object at index: {0}!', [ i ]);
                     qaList.splice(i--, 1);
                 }
             }
 
             if (qaList.length === 0) {
-                logger.error('validateReqFavQAList', 'All qa objects are invalid (empty result array)!');
+                logger.error('validateFavQAList', 'All qa objects are invalid (empty result array)!');
                 return null;
             }
 
-            logger.debug('validateReqFavQAList', 'Validation succeeded!');
+            logger.debug('validateFavQAList', 'Validation succeeded!');
             return qaList;
         }
 
