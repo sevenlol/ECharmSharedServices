@@ -43,9 +43,9 @@ function accountExceptionCatcherService() {
             errorMessage = 'Object not found!';
         } else if (error.status === 409) {
             // TODO add more conditions for creating conflict Rating
-            errorMessage = 'The account already exists!';
+            errorMessage = '使用者帳號或信箱已經存在!';
         } else if (error.status === 500) {
-            errorMessage = 'Something is wrong with the server!';
+            errorMessage = '伺服器發生錯誤，請稍後重新嘗試!';
         } else {
             errorMessage = DEFAULT_ERROR_MESSAGE;
         }
